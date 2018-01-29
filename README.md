@@ -1,7 +1,7 @@
 # ElegantMVC
 Transitioning from super controller to instance of controllers and views
 
-###.htaccess
+### .htaccess
 ```
 RewriteEngine On
 
