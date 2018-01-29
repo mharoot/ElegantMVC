@@ -1,7 +1,7 @@
 <?php
 
     /**
-    * The about page view
+    * The Customer page view
     */
     class CustomerView
     {

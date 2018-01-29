@@ -10,3 +10,20 @@ RewriteCond %{REQUEST_FILENAME} !-f
 
 RewriteRule ^(.+)$ index.php/$1 [L]
 ```
+
+### Database
+```
++----------------+
+| Tables_in_test |
++----------------+
+| categories     |
+| customers      |
+| employees      |
+| orderdetails   |
+| orders         |
+| products       |
+| shippers       |
+| suppliers      |
++----------------+
+```
+

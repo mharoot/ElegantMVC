@@ -1,7 +1,7 @@
 <?php
 
     /**
-    * The about page view
+    * The About page view
     */
     class AboutView
     {

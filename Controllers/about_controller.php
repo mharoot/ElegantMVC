@@ -1,7 +1,7 @@
 <?php
 
     /**
-    * The about page controller
+    * The About page controller
     */
     class AboutController
     {

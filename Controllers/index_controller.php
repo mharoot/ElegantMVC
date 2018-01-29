@@ -1,7 +1,7 @@
 <?php
 
     /**
-    * The home page controller
+    * The Home page controller
     */
     class IndexController
     {
