@@ -1,9 +1,9 @@
 <?php
 
     /**
-    * The Shippers page controller
+    * The Employee page controller
     */
-    class ShippersController
+    class EmployeeController
     {
         private $modelObj;
 

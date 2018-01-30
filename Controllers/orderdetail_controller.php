@@ -1,9 +1,9 @@
 <?php
 
     /**
-    * The Products page controller
+    * The Order Detail page controller
     */
-    class ProductsController
+    class OrderDetailController
     {
         private $modelObj;
 

@@ -1,9 +1,9 @@
 <?php
 
     /**
-    * The Categories page controller
+    * The Product page controller
     */
-    class CategoriesController
+    class ProductController
     {
         private $modelObj;
 

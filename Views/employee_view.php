@@ -3,7 +3,7 @@
     /**
     * The Employees page view
     */
-    class EmployeesView
+    class EmployeeView
     {
 
         private $modelObj;

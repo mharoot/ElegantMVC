@@ -1,9 +1,9 @@
 <?php
 
     /**
-    * The Suppliers page controller
+    * The Supplier page controller
     */
-    class SuppliersController
+    class SupplierController
     {
         private $modelObj;
 
@@ -16,5 +16,8 @@
         /**
          * Public methods
          */
-
+        public function getSuppliers()
+        {
+            return $this->modelObj->getAllSuppliers();
+        }
      }

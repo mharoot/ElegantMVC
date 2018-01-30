@@ -1,9 +1,9 @@
 <?php
 
     /**
-    * The Orders page controller
+    * The Shipper page controller
     */
-    class OrdersController
+    class ShipperController
     {
         private $modelObj;
 
@@ -16,5 +16,9 @@
         /**
          * Public methods
          */
+        public function getShippers()
+        {
+            return $this->modelObj->getAllShippers();
+        }
 
      }
