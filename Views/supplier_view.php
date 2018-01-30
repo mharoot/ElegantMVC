@@ -35,7 +35,7 @@ class SupplierView
           "<li>
             <ul>
             <li>SupplierID: $supplier->SupplierID</li>
-            <li>SupplierName: $supplier->supplierName </li>  
+            <li>SupplierName: $supplier->SupplierName </li>  
             <li>ContactName: $supplier->ContactName </li>
             <li>Address: $supplier->Address </li>
             <li>City: $supplier->City </li>
