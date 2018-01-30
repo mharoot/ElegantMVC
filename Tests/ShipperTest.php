@@ -13,6 +13,7 @@ class ShipperTest extends TestCase
     $ShipperModel = new ShipperModel();
     $shippers = $ShipperModel->all();
     $we_have_all_shippers = sizeof($shippers) > 0;
+    var_dump($shippers);
     $this->assertTrue( $we_have_all_shippers );
   }
 }

@@ -31,6 +31,7 @@ class ShipperView
               <ul>
                   <li>ShipperID: $shipper->ShipperID</li>
                   <li>ShipperName: $shipper->ShipperName </li>  
+                  <li>Phone: $shipper->Phone </li>
               </ul>
             </li>";
     }
