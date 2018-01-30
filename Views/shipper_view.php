@@ -23,7 +23,7 @@ class ShipperView
   public function shippers()
   {
     print "shippers";
-    $shippers = $this->controller->shippers();
+    $shippers = $this->controller->getShippers();
     echo '<ul>';
     foreach(  $shippers as $shipper)
     {
@@ -31,7 +31,6 @@ class ShipperView
               <ul>
                   <li>ShipperID: $shipper->ShipperID</li>
                   <li>ShipperName: $shipper->ShipperName </li>  
-                  <li>EmployeeID: $shipper->EmployeeID </li>
               </ul>
             </li>";
     }
