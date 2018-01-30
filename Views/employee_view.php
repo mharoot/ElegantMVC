@@ -1,7 +1,7 @@
 <?php
 
     /**
-    * The Employees page view
+    * The Employee page view
     */
     class EmployeeView
     {

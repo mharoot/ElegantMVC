@@ -1,9 +1,9 @@
 <?php
 
     /**
-    * The Orders page view
+    * The Order page view
     */
-    class OrdersView
+    class OrderView
     {
 
         private $modelObj;

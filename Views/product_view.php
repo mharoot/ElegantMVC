@@ -1,9 +1,9 @@
 <?php
 
     /**
-    * The Products page view
+    * The Product page view
     */
-    class ProductsView
+    class ProductView
     {
 
         private $modelObj;

@@ -37,4 +37,5 @@ class ShipperView
     }
     echo '</ul>';
   }
+  
 }
