@@ -1,7 +1,7 @@
 <?php
 
     /**
-    * The Employee page controller
+    * The Employees page controller
     */
     class EmployeeController
     {
@@ -13,8 +13,9 @@
 
         }
 
-        /**
-         * Public methods
-         */
+        public function getEmployee()
+        {
+            return $this->modelObj->getEmployeesList();
+        }
 
      }
