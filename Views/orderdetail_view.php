@@ -1,9 +1,9 @@
 <?php
 
     /**
-    * The OrderDetails page view
+    * The Employees page view
     */
-    class OrderDetailsView
+    class OrderDetailView
     {
 
         private $modelObj;
@@ -20,8 +20,27 @@
             print "Order Details - ";
         }
 
+
+
+         public function get()
+        {
+            print "All";
+            $orderdetails = $this->controller->getOrderDetails();
+            echo '<ul>';
+            foreach(  $orderdetails as $orderdetail)
+            {
+                echo "<li>
+                        <ul>
+                            <li>OrderDetailID: $orderdetail->OrderDetailID</li>
+                            <li>OrderID: $orderdetail->OrderID </li>
+                            <li>ProductID: $orderdetail->ProductID</li>
+                            <li>Quantity: $orderdetail->Quantity</li>
+                        </ul>
+                      </li>";
+            }
+            echo '</ul>';
+        }
         /**
          * Action Methods
          */
-        
     }
