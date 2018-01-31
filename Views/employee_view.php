@@ -1,7 +1,7 @@
 <?php
 
     /**
-    * The Employee page view
+    * The Employees page view
     */
     class EmployeeView
     {
@@ -20,8 +20,29 @@
             print "Employees - ";
         }
 
+
+
+         public function get()
+        {
+            print "All";
+            $employees = $this->controller->getEmployee();
+            echo '<ul>';
+            foreach(  $employees as $employee)
+            {
+                echo "<li>
+                        <ul>
+                            <li>EmployeeID: $employee->EmployeeID</li>
+                            <li>LastName: $employee->LastName </li>
+                            <li>FirstName: $employee->FirstName</li>
+                            <li>BirthDate: $employee->BirthDate</li>
+                            <li>Photo: $employee->Photo</li>
+                            <li>Notes: $employee->Notes</li>
+                        </ul>
+                      </li>";
+            }
+            echo '</ul>';
+        }
         /**
          * Action Methods
          */
-        
     }
