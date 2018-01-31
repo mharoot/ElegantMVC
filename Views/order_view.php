@@ -1,27 +1,36 @@
-<?php
+<?php 
+declare(strict_types=1);
 
-    /**
-    * The Order page view
-    */
     class OrderView
     {
 
-        private $modelObj;
-
         private $controller;
+        private $model;
 
-
-        function __construct($controller, $model)
+        public function __construct($controller, $model)
         {
             $this->controller = $controller;
-
-            $this->modelObj = $model;
-
-            print "Orders - ";
+            $this->model = $model;
+            echo "Orders Page";
         }
 
-        /**
-         * Action Methods
-         */
-        
+        public function orders()
+        {
+            $orders = $this->model->getOrders();
+
+            foreach ($orders as $o) {
+                echo "<p>".$o->EmployeeID ."</p>";
+                echo "<p>".$o->OrderDate ."</p>";
+                echo "<p>".$o->ShipperID ."</p>";
+                echo "<p>".$o->CustomerID ."</p>";
+                echo "<br><br></br></br>";
+            }
+        }
+
+        public function test()
+        {
+            echo "Testing";
+        }
+
+
     }
