@@ -1,20 +1,14 @@
-<?php
+<?php 
+declare(strict_types=1);
 
-    /**
-    * The Order page controller
-    */
     class OrderController
     {
-        private $modelObj;
 
-        function __construct( $model )
+        private $model;
+
+        public function __construct($model)
         {
-            $this->modelObj = $model;
-
+            $this->model = $model;
         }
 
-        /**
-         * Public methods
-         */
-
-     }
+    }

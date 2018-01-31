@@ -1,20 +1,19 @@
-<?php
+<?php 
+declare(strict_types=1);
 
-    /**
-    * The Product page controller
-    */
     class ProductController
     {
-        private $modelObj;
 
-        function __construct( $model )
+        private $model;
+
+        public function __construct($model)
         {
-            $this->modelObj = $model;
-
+            $this->model = $model;
         }
 
-        /**
-         * Public methods
-         */
+        public function products()
+        {
+        	return $this->model->getProducts();
+        }
 
-     }
+    }
