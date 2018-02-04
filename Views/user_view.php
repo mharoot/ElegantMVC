@@ -78,6 +78,7 @@ class UserView
             </br>
             <label for="password">Password:</label>
             <input name="password" type="password" ></input>
+            <input type="submit"></input>
           </form>
     <?php
       }
