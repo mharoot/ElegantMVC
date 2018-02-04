@@ -26,4 +26,9 @@
             $id = $param[0];
             return $this->modelObj->getUserByID($id);
         }
+
+        public function login($param)
+        {
+            //$user
+        }
      }

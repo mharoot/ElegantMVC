@@ -41,10 +41,11 @@ class UserView
       echo '</ul>';
   }
 
-  public function get($id)
+  public function get($param)
   {
-    print "Get id: ".$id[0];
-    $users = $this->controller->getUser($id[0]);
+    $id = $param[0];
+    print "Get id: ".$id;
+    $users = $this->controller->getUser($id);
     echo '<ul>';
     foreach(  $users as $user)
     {
@@ -58,5 +59,27 @@ class UserView
               </li>";
     }
     echo '</ul>';
+  }
+
+  public function login()
+  {
+      
+      if (isset($_POST['user_name']))
+      {
+          echo "</br>given: ".$_POST['user_name'];
+      }
+      else
+      {
+          print "Login";
+    ?>
+          <form method="POST">
+            <label for="user_name">Username:</label>
+            <input name="user_name"></input>
+            </br>
+            <label for="password">Password:</label>
+            <input name="password" type="password" ></input>
+          </form>
+    <?php
+      }
   }
 }
