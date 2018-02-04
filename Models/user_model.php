@@ -90,7 +90,10 @@ class UserModel extends Model
     $this->routing();
   }
 
-
+  public function getAllUsers()
+  {
+      return $this->all();
+  }
 
   /**
    * Checks if database connection is opened. If not, then this method tries to open it.
