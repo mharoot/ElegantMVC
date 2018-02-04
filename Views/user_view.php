@@ -64,9 +64,9 @@ class UserView
   public function login()
   {
       
-      if (isset($_POST['user_name']))
+      if (isset($_POST['user_name']) && isset($_POST['password']))
       {
-          echo "</br>given: ".$_POST['user_name'];
+          echo "</br>Given username: ".$_POST['user_name'].", password: ".$_POST['password'];
       }
       else
       {
