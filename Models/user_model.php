@@ -95,6 +95,11 @@ class UserModel extends Model
       return $this->all();
   }
 
+  public function getUserByID($id)
+  {
+      return $this->where('user_id', '=', $id)->get();
+  }
+
   /**
    * Checks if database connection is opened. If not, then this method tries to open it.
    * @return bool Success status of the database connecting process

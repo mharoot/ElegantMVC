@@ -20,4 +20,10 @@
         {
             return $this->modelObj->getAllUsers();
         }
+
+        public function getUser($param)
+        {
+            $id = $param[0];
+            return $this->modelObj->getUserByID($id);
+        }
      }
