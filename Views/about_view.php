@@ -17,7 +17,7 @@
 
             $this->modelObj = $model;
 
-            print "About - ";
+            //print "About - ";
         }
 
         public function now()
@@ -28,6 +28,20 @@
         public function today()
         {
             return $this->controller->current();
+        }
+
+        public function model()
+        {
+            include "templates/header.php";  
+            include "pages/about/model.php";
+            include "templates/footer.php";
+        }
+
+        public function queryBuilder()
+        {
+            include "templates/header.php";
+            include "pages/about/queryBuilder.php";
+            include "templates/footer.php";
         }
 
 

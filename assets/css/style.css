@@ -1,0 +1,332 @@
+.grey-b{
+    padding:0;
+    margin:0;
+    width:100%;
+    background-color: rgb(187, 184, 184);
+}
+
+#booklist {
+    width:100%;
+}
+
+.relationsImage {
+    width:100%; padding:10px;
+}
+
+#book_description {
+    display:inline-block;
+    border: solid 1px #000;
+    min-height: 200px;
+    width: 100%;
+    margin-top:5%;
+}
+
+/* DOCUMENTATION PAGE STYLES */
+.codesnippet-elegant-model-conventions {
+    height:12em;
+}
+
+.codesnippet-table-names {
+    height:17em;
+}
+
+.codesnippet-working-with-data {
+    height:15em;
+}
+
+.codesnippet-inserts {
+    height:16em;
+}
+
+.codesnippet-updates {
+    height:16em;
+}
+
+.codesnippet-deletes {
+    height:16em;
+}
+
+.codesnippet-selects {
+    height:3em;
+}
+
+.codesnippet-one-to-one {
+    height:17em;
+}
+
+.codesnippet-one-to-many {
+    height:19em;
+}
+
+.codesnippet-many-to-many {
+    height:21em;
+}
+
+.codesnippet-simple-where-clause {
+    height:17em;
+}
+
+.codesnippet-and-statements {
+    height:17em;
+}
+
+.codesnippet-or-statements {
+    height:17em;
+}
+
+.customer-list-codesnippet-oneToMany {
+        height:3em;
+}
+
+
+
+#buttons {
+    /* https://stackoverflow.com/questions/34106499/how-can-i-stop-a-div-that-is-scrolling-over-the-navbar */
+    z-index: 10;   
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    background-color: white;    
+    text-align: center;
+}
+/* For an unknown amount of children you could use. */
+
+#buttons > * {
+    display: block;
+    margin-top: 1em;
+}
+
+#buttons > *:first-child {
+    margin-top: 0px;
+}
+
+.jumbotron {
+    margin-right:0%;
+    padding-right:0%;
+}
+html,body
+{
+   /* width: 100%;
+    height: 100%;*/
+    margin: 0;
+    padding: 0;
+    margin-left:5%;
+    margin-right:5%;
+    padding-right:5%;
+    max-width: 100%;
+    overflow-x: hidden; 
+    
+}
+
+
+body{
+    padding-top:10%;
+    padding-bottom:10%;
+}
+
+
+html, body::-webkit-scrollbar  {
+    overflow-y:auto;
+    max-width: 100%;
+  }
+
+#element::-webkit-scrollbar { 
+    display: none; 
+}
+
+
+#footer-padding-top {
+    min-height: 150px;
+    width:100%;
+}
+
+.footer {
+    background-color:rgb(60, 105, 146);
+}
+
+
+/* * { 
+	margin: 0; 
+	padding: 0; 
+}
+body { 
+	font: 14px/1.4 Georgia, Serif; 
+}
+#page-wrap {
+	margin: 50px;
+}
+p {
+	margin: 20px 0; 
+} */
+
+	/* 
+	Generic Styling, for Desktops/Laptops 
+	*/
+	table {  
+		width: 100%; 
+		border-collapse: collapse; 
+    }
+
+	/* Zebra striping */
+	tr:nth-of-type(odd) { 
+		background: #eee; 
+	}
+	th { 
+		background: #333; 
+		color: white; 
+		font-weight: bold; 
+	}
+	td, th { 
+		padding: 6px; 
+		border: 1px solid #ccc; 
+		text-align: left; 
+	}
+  /* 
+	Max width before this PARTICULAR table gets nasty
+	This query will take effect for any screen smaller than 760px
+	and also iPads specifically.
+	*/
+	@media 
+	only screen and (max-width: 760px),
+	(min-device-width: 768px) and (max-device-width: 1024px)  {
+	
+		/* Force table to not be like tables anymore */
+		table, thead, tbody, th, td, tr { 
+			display: block; 
+		}
+		
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr { 
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+		
+		tr { border: 1px solid #ccc; }
+		
+		td { 
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 1px solid #eee; 
+			position: relative;
+			padding-left: 50%; 
+		}
+		
+		td:before { 
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: 6px;
+			left: 6px;
+			width: 45%; 
+			padding-right: 10px; 
+            white-space: nowrap;
+        }
+        /* td>a {
+            padding-top:15%; not working for some reason had to wrap in p tags
+        } */
+
+        td>ul {
+            padding-top:5%;
+        }
+        
+        td>p {
+            padding-top:5%;
+        }
+
+        td>textarea {
+            margin-top:5%;
+        }
+		/*
+		Label the data
+		*/
+		/* td:nth-of-type(1):before { content: "Title:"; }
+		td:nth-of-type(2):before { content: "Author:"; }
+        td:nth-of-type(3):before { content: "Description:"; } */
+
+	}
+	
+	/* Smartphones (portrait and landscape) ----------- */
+	@media 
+	only screen and (max-width: 760px),
+	(min-device-width: 768px) and (max-device-width: 1024px)  {
+		p>code>span {
+            font-size: 11px;
+        }
+        .language-php {
+            background-color:#fff;
+            font-family: "Operator Mono","Fira Code",Consolas,Monaco,"Andale Mono",monospace;
+            white-space: pre;
+            word-spacing: normal;
+            word-break: normal;
+            direction: ltr;
+            overflow-y:hidden;
+            overflow-x: auto;
+            word-wrap: normal;
+            white-space: pre;
+        }
+    }
+    
+    p>code>span {
+        line-height: 100%;
+    }
+    
+    .language-php {
+        background-color:#fff;
+        font-family: "Operator Mono","Fira Code",Consolas,Monaco,"Andale Mono",monospace;
+        white-space: pre;
+        word-spacing: normal;
+        word-break: normal;
+        direction: ltr;
+        overflow-y:hidden;
+        overflow-x: auto;
+        word-wrap: normal;
+        white-space: pre;
+    }
+	/* iPads (portrait and landscape) ----------- */
+	/* @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+		body { 
+			width: 495px; 
+		}
+    } */
+    
+
+    .CodeFlask__textarea{
+        border:none;
+        background:transparent;
+        outline:none;
+        resize:none;
+        opacity:0.4;
+        margin:0;
+        z-index:1;
+        height:100%;
+        /*-webkit-overflow-scrolling: touch;*/
+    }
+    
+    .CodeFlask__code{
+        font-size:inherit;
+        font-family:inherit;
+        color:inherit;
+        display:block;
+    }
+
+    @media (max-width:420px){
+        .language-php {
+            background-color:#fff;
+            font-family: "Operator Mono","Fira Code",Consolas,Monaco,"Andale Mono",monospace;
+            white-space: pre;
+            word-spacing: normal;
+            word-break: normal;
+            direction: ltr;
+        }
+    }
+
+    pre {
+        overflow-x: auto;
+        overflow-y:hidden;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    
