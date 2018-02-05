@@ -446,7 +446,7 @@ class UserModel extends Model
         // set the rememberme-cookie to ten years ago (3600sec * 365 days * 10).
         // that's obivously the best practice to kill a cookie via php
         // @see http://stackoverflow.com/a/686166/1114320
-        setcookie('rememberme', '', time() - (3600 * 3650), '/', COOKIE_DOMAIN);
+        setcookie('rememberme', null, time() - (3600 * 3650), '/', COOKIE_DOMAIN);
     }
 
     /**
@@ -467,7 +467,6 @@ class UserModel extends Model
 
         $this->user_is_logged_in = false;
         $this->messages[] = 'MESSAGE_LOGGED_OUT';
-        //header( 'Location: http://www.google.com' ); 
         return true;
     }
 

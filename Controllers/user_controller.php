@@ -36,6 +36,11 @@
 
         }
 
+        public function logout()
+        {
+            $this->modelObj->doLogout();
+        }
+
         public function routing()
         {
           // no need for this its in index.php session_start();

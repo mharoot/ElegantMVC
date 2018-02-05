@@ -91,4 +91,11 @@ class UserView
     <?php
       }
   }
+
+  public function logout()
+  {
+      session_start();
+      $this->controller->logout();
+      header('Location: http://localhost/github/ElegantMVC');
+  }
 }
