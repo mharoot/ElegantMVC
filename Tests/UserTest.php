@@ -36,6 +36,16 @@ class UserTest extends TestCase
     $this->assertTrue( $UserModel->doLogout() );
   }
 
+  public function test_emailer()
+  {
+    $UserModel = new UserModel();
+    $user_id = '1';
+    $user_email = 'elegantorm@gmail.com';
+    $user_activation_hash = '4mkdol31304ldsf94ldlooks_something_like_that';
+    $email_has_been_sent = $UserModel->sendVerificationEmail($user_id, $user_email, $user_activation_hash);
+    $this->assertTrue( $email_has_been_sent );
+  }
+
   /* pass test
   public function test_registration()
   {

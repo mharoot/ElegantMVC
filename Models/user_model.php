@@ -5,27 +5,31 @@ define("COOKIE_DOMAIN", ".localhost/github/ElegantMVC/");
 define("COOKIE_SECRET_KEY", "1gp@TMPS{+$78sfpMJFe-92s");
 
 define("EMAIL_USE_SMTP", true);
-define("EMAIL_SMTP_HOST", "ssl://smtp.gmail.com");
+define("EMAIL_SMTP_HOST", "smtp.gmail.com");
 define("EMAIL_SMTP_AUTH", true);
-define("EMAIL_SMTP_USERNAME", "elegantorm@gmail.com");
+define("EMAIL_SMTP_USERNAME", "ElegantORM@gmail.com");
 define("EMAIL_SMTP_PASSWORD", "comp490elegant");
-define("EMAIL_SMTP_PORT", 465);
-define("EMAIL_SMTP_ENCRYPTION", "ssl");
+define("EMAIL_SMTP_PORT", 587);
+define("EMAIL_SMTP_ENCRYPTION", "tls");
 
 define("EMAIL_PASSWORDRESET_URL", "http://localhost/github/ElegantMVC/password_reset.php");
-define("EMAIL_PASSWORDRESET_FROM", "no-reply@localhost/ElegantMVC");
+define("EMAIL_PASSWORDRESET_FROM", "ElegantORM@gmail.com");
 define("EMAIL_PASSWORDRESET_FROM_NAME", "ElegantMVC");
 define("EMAIL_PASSWORDRESET_SUBJECT", "Password reset for ElegantMVC");
 define("EMAIL_PASSWORDRESET_CONTENT", "Please click on this link to reset your password:");
 
 define("EMAIL_VERIFICATION_URL", "http://localhost/github/ElegantMVC/register.php");
-define("EMAIL_VERIFICATION_FROM", "no-reply@localhost/ElegantMVC");
+define("EMAIL_VERIFICATION_FROM", "ElegantORM@gmail.com");
 define("EMAIL_VERIFICATION_FROM_NAME", "ElegantMVC");
 define("EMAIL_VERIFICATION_SUBJECT", "Account activation for ElegantMVC");
 define("EMAIL_VERIFICATION_CONTENT", "Please click on this link to activate your account:");
 
 
 define("HASH_COST_FACTOR", "10");
+
+require_once 'libraries/PHPMailer.php';
+require_once 'libraries/class.smtp.php';
+
 
 class UserModel extends Model 
 {
@@ -675,9 +679,16 @@ class UserModel extends Model
         // use SMTP or use mail()
         if (EMAIL_USE_SMTP) {
             // Set mailer to use SMTP
-            $mail->IsSMTP();
+            $mail->isSMTP();
+            $mail->SMTPOptions = array(
+              'ssl' => array(
+                  'verify_peer' => false,
+                  'verify_peer_name' => false,
+                  'allow_self_signed' => true
+              )
+            );
             //useful for debugging, shows full SMTP errors
-            //$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
+            $mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
             // Enable SMTP authentication
             $mail->SMTPAuth = EMAIL_SMTP_AUTH;
             // Enable encryption, usually SSL/TLS
@@ -690,18 +701,18 @@ class UserModel extends Model
             $mail->Password = EMAIL_SMTP_PASSWORD;
             $mail->Port = EMAIL_SMTP_PORT;
         } else {
-            $mail->IsMail();
+            $mail->isMail();
         }
 
         $mail->From = EMAIL_PASSWORDRESET_FROM;
         $mail->FromName = EMAIL_PASSWORDRESET_FROM_NAME;
-        $mail->AddAddress($user_email);
+        $mail->addAddress($user_email);
         $mail->Subject = EMAIL_PASSWORDRESET_SUBJECT;
 
         $link    = EMAIL_PASSWORDRESET_URL.'?user_name='.urlencode($user_name).'&verification_code='.urlencode($user_password_reset_hash);
         $mail->Body = EMAIL_PASSWORDRESET_CONTENT . ' ' . $link;
 
-        if(!$mail->Send()) {
+        if(!$mail->send()) {
             $this->errors[] = 'MESSAGE_PASSWORD_RESET_MAIL_FAILED' . $mail->ErrorInfo;
             return false;
         } else {
@@ -858,53 +869,61 @@ class UserModel extends Model
 */
 public function sendVerificationEmail($user_id, $user_email, $user_activation_hash)
 {
-$mail = new PHPMailer;
 
-// please look into the config/config.php for much more info on how to use this!
-// use SMTP or use mail()
-if (EMAIL_USE_SMTP) 
-{
-  // Set mailer to use SMTP
-  $mail->IsSMTP();
-  //useful for debugging, shows full SMTP errors
-  //$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
-  // Enable SMTP authentication
-  $mail->SMTPAuth = EMAIL_SMTP_AUTH;
-  // Enable encryption, usually SSL/TLS
-  if (defined(EMAIL_SMTP_ENCRYPTION)) 
-  {
-    $mail->SMTPSecure = EMAIL_SMTP_ENCRYPTION;
-  }
-  // Specify host server
-  $mail->Host = EMAIL_SMTP_HOST;
-  $mail->Username = EMAIL_SMTP_USERNAME;
-  $mail->Password = EMAIL_SMTP_PASSWORD;
-  $mail->Port = EMAIL_SMTP_PORT;
-} 
-else 
-{
-  $mail->IsMail();
-}
+    $mail = new PHPMailer;
 
-  $mail->From = EMAIL_VERIFICATION_FROM;
-  $mail->FromName = EMAIL_VERIFICATION_FROM_NAME;
-  $mail->AddAddress($user_email);
-  $mail->Subject = EMAIL_VERIFICATION_SUBJECT;
+    // please look into the config/config.php for much more info on how to use this!
+    // use SMTP or use mail()
+    if (EMAIL_USE_SMTP) 
+    {
+      // Set mailer to use SMTP
+      $mail->isSMTP();
+      $mail->SMTPOptions = array(
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        )
+      );
+      //useful for debugging, shows full SMTP errors
+      $mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
+      // Enable SMTP authentication
+      $mail->SMTPAuth = EMAIL_SMTP_AUTH;
+      // Enable encryption, usually SSL/TLS
+      if (defined(EMAIL_SMTP_ENCRYPTION)) 
+      {
+        $mail->SMTPSecure = EMAIL_SMTP_ENCRYPTION;
+      }
+      // Specify host server
+      $mail->Host = EMAIL_SMTP_HOST;
+      $mail->Username = EMAIL_SMTP_USERNAME;
+      $mail->Password = EMAIL_SMTP_PASSWORD;
+      $mail->Port = EMAIL_SMTP_PORT;
+    } 
+    else 
+    {
+      $mail->isMail();
+    }
 
-  $link = EMAIL_VERIFICATION_URL.'?id='.urlencode($user_id).'&verification_code='.urlencode($user_activation_hash);
+    $mail->From = EMAIL_VERIFICATION_FROM;
+    $mail->FromName = EMAIL_VERIFICATION_FROM_NAME;
+    $mail->addAddress($user_email);
+    $mail->Subject = EMAIL_VERIFICATION_SUBJECT;
 
-  // the link to your register.php, please set this value in config/email_verification.php
-  $mail->Body = EMAIL_VERIFICATION_CONTENT.' '.$link;
+    $link = EMAIL_VERIFICATION_URL.'?id='.urlencode($user_id).'&verification_code='.urlencode($user_activation_hash);
 
-  if(!$mail->Send()) 
-  {
-    $this->errors[] = 'MESSAGE_VERIFICATION_MAIL_NOT_SENT' . $mail->ErrorInfo;
-    return false;
-  } 
-  else 
-  {
-    return true;
-  }
+    // the link to your register.php, please set this value in config/email_verification.php
+    $mail->Body = EMAIL_VERIFICATION_CONTENT.' '.$link;
+
+    if(!$mail->send()) 
+    {
+      $this->errors[] = 'MESSAGE_VERIFICATION_MAIL_NOT_SENT' . $mail->ErrorInfo;
+      return false;
+    } 
+    else 
+    {
+      return true;
+    }
 }
 
  /**
