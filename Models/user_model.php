@@ -490,7 +490,7 @@ class UserModel extends Model
         // if database connection opened
         if ($this->databaseConnection()) {
             // generate 64 char random string and store it in current user data
-            $random_token_string = hash('sha256', mt_rand());
+            $random_token_string = hash('sha256', mt_rand().'');
             $sth = $this->db_connection->prepare("UPDATE users SET user_rememberme_token = :user_rememberme_token WHERE user_id = :user_id");
             $sth->execute(array(':user_rememberme_token' => $random_token_string, ':user_id' => $_SESSION['user_id']));
 
@@ -706,7 +706,7 @@ class UserModel extends Model
             // btw this is an integer ;)
             $temporary_timestamp = time();
             // generate random hash for email password reset verification (40 char string)
-            $user_password_reset_hash = sha1(uniqid(mt_rand(), true));
+            $user_password_reset_hash = sha1(uniqid(mt_rand().'', true));
             // database query, getting all the info of the selected user
             $result_row = $this->getUserData($user_name);
 

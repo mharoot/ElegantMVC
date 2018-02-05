@@ -27,8 +27,8 @@
             return $this->modelObj->getUserByID($id);
         }
 
-        public function login($param)
+        public function login($user_name, $password, $remember_me)
         {
-            //$user
+            return $this->modelObj->loginWithPostData($user_name, $password, $remember_me);
         }
      }
