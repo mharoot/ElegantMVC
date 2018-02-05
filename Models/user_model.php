@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 define("COOKIE_RUNTIME", 1209600);
-define("COOKIE_DOMAIN", ".localhost/ElegantMVC");
+define("COOKIE_DOMAIN", ".localhost/github/ElegantMVC/");
 define("COOKIE_SECRET_KEY", "1gp@TMPS{+$78sfpMJFe-92s");
 
 define("EMAIL_USE_SMTP", true);
@@ -12,13 +12,13 @@ define("EMAIL_SMTP_PASSWORD", "comp490elegant");
 define("EMAIL_SMTP_PORT", 465);
 define("EMAIL_SMTP_ENCRYPTION", "ssl");
 
-define("EMAIL_PASSWORDRESET_URL", "http://localhost/ElegantMVC/password_reset.php");
+define("EMAIL_PASSWORDRESET_URL", "http://localhost/github/ElegantMVC/password_reset.php");
 define("EMAIL_PASSWORDRESET_FROM", "no-reply@localhost/ElegantMVC");
 define("EMAIL_PASSWORDRESET_FROM_NAME", "ElegantMVC");
 define("EMAIL_PASSWORDRESET_SUBJECT", "Password reset for ElegantMVC");
 define("EMAIL_PASSWORDRESET_CONTENT", "Please click on this link to reset your password:");
 
-define("EMAIL_VERIFICATION_URL", "http://localhost/ElegantMVC/register.php");
+define("EMAIL_VERIFICATION_URL", "http://localhost/github/ElegantMVC/register.php");
 define("EMAIL_VERIFICATION_FROM", "no-reply@localhost/ElegantMVC");
 define("EMAIL_VERIFICATION_FROM_NAME", "ElegantMVC");
 define("EMAIL_VERIFICATION_SUBJECT", "Account activation for ElegantMVC");
@@ -87,7 +87,6 @@ class UserModel extends Model
   {  
     $this->table_name = 'Users';
     parent::__construct($this);
-    $this->routing();
   }
 
   public function getAllUsers()
@@ -197,77 +196,6 @@ class UserModel extends Model
   }
 
 
-  public function routing()
-  {
-    // no need for this its in index.php session_start();
-    if (isset($_POST["register"])) 
-    {
-      $this->registerNewUser($_POST['user_type'], $_POST['first_name'], $_POST['last_name'], 
-       $_POST['user_name'], $_POST['user_password_new'], $_POST['user_password_repeat'], $_POST["captcha"]);
-    } 
-    else if (isset($_GET["id"]) && isset($_GET["verification_code"])) 
-    {
-      $this->verifyNewUser($_GET["id"], $_GET["verification_code"]);
-    }
-    else if (isset($_GET["logout"])) 
-    {
-      $this->doLogout();
-    } 
-    else if (!empty($_SESSION['user_name']) && ($_SESSION['user_logged_in'] == 1)) 
-    { // if user has an active session on the server
-      $this->loginWithSessionData();
-
-      // checking for form submit from editing screen
-      if (isset($_POST["user_edit_submit_name"])) 
-      { // user try to change his username
-        // function below uses use $_SESSION['user_id'] et $_SESSION['user_email']
-        $this->editUserName($_POST['user_name']);
-      } 
-      elseif (isset($_POST["user_edit_submit_email"])) 
-      { // user try to change his email
-        // function below uses use $_SESSION['user_id'] et $_SESSION['user_email']
-        $this->editUserEmail($_POST['user_email']);
-      } 
-      elseif (isset($_POST["user_edit_submit_password"])) 
-      { // user try to change his password
-        // function below uses $_SESSION['user_name'] and $_SESSION['user_id']
-        $this->editUserPassword($_POST['user_password_old'], $_POST['user_password_new'], $_POST['user_password_repeat']);
-      }
-    
-    }
-    elseif (isset($_COOKIE['rememberme'])) 
-    { // login with cookie
-      $this->loginWithCookieData();
-    } 
-    else if (isset($_POST["login"])) 
-    { // if user just submitted a login form
-      if (!isset($_POST['user_rememberme'])) 
-      {
-        $_POST['user_rememberme'] = null;
-      }
-      $this->loginWithPostData($_POST['user_name'], $_POST['user_password'], $_POST['user_rememberme']);
-    }
-
-    if (isset($_POST["request_password_reset"]) && isset($_POST['user_name'])) 
-    { // checking if user requested a password reset mail
-      $this->setPasswordResetDatabaseTokenAndSendMail($_POST['user_name']);
-    } 
-    else if (isset($_GET["user_name"]) && isset($_GET["verification_code"])) 
-    {
-      $this->checkIfEmailVerificationCodeIsValid($_GET["user_name"], $_GET["verification_code"]);
-    } else if (isset($_POST["submit_new_password"])) 
-    {
-      $this->editNewPassword($_POST['user_name'], $_POST['user_password_reset_hash'], $_POST['user_password_new'], $_POST['user_password_repeat']);
-    }
-  
-    // get gravatar profile picture if user is logged in
-    if ($this->isUserLoggedIn() == true) 
-    {
-      //$this->getGravatarImageUrl($this->user_email);
-    }
-  }
-
-
 
     /**
      * Search into database for the user data of user_name specified as parameter
@@ -320,7 +248,7 @@ class UserModel extends Model
                 // cookie looks good, try to select corresponding user
                 if ($this->databaseConnection()) {
                     // get real token from database (and all other data)     //=-michael harootoonyan added user_type to save it as a session
-                    $sth = $this->db_connection->prepare("SELECT user_id, user_name, user_email, user_type, first_name, last_name, teacher_id FROM users WHERE user_id = :user_id
+                    $sth = $this->db_connection->prepare("SELECT user_id, user_name, user_email, user_type, first_name, last_name FROM users WHERE user_id = :user_id
                                                       AND user_rememberme_token = :user_rememberme_token AND user_rememberme_token IS NOT NULL");
                     $sth->bindValue(':user_id', $user_id, PDO::PARAM_INT);
                     $sth->bindValue(':user_rememberme_token', $token, PDO::PARAM_STR);
@@ -352,7 +280,6 @@ class UserModel extends Model
                         $this->user_type = $result_row->user_type;
                         $this->first_name = $result_row->first_name;
                         $this->last_name = $result_row->last_name;
-                        $this->teacher_id = $result_row->teacher_id;
 
                         // Cookie token usable only once
                         $this->newRememberMeCookie();
