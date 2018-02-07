@@ -3,7 +3,7 @@
     /**
     * The Categories page view
     */
-    class CategoriesView
+    class CategoryView
     {
 
         private $modelObj;
