@@ -3,7 +3,7 @@
     /**
     * The Categories page controller
     */
-    class CategoriesController
+    class CategoryController
     {
         private $modelObj;
 
