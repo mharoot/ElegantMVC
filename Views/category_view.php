@@ -17,8 +17,8 @@
 
             $this->modelObj = $model;
 
-            print "Categories - ";
-			$this->categories();
+            //print "Categories - ";
+			//$this->categories();
         }
 
         /**
@@ -28,12 +28,10 @@
 		public function categories()
         {
             $categories = $this->controller->showCategories();
-			echo '<table>';
-			foreach ($categories as $category)
-			{
-				echo "<tr><td>$category->CategoryID</td><td>$category->CategoryName</td><td>$category->Description</td></tr>";
-			}
-			echo '</table>';
+            include "templates/header.php";  
+            include "pages/category/all.php";
+            include "templates/footer.php";
+
         }
 		
 		public function create()
