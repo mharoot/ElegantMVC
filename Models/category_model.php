@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-    class CategoriesModel extends Model 
+    class CategoryModel extends Model 
     {
 
         //private $message = 'Welcome to Home page.';

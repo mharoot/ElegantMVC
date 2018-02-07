@@ -1,9 +1,9 @@
 <?php
 
     /**
-    * The Category page controller
+    * The Categories page controller
     */
-    class CategoryController
+    class CategoriesController
     {
         private $modelObj;
 
@@ -16,5 +16,10 @@
         /**
          * Public methods
          */
+		 
+		public function showCategories()
+        {
+            return $this->modelObj->getCategories();
+        }
 
      }
