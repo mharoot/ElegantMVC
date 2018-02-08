@@ -23,6 +23,21 @@ class UserView
       include "templates/footer.php";
   }
 
+  public function emailVerification()
+  {
+    include "templates/header.php";  
+    $message = "FAILED TO ACTIVATE ACCOUNT!";
+    if (isset($_GET['id']) && isset($_GET['verification_code']))
+    {
+      if ($this->controller->verifyUser($_GET['id'], $_GET['verification_code']))
+      {
+        $message = "REGISTRATION ACTIVATION SUCCESSFUL!";
+      }
+    }
+    include "pages/user/email-verification.php";
+    include "templates/footer.php";
+  }
+
   public function get($param)
   {
     $id = $param[0];

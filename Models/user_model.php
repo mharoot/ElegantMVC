@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 define("COOKIE_RUNTIME", 1209600);
 define("COOKIE_DOMAIN", ".localhost/github/ElegantMVC/");
 define("COOKIE_SECRET_KEY", "1gp@TMPS{+$78sfpMJFe-92s");
-
 define("EMAIL_USE_SMTP", true);
 define("EMAIL_SMTP_HOST", "smtp.gmail.com");
 define("EMAIL_SMTP_AUTH", true);
@@ -11,14 +11,14 @@ define("EMAIL_SMTP_USERNAME", "ElegantORM@gmail.com");
 define("EMAIL_SMTP_PASSWORD", "comp490elegant");
 define("EMAIL_SMTP_PORT", 587);
 define("EMAIL_SMTP_ENCRYPTION", "tls");
-
-define("EMAIL_PASSWORDRESET_URL", "http://localhost/github/ElegantMVC/password_reset.php");
+  
+define("EMAIL_PASSWORDRESET_URL", "http://localhost/github/ElegantMVC/user/passwordReset");
 define("EMAIL_PASSWORDRESET_FROM", "ElegantORM@gmail.com");
 define("EMAIL_PASSWORDRESET_FROM_NAME", "ElegantMVC");
 define("EMAIL_PASSWORDRESET_SUBJECT", "Password reset for ElegantMVC");
 define("EMAIL_PASSWORDRESET_CONTENT", "Please click on this link to reset your password:");
 
-define("EMAIL_VERIFICATION_URL", "http://localhost/github/ElegantMVC/register.php");
+define("EMAIL_VERIFICATION_URL", "http://localhost/github/ElegantMVC/user/emailVerification");
 define("EMAIL_VERIFICATION_FROM", "ElegantORM@gmail.com");
 define("EMAIL_VERIFICATION_FROM_NAME", "ElegantMVC");
 define("EMAIL_VERIFICATION_SUBJECT", "Account activation for ElegantMVC");
@@ -125,7 +125,25 @@ class UserModel extends Model
     return false;
   }
 
-
+// Function to get the client IP address
+function get_client_ip() {
+    $ipaddress = '';
+    if (isset($_SERVER['HTTP_CLIENT_IP']))
+        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    else if(isset($_SERVER['HTTP_X_FORWARDED']))
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+    else if(isset($_SERVER['HTTP_FORWARDED']))
+        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+    else if(isset($_SERVER['REMOTE_ADDR']))
+        $ipaddress = $_SERVER['REMOTE_ADDR'];
+    else
+        $ipaddress = 'UNKNOWN';
+    return $ipaddress;
+}
   public function registerNewUser($user_email, $user_type, $first_name, $last_name, $user_name, $user_password, $user_password_repeat, $captcha)
   {
     // we just remove extra space on username and email
@@ -151,7 +169,7 @@ class UserModel extends Model
     } 
     else if ($this->databaseConnection()) {
     // check if username or email already exists
-    $query_check_user_name = $this->db_connection->prepare('SELECT user_name FROM users WHERE user_name=:user_name');
+    $query_check_user_name = $this->db_connection->prepare('SELECT user_name FROM users WHERE user_name=:user_name or user_email=:user_email');
     $query_check_user_name->bindValue(':user_name', $user_name, PDO::PARAM_STR);
     $query_check_user_name->bindValue(':user_email', $user_email, PDO::PARAM_STR);
     $query_check_user_name->execute();
@@ -180,7 +198,8 @@ class UserModel extends Model
     $query_new_user_insert->bindValue(':user_name', $user_name, PDO::PARAM_STR);
     $query_new_user_insert->bindValue(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
     $query_new_user_insert->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
-    $query_new_user_insert->bindValue(':user_registration_ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
+    $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "unkown";
+    $query_new_user_insert->bindValue(':user_registration_ip', $ip, PDO::PARAM_STR);
 
     $query_new_user_insert->execute();
 
@@ -188,8 +207,8 @@ class UserModel extends Model
     $user_id = $this->db_connection->lastInsertId();
 
     if ($query_new_user_insert) {
-      $this->messages[] = 'MESSAGE_REGISTRATION_ACTIVATION_SUCCESSFUL';
-      echo '<script> //alert("'.'MESSAGE_REGISTRATION_ACTIVATION_SUCCESSFUL'.'") </script>';
+      $this->messages[] = 'MESSAGE_REGISTRATION_SUCCESSFUL_AND_EMAIL_ACTIVATION_REQUIRED';
+      $this->sendVerificationEmail($user_id, $user_email, $user_activation_hash);
       return true;
     } 
     else {
@@ -944,10 +963,12 @@ public function sendVerificationEmail($user_id, $user_email, $user_activation_ha
       {
         $this->verification_successful = true;
         $this->messages[] = 'MESSAGE_REGISTRATION_ACTIVATION_SUCCESSFUL';
+        return true;
       } 
       else 
       {
         $this->errors[] = 'MESSAGE_REGISTRATION_ACTIVATION_NOT_SUCCESSFUL';
+        return false;
       }
     }
   }

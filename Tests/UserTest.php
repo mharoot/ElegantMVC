@@ -8,6 +8,7 @@ include_once('Elegant/Model.php');
 include_once('Models/User_model.php');
 class UserTest extends TestCase
 {
+  /*
   public function test_all() 
   {
     $UserModel = new UserModel();
@@ -35,7 +36,8 @@ class UserTest extends TestCase
     $UserModel->loginWithPostData($user_name, $user_password, $user_rememberme);
     $this->assertTrue( $UserModel->doLogout() );
   }
-
+*/
+  /* test passed
   public function test_emailer()
   {
     $UserModel = new UserModel();
@@ -45,22 +47,24 @@ class UserTest extends TestCase
     $email_has_been_sent = $UserModel->sendVerificationEmail($user_id, $user_email, $user_activation_hash);
     $this->assertTrue( $email_has_been_sent );
   }
+  */
 
-  /* pass test
+
   public function test_registration()
   {
     $UserModel = new UserModel();
-    $user_type = 1; // 1 = admin
-    $first_name = 'Chad';
-    $last_name  = 'Buntrakulsuk';
-    $user_name  = 'ChadBuntrakulsuk';
+    $user_type = 2; // 2 = customer
+    $first_name = 'New';
+    $last_name  = 'Customer';
+    $user_email = "elegantorm@gmail.com";
+    $user_name  = 'NewCustomer';
     $user_password = 'password';
     $user_password_repeat = 'password';
     $captcha = 'random_captcha';
-    $new_user_was_registered = $UserModel->registerNewUser($user_type, $first_name, $last_name, 
+    $new_user_was_registered = $UserModel->registerNewUser($user_email, $user_type, $first_name, $last_name, 
     $user_name, $user_password, $user_password_repeat, $captcha);
     $this->assertTrue( $new_user_was_registered );
   }
-    */
+    
 
 }

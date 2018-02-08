@@ -112,5 +112,10 @@
           }
         }
 
+        public function verifyUser($user_id, $user_activation_hash)
+        {
+          return $this->modelObj->verifyNewUser($user_id, $user_activation_hash);
+        }
+
 
      }
