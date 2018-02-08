@@ -1,4 +1,5 @@
 <?php
+session_start();
 $url = isset($_SERVER['PATH_INFO']) ? explode('/', ltrim($_SERVER['PATH_INFO'],'/')) : '/';
 require_once __DIR__.'/Elegant/Model.php';
 if ($url == '/')
