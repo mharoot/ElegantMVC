@@ -11,31 +11,18 @@ class ShipperView
   function __construct($controller, $model)
   {
       $this->controller = $controller;
-
       $this->modelObj = $model;
-
-      print "Shippers - ";
   }
 
   /**
    * Action Methods
    */
-  public function shippers()
+  public function all()
   {
-    print "shippers";
     $shippers = $this->controller->getShippers();
-    echo '<ul>';
-    foreach(  $shippers as $shipper)
-    {
-      echo "<li>
-              <ul>
-                  <li>ShipperID: $shipper->ShipperID</li>
-                  <li>ShipperName: $shipper->ShipperName </li>  
-                  <li>Phone: $shipper->Phone </li>
-              </ul>
-            </li>";
-    }
-    echo '</ul>';
+    include "templates/header.php";  
+    include "pages/shipper/all.php";
+    include "templates/footer.php";
   }
   
 }

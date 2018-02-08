@@ -14,38 +14,18 @@ class SupplierView
   function __construct($controller, $model)
   {
     $this->controller = $controller;
-
     $this->modelObj = $model;
-
-    print "Suppliers - ";
   }
 
   /**
    * Action Methods
    */
-  public function suppliers()
+  public function all()
   {
-    print "suppliers";
     $suppliers = $this->controller->getSuppliers();
-
-    echo '<ul>';
-    foreach(  $suppliers as $supplier)
-    {
-          echo 
-          "<li>
-            <ul>
-            <li>SupplierID: $supplier->SupplierID</li>
-            <li>SupplierName: $supplier->SupplierName </li>  
-            <li>ContactName: $supplier->ContactName </li>
-            <li>Address: $supplier->Address </li>
-            <li>City: $supplier->City </li>
-            <li>PostalCode: $supplier->PostalCode </li>
-            <li>Country: $supplier->Country </li>
-            <li>Phone: $supplier->Phone </li>
-            </ul>
-          </li>";
-    }
-    echo '</ul>';
+    include "templates/header.php";  
+    include "pages/supplier/all.php";
+    include "templates/footer.php";
   }
 
 }
