@@ -126,7 +126,7 @@ class UserModel extends Model
   }
 
 
-  public function registerNewUser($user_type, $first_name, $last_name, $user_name, $user_password, $user_password_repeat, $captcha)
+  public function registerNewUser($user_email, $user_type, $first_name, $last_name, $user_name, $user_password, $user_password_repeat, $captcha)
   {
     // we just remove extra space on username and email
     $user_name  = trim($user_name);
@@ -153,7 +153,7 @@ class UserModel extends Model
     // check if username or email already exists
     $query_check_user_name = $this->db_connection->prepare('SELECT user_name FROM users WHERE user_name=:user_name');
     $query_check_user_name->bindValue(':user_name', $user_name, PDO::PARAM_STR);
-    //$query_check_user_name->bindValue(':user_email', $user_email, PDO::PARAM_STR);
+    $query_check_user_name->bindValue(':user_email', $user_email, PDO::PARAM_STR);
     $query_check_user_name->execute();
     $result = $query_check_user_name->fetchAll();
 
@@ -171,15 +171,16 @@ class UserModel extends Model
     $user_activation_hash = sha1(uniqid(mt_rand().'', true));
 
     // write new users data into database                                                                                                                                                                                                                                                                           
-    $query_new_user_insert = $this->db_connection->prepare('INSERT INTO users (user_type, first_name, last_name, user_name, user_password_hash, user_activation_hash, user_registration_ip, user_registration_datetime) VALUES(:user_type, :first_name, :last_name, :user_name, :user_password_hash, :user_activation_hash, :user_registration_ip, now())'); 
+    $query_new_user_insert = $this->db_connection->prepare('INSERT INTO users (user_email, user_type, first_name, last_name, user_name, user_password_hash, user_activation_hash, user_registration_ip, user_registration_datetime) VALUES(:user_email, :user_type, :first_name, :last_name, :user_name, :user_password_hash, :user_activation_hash, :user_registration_ip, now())'); 
+  
+    $query_new_user_insert->bindValue(':user_email', $user_email, PDO::PARAM_STR);
     $query_new_user_insert->bindValue(':user_type', $user_type, PDO::PARAM_INT);
     $query_new_user_insert->bindValue(':first_name', $first_name, PDO::PARAM_STR);
     $query_new_user_insert->bindValue(':last_name', $last_name, PDO::PARAM_STR); 
     $query_new_user_insert->bindValue(':user_name', $user_name, PDO::PARAM_STR);
     $query_new_user_insert->bindValue(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
     $query_new_user_insert->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
-   // $query_new_user_insert->bindValue(':user_registration_ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
-   $query_new_user_insert->bindValue(':user_registration_ip', 'deprecated', PDO::PARAM_STR);
+    $query_new_user_insert->bindValue(':user_registration_ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
 
     $query_new_user_insert->execute();
 

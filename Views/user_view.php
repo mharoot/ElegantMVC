@@ -44,4 +44,21 @@ class UserView
       $this->controller->logout();
       header('Location: http://localhost/github/ElegantMVC');
   }
+
+  public function register()
+  {
+    include "templates/header.php";  
+    include "pages/user/register-form.php";
+
+    if (isset($_POST['captcha']) && $_POST["captcha"] == $_SESSION['captcha']) 
+    { 
+      echo "</br>correct captcha=".$_POST['captcha']."</br>";
+    } 
+    else if( isset($_POST['captcha']) && $_POST["captcha"] != $_SESSION['captcha'] ) 
+    { 
+      echo "</br>WRONG captcha=".$_POST['captcha']." vs ".$_SESSION['captcha']."</br>";  
+    }
+    include "templates/footer.php";
+    
+  }
 }
