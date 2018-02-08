@@ -16,13 +16,14 @@
             $this->controller = $controller;
 
             $this->model = $model;
-
-            print "Home - ";
         }
 
         public function index()
         {
-            return $this->controller->sayWelcome();
+            include "templates/header.php";  
+            echo "<h1>".$this->controller->sayWelcome()."</h1>";
+            include "templates/footer.php";  
+            
         }
 
         public function action()
