@@ -1,12 +1,13 @@
  
  <?php
- session_start();
 if (isset($_POST['user_name']) && isset($_POST['password']))
 {
     echo "</br>Given username: ".$_POST['user_name'].", password: ".$_POST['password'];
     $remember_me = true;
     $this->controller->login($_POST['user_name'], $_POST['password'], $remember_me);
     echo "<br></br>SESSION username: ".$_SESSION['user_name'];
+    $url = $base_url."user/login";
+    header("Location: $url");
 }
 else if (isset($_SESSION['user_name']))
 {

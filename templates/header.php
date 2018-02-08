@@ -7,7 +7,7 @@ while( ( $i < count($parts) ) && ($parts[$i] != 'ElegantMVC') ) {
   $dir .= $parts[$i] . "/";
   $i++;
 }
-$base_url = "http://$dir/ElegantMVC/";    
+$base_url = "http://$dir"."ElegantMVC/";    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,9 +39,25 @@ $base_url = "http://$dir/ElegantMVC/";
           Documentation
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="./model">Model</a>
-          <a class="dropdown-item" href="./queryBuilder">Query Builder</a>
+          <a class="dropdown-item" href="<?php echo $base_url;?>about/model">Model</a>
+          <a class="dropdown-item" href="<?php echo $base_url;?>about/queryBuilder">Query Builder</a>
         </div>
+      </li>
+      <li class="nav-item">
+      
+      <?php 
+      if (!isset($_SESSION['user_name'])) 
+      {?>
+        <a class="nav-link" href="<?php echo $base_url;?>user/login">Login <span class="glyphicon glyphicon-user"></span></a>
+      <?php
+      } 
+      else if (isset($_SESSION['user_name']))
+      {?>
+        <a class="nav-link" href="<?php echo $base_url;?>user/logout">Logout <span class="glyphicon glyphicon-log-out"></span></a>
+      <?php
+      }
+      ?>
+
       </li>
     </ul>
   </div>

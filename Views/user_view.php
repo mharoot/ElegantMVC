@@ -34,6 +34,7 @@ class UserView
 
   public function login()
   {
+    session_start();
     include "templates/header.php";  
     include "pages/user/login-form.php";
     include "templates/footer.php";
