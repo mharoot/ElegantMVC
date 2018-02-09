@@ -65,14 +65,24 @@ class UserView
     include "templates/header.php";  
     include "pages/user/register-form.php";
 
-    if (isset($_POST['captcha']) && $_POST["captcha"] == $_SESSION['captcha']) 
-    { 
-      echo "</br>correct captcha=".$_POST['captcha']."</br>";
-    } 
-    else if( isset($_POST['captcha']) && $_POST["captcha"] != $_SESSION['captcha'] ) 
-    { 
-      echo "</br>WRONG captcha=".$_POST['captcha']." vs ".$_SESSION['captcha']."</br>";  
+    if(isset($_POST['register']))
+    {
+      if (isset($_POST['captcha']) && $_POST["captcha"] == $_SESSION['captcha']) 
+      { 
+        //echo "</br>correct captcha=".$_POST['captcha']."</br>";
+      } 
+      else if( isset($_POST['captcha']) && $_POST["captcha"] != $_SESSION['captcha'] ) 
+      { 
+        echo "</br>WRONG captcha=".$_POST['captcha']." vs ".$_SESSION['captcha']."</br>";  
+      }
+      if ($this->controller->registerUser()) // uses $_POST, no need to pass parameters
+      {
+        echo "</br> You have successfull registered!  Please check your email to verify your account activation.";
+      }
+      else 
+        echo "Failed to register";
     }
+    
     include "templates/footer.php";
     
   }

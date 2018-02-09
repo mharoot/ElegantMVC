@@ -6,10 +6,10 @@
         <form class="form-signin" method="POST">
           <div class="form-group"><input name="first_name" type="text" class="form-control" placeholder="First name" required="" autofocus=""></div>
           <div class="form-group"><input name="last_name" type="text" class="form-control" placeholder="Last name" required="" autofocus=""></div>
-          <div class="form-group"><input name="email" type="email" class="form-control" placeholder="Email" required="" autofocus=""></div>
+          <div class="form-group"><input name="user_email" type="email" class="form-control" placeholder="Email" required="" autofocus=""></div>
           <div class="form-group"><input name="user_name" type="text" class="form-control" placeholder="User name" required="" autofocus=""></div>
-          <div class="form-group"><input name="password" type="password" class="form-control" placeholder="Password" required=""></div>
-          <div class="form-group"><input name="repeat_password" type="password" class="form-control" placeholder="Repeat password" required=""></div>
+          <div class="form-group"><input name="user_password_new" type="password" class="form-control" placeholder="Password" required=""></div>
+          <div class="form-group"><input name="user_password_repeat" type="password" class="form-control" placeholder="Repeat password" required=""></div>
           <div class="form-group">
             <div><label class="checkbox"><input name="customer" type="checkbox" value="customer">Customer</label></div>
             <div><label class="checkbox"><input name="employee" type="checkbox" value="employee">Employee</label></div>
@@ -20,7 +20,7 @@
             <label>Captcha</label>
             <input type="text" name="captcha" required />
           </div>
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
+          <button name="register" class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
         </form>
       </div>
     </div>

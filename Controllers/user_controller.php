@@ -41,15 +41,34 @@
             $this->modelObj->doLogout();
         }
 
+        public function registerUser()
+        {
+          // error checking: as of now you can't sign up for all three at the same time...
+          $user_type = -1;
+          file_put_contents ( "test.txt" , "customer post isset?:");
+          if(isset($_POST['customer']))
+            $user_type = 2;
+          else if (isset($_POST['employee']) && $user_type == -1)
+            $user_type = 3;
+          else if (isset($_POST['supplier']) && $user_type == -1)
+            $user_type = 4;
+          else
+            return false;
+          
+            return $this->modelObj->registerNewUser($_POST['user_email'], $user_type, $_POST['first_name'], $_POST['last_name'], 
+             $_POST['user_name'], $_POST['user_password_new'], $_POST['user_password_repeat'], $_POST["captcha"]);
+        }
+
         public function routing()
         {
           // no need for this its in index.php session_start();
-          if (isset($_POST["register"])) 
-          {
-            $this->modelObj->registerNewUser($_POST['user_type'], $_POST['first_name'], $_POST['last_name'], 
-             $_POST['user_name'], $_POST['user_password_new'], $_POST['user_password_repeat'], $_POST["captcha"]);
-          } 
-          else if (isset($_GET["id"]) && isset($_GET["verification_code"])) 
+          // if (isset($_POST["register"])) 
+          // {
+          //   $this->modelObj->registerNewUser($_POST['user_type'], $_POST['first_name'], $_POST['last_name'], 
+          //    $_POST['user_name'], $_POST['user_password_new'], $_POST['user_password_repeat'], $_POST["captcha"]);
+          // } 
+          // else 
+          if (isset($_GET["id"]) && isset($_GET["verification_code"])) 
           {
             $this->modelObj->verifyNewUser($_GET["id"], $_GET["verification_code"]);
           }
