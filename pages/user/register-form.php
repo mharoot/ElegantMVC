@@ -11,9 +11,9 @@
           <div class="form-group"><input name="user_password_new" type="password" class="form-control" placeholder="Password" required=""></div>
           <div class="form-group"><input name="user_password_repeat" type="password" class="form-control" placeholder="Repeat password" required=""></div>
           <div class="form-group">
-            <div><label class="checkbox"><input name="customer" type="checkbox" value="customer">Customer</label></div>
-            <div><label class="checkbox"><input name="employee" type="checkbox" value="employee">Employee</label></div>
-            <div><label class="checkbox"><input name="supplier" type="checkbox" value="supplier">Supplier</label></div>
+            <div><label class="checkbox"><input class="checkbox" name="customer" type="checkbox" value="customer">Customer</label></div>
+            <div><label class="checkbox"><input class="checkbox" name="employee" type="checkbox" value="employee">Employee</label></div>
+            <div><label class="checkbox"><input class="checkbox" name="supplier" type="checkbox" value="supplier">Supplier</label></div>
           </div>
           <div class="form-group">
             <img src="<?php echo $base_url;?>assets/tools/showCaptcha.php" alt="captcha" />

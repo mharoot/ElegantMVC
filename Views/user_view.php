@@ -63,24 +63,33 @@ class UserView
   public function register()
   {
     include "templates/header.php";  
-    include "pages/user/register-form.php";
+    
 
     if(isset($_POST['register']))
     {
-      if (isset($_POST['captcha']) && $_POST["captcha"] == $_SESSION['captcha']) 
-      { 
-        //echo "</br>correct captcha=".$_POST['captcha']."</br>";
-      } 
-      else if( isset($_POST['captcha']) && $_POST["captcha"] != $_SESSION['captcha'] ) 
-      { 
-        echo "</br>WRONG captcha=".$_POST['captcha']." vs ".$_SESSION['captcha']."</br>";  
-      }
-      if ($this->controller->registerUser()) // uses $_POST, no need to pass parameters
+      $this->modelObj = $this->controller->registerUser();
+      if (isset($this->modelObj->messages[0]) ) // uses $_POST, no need to pass parameters
       {
-        echo "</br> You have successfull registered!  Please check your email to verify your account activation.";
+        $html_output = "";
+        foreach($this->modelObj->messages as $message) {
+          $html_output.= "<li>$message</li>";
+        }
+        $html_output.="</ul></p>";
+        echo $html_output;
       }
-      else 
-        echo "Failed to register";
+      else if(isset($this->modelObj->errors[0]))
+      {
+        $html_output = "<p>Failed to register!</p><p>Reason(s):<ul>";
+        foreach($this->modelObj->errors as $error) {
+          $html_output.= "<li>$error</li>";
+        }
+        $html_output.="</ul></p>";
+        echo $html_output;
+      }
+    }
+    else
+    {
+      include "pages/user/register-form.php";
     }
     
     include "templates/footer.php";

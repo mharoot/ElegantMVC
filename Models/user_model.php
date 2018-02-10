@@ -1,31 +1,8 @@
 <?php
 
 declare(strict_types=1);
-define("COOKIE_RUNTIME", 1209600);
-define("COOKIE_DOMAIN", ".localhost/github/ElegantMVC/");
-define("COOKIE_SECRET_KEY", "1gp@TMPS{+$78sfpMJFe-92s");
-define("EMAIL_USE_SMTP", true);
-define("EMAIL_SMTP_HOST", "smtp.gmail.com");
-define("EMAIL_SMTP_AUTH", true);
-define("EMAIL_SMTP_USERNAME", "ElegantORM@gmail.com");
-define("EMAIL_SMTP_PASSWORD", "comp490elegant");
-define("EMAIL_SMTP_PORT", 587);
-define("EMAIL_SMTP_ENCRYPTION", "tls");
-  
-define("EMAIL_PASSWORDRESET_URL", "http://localhost/github/ElegantMVC/user/passwordReset");
-define("EMAIL_PASSWORDRESET_FROM", "ElegantORM@gmail.com");
-define("EMAIL_PASSWORDRESET_FROM_NAME", "ElegantMVC");
-define("EMAIL_PASSWORDRESET_SUBJECT", "Password reset for ElegantMVC");
-define("EMAIL_PASSWORDRESET_CONTENT", "Please click on this link to reset your password:");
-
-define("EMAIL_VERIFICATION_URL", "http://localhost/github/ElegantMVC/user/emailVerification");
-define("EMAIL_VERIFICATION_FROM", "ElegantORM@gmail.com");
-define("EMAIL_VERIFICATION_FROM_NAME", "ElegantMVC");
-define("EMAIL_VERIFICATION_SUBJECT", "Account activation for ElegantMVC");
-define("EMAIL_VERIFICATION_CONTENT", "Please click on this link to activate your account:");
-
-
-define("HASH_COST_FACTOR", "10");
+require_once 'config/PHPMailer.php';
+require_once 'config/LoginRegistration.php';
 
 require_once 'libraries/PHPMailer.php';
 require_once 'libraries/class.smtp.php';
@@ -118,7 +95,7 @@ class UserModel extends Model
             $this->db_connection = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
             return true;
         } catch (PDOException $e) {
-            $this->errors[] = 'MESSAGE_DATABASE_ERROR' . $e->getMessage();
+            $this->errors[] = MESSAGE_DATABASE_ERROR . $e->getMessage();
         }
     }
     // default return
@@ -151,72 +128,73 @@ function get_client_ip() {
 
     // check provided data validity
     // TODO: check for "return true" case early, so put this first
-    //if (strtolower($captcha) != strtolower($_SESSION['captcha'])) {
-    //$this->errors[] = 'MESSAGE_CAPTCHA_WRONG';
-    //} else
-    if (empty($user_name)) {
-    $this->errors[] = 'MESSAGE_USERNAME_EMPTY';
+    if (strtolower($captcha) != strtolower($_SESSION['captcha'])) {
+      $this->errors[] = MESSAGE_CAPTCHA_WRONG;
+    } else if (empty($user_name)) {
+      $this->errors[] = MESSAGE_USERNAME_EMPTY;
     } elseif (empty($user_password) || empty($user_password_repeat)) {
-    $this->errors[] = 'MESSAGE_PASSWORD_EMPTY';
+      $this->errors[] = MESSAGE_PASSWORD_EMPTY;
     } elseif ($user_password !== $user_password_repeat) {
-    $this->errors[] = 'MESSAGE_PASSWORD_BAD_CONFIRM';
+      $this->errors[] = MESSAGE_PASSWORD_BAD_CONFIRM;
     } elseif (strlen($user_password) < 6) {
-    $this->errors[] = 'MESSAGE_PASSWORD_TOO_SHORT';
+      $this->errors[] = MESSAGE_PASSWORD_TOO_SHORT;
     } elseif (strlen($user_name) > 64 || strlen($user_name) < 2) {
-    $this->errors[] = 'MESSAGE_USERNAME_BAD_LENGTH';
+      $this->errors[] = MESSAGE_USERNAME_BAD_LENGTH;
     } elseif (!preg_match('/^[a-z\d]{2,64}$/i', $user_name)) {
-    $this->errors[] = 'MESSAGE_USERNAME_INVALID';
+      $this->errors[] = MESSAGE_USERNAME_INVALID;
     } 
     else if ($this->databaseConnection()) {
-    // check if username or email already exists
-    $query_check_user_name = $this->db_connection->prepare('SELECT user_name FROM users WHERE user_name=:user_name or user_email=:user_email');
-    $query_check_user_name->bindValue(':user_name', $user_name, PDO::PARAM_STR);
-    $query_check_user_name->bindValue(':user_email', $user_email, PDO::PARAM_STR);
-    $query_check_user_name->execute();
-    $result = $query_check_user_name->fetchAll();
+      // check if username or email already exists
+      $query_check_user_name = $this->db_connection->prepare('SELECT user_name FROM users WHERE user_name=:user_name or user_email=:user_email');
+      $query_check_user_name->bindValue(':user_name', $user_name, PDO::PARAM_STR);
+      $query_check_user_name->bindValue(':user_email', $user_email, PDO::PARAM_STR);
+      $query_check_user_name->execute();
+      $result = $query_check_user_name->fetchAll();
 
-    // if username or/and email find in the database
-    // TODO: this is really awful!
-    if (count($result) > 0) {
-    for ($i = 0; $i < count($result); $i++) {
-    $this->errors[] = ($result[$i]['user_name'] == $user_name) ? 'MESSAGE_USERNAME_EXISTS' : 'MESSAGE_EMAIL_ALREADY_EXISTS';
+      // if username or/and email find in the database
+      // TODO: this is really awful!
+      if (count($result) > 0) {
+        for ($i = 0; $i < count($result); $i++) {
+        $this->errors[] = ($result[$i]['user_name'] == $user_name) ? MESSAGE_USERNAME_EXISTS : MESSAGE_EMAIL_ALREADY_EXISTS;
+        }
+      } 
+      else 
+      {
+        $hash_cost_factor = (defined('HASH_COST_FACTOR') ? HASH_COST_FACTOR : null);
+
+        $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT, array('cost' => $hash_cost_factor));
+        $user_activation_hash = sha1(uniqid(mt_rand().'', true));
+
+        // write new users data into database                                                                                                                                                                                                                                                                           
+        $query_new_user_insert = $this->db_connection->prepare('INSERT INTO users (user_email, user_type, first_name, last_name, user_name, user_password_hash, user_activation_hash, user_registration_ip, user_registration_datetime) VALUES(:user_email, :user_type, :first_name, :last_name, :user_name, :user_password_hash, :user_activation_hash, :user_registration_ip, now())'); 
+      
+        $query_new_user_insert->bindValue(':user_email', $user_email, PDO::PARAM_STR);
+        $query_new_user_insert->bindValue(':user_type', $user_type, PDO::PARAM_INT);
+        $query_new_user_insert->bindValue(':first_name', $first_name, PDO::PARAM_STR);
+        $query_new_user_insert->bindValue(':last_name', $last_name, PDO::PARAM_STR); 
+        $query_new_user_insert->bindValue(':user_name', $user_name, PDO::PARAM_STR);
+        $query_new_user_insert->bindValue(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
+        $query_new_user_insert->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
+        $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "unkown";
+        $query_new_user_insert->bindValue(':user_registration_ip', $ip, PDO::PARAM_STR);
+
+        $query_new_user_insert->execute();
+
+        // id of new user
+        $user_id = $this->db_connection->lastInsertId();
+
+        if ($query_new_user_insert) {
+          $this->messages[] = MESSAGE_REGISTRATION_SUCCESSFUL;
+          $this->sendVerificationEmail($user_id, $user_email, $user_activation_hash);
+          //return true;
+        } 
+        else {
+          $this->errors[] = MESSAGE_REGISTRATION_FAILED;
+          //return false;
+        }
+      }
     }
-    } else {
-    $hash_cost_factor = (defined('HASH_COST_FACTOR') ? HASH_COST_FACTOR : null);
-
-
-    $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT, array('cost' => $hash_cost_factor));
-    $user_activation_hash = sha1(uniqid(mt_rand().'', true));
-
-    // write new users data into database                                                                                                                                                                                                                                                                           
-    $query_new_user_insert = $this->db_connection->prepare('INSERT INTO users (user_email, user_type, first_name, last_name, user_name, user_password_hash, user_activation_hash, user_registration_ip, user_registration_datetime) VALUES(:user_email, :user_type, :first_name, :last_name, :user_name, :user_password_hash, :user_activation_hash, :user_registration_ip, now())'); 
-  
-    $query_new_user_insert->bindValue(':user_email', $user_email, PDO::PARAM_STR);
-    $query_new_user_insert->bindValue(':user_type', $user_type, PDO::PARAM_INT);
-    $query_new_user_insert->bindValue(':first_name', $first_name, PDO::PARAM_STR);
-    $query_new_user_insert->bindValue(':last_name', $last_name, PDO::PARAM_STR); 
-    $query_new_user_insert->bindValue(':user_name', $user_name, PDO::PARAM_STR);
-    $query_new_user_insert->bindValue(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
-    $query_new_user_insert->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
-    $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "unkown";
-    $query_new_user_insert->bindValue(':user_registration_ip', $ip, PDO::PARAM_STR);
-
-    $query_new_user_insert->execute();
-
-    // id of new user
-    $user_id = $this->db_connection->lastInsertId();
-
-    if ($query_new_user_insert) {
-      $this->messages[] = 'MESSAGE_REGISTRATION_SUCCESSFUL_AND_EMAIL_ACTIVATION_REQUIRED';
-      $this->sendVerificationEmail($user_id, $user_email, $user_activation_hash);
-      return true;
-    } 
-    else {
-      $this->errors[] = 'MESSAGE_REGISTRATION_FAILED';
-      return false;
-    }
-    }
-    }
+    return $this;
   }
 
 
@@ -291,7 +269,6 @@ function get_client_ip() {
                         $_SESSION['user_type'] = $result_row->user_type;
                         $_SESSION['first_name'] = $result_row->first_name;
                         $_SESSION['last_name'] = $result_row->last_name;
-                        $_SESSION['teacher_id'] = $result_row->teacher_id;
 
 
                         // declare user id, set the login status to true
@@ -313,7 +290,7 @@ function get_client_ip() {
             }
             // A cookie has been used but is not valid... we delete it
             $this->deleteRememberMeCookie();
-            $this->errors[] = 'MESSAGE_COOKIE_INVALID';
+            $this->errors[] = MESSAGE_COOKIE_INVALID;
         }
         return false;
     }
@@ -327,9 +304,9 @@ function get_client_ip() {
     public function loginWithPostData($user_name, $user_password, $user_rememberme)
     {
         if (empty($user_name)) {
-            $this->errors[] = 'MESSAGE_USERNAME_EMPTY';
+            $this->errors[] = MESSAGE_USERNAME_EMPTY;
         } else if (empty($user_password)) {
-            $this->errors[] = 'MESSAGE_PASSWORD_EMPTY';
+            $this->errors[] = MESSAGE_PASSWORD_EMPTY;
 
         // if POST data (from login form) contains non-empty user_name and non-empty user_password
         } else {
@@ -351,11 +328,11 @@ function get_client_ip() {
 
             // if this user not exists
             if (! isset($result_row->user_id)) {
-                // was 'MESSAGE_USER_DOES_NOT_EXIST' before, but has changed to 'MESSAGE_LOGIN_FAILED'
+                // was MESSAGE_USER_DOES_NOT_EXIST before, but has changed to 'MESSAGE_LOGIN_FAILED'
                 // to prevent potential attackers showing if the user exists
-                $this->errors[] = 'MESSAGE_LOGIN_FAILED';
+                $this->errors[] = MESSAGE_LOGIN_FAILED;
             } else if (($result_row->user_failed_logins >= 3) && ($result_row->user_last_failed_login > (time() - 30))) {
-                $this->errors[] = 'MESSAGE_PASSWORD_WRONG_3_TIMES';
+                $this->errors[] = MESSAGE_PASSWORD_WRONG_3_TIMES;
             // using PHP 5.5's password_verify() function to check if the provided passwords fits to the hash of that user's password
             } else if (! password_verify($user_password, $result_row->user_password_hash)) {
                 // increment the failed login counter for that user
@@ -364,10 +341,10 @@ function get_client_ip() {
                         . 'WHERE user_name = :user_name OR user_email = :user_name');
                 $sth->execute(array(':user_name' => $user_name, ':user_last_failed_login' => time()));
 
-                $this->errors[] = 'MESSAGE_PASSWORD_WRONG';
+                $this->errors[] = MESSAGE_PASSWORD_WRONG;
             // has the user activated their account with the verification email
             } else if ($result_row->user_active != 1) {
-                $this->errors[] = 'MESSAGE_ACCOUNT_NOT_ACTIVATED';
+                $this->errors[] = MESSAGE_ACCOUNT_NOT_ACTIVATED;
             } else {
                 // write user data into PHP SESSION [a file on your server]
                 $_SESSION['user_id'] = $result_row->user_id;
@@ -490,7 +467,7 @@ function get_client_ip() {
         
 
         $this->user_is_logged_in = false;
-        $this->messages[] = 'MESSAGE_LOGGED_OUT';
+        $this->messages[] = MESSAGE_LOGGED_OUT;
         return true;
     }
 
@@ -512,19 +489,19 @@ function get_client_ip() {
         $user_name = substr(trim($user_name), 0, 64);
 
         if (!empty($user_name) && $user_name == $_SESSION['user_name']) {
-            $this->errors[] = 'MESSAGE_USERNAME_SAME_LIKE_OLD_ONE';
+            $this->errors[] = MESSAGE_USERNAME_SAME_LIKE_OLD_ONE;
 
         // username cannot be empty and must be azAZ09 and 2-64 characters
         // TODO: maybe this pattern should also be implemented in Registration.php (or other way round)
         } elseif (empty($user_name) || !preg_match("/^(?=.{2,64}$)[a-zA-Z][a-zA-Z0-9]*(?: [a-zA-Z0-9]+)*$/", $user_name)) {
-            $this->errors[] = 'MESSAGE_USERNAME_INVALID';
+            $this->errors[] = MESSAGE_USERNAME_INVALID;
 
         } else {
             // check if new username already exists
             $result_row = $this->getUserData($user_name);
 
             if (isset($result_row->user_id)) {
-                $this->errors[] = 'MESSAGE_USERNAME_EXISTS';
+                $this->errors[] = MESSAGE_USERNAME_EXISTS;
             } else {
                 // write user's new data into database
                 $query_edit_user_name = $this->db_connection->prepare('UPDATE users SET user_name = :user_name WHERE user_id = :user_id');
@@ -534,9 +511,9 @@ function get_client_ip() {
 
                 if ($query_edit_user_name->rowCount()) {
                     $_SESSION['user_name'] = $user_name;
-                    $this->messages[] = 'MESSAGE_USERNAME_CHANGED_SUCCESSFULLY' . $user_name;
+                    $this->messages[] = MESSAGE_USERNAME_CHANGED_SUCCESSFULLY . $user_name;
                 } else {
-                    $this->errors[] = 'MESSAGE_USERNAME_CHANGE_FAILED';
+                    $this->errors[] = MESSAGE_USERNAME_CHANGE_FAILED;
                 }
             }
         }
@@ -551,10 +528,10 @@ function get_client_ip() {
         $user_email = substr(trim($user_email), 0, 64);
 
         if (!empty($user_email) && $user_email == $_SESSION["user_email"]) {
-            $this->errors[] = 'MESSAGE_EMAIL_SAME_LIKE_OLD_ONE';
+            $this->errors[] = MESSAGE_EMAIL_SAME_LIKE_OLD_ONE;
         // user mail cannot be empty and must be in email format
         } elseif (empty($user_email) || !filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
-            $this->errors[] = 'MESSAGE_EMAIL_INVALID';
+            $this->errors[] = MESSAGE_EMAIL_INVALID;
 
         } else if ($this->databaseConnection()) {
             // check if new email already exists
@@ -566,7 +543,7 @@ function get_client_ip() {
 
             // if this email exists
             if (isset($result_row->user_id)) {
-                $this->errors[] = 'MESSAGE_EMAIL_ALREADY_EXISTS';
+                $this->errors[] = MESSAGE_EMAIL_ALREADY_EXISTS;
             } else {
                 // write users new data into database
                 $query_edit_user_email = $this->db_connection->prepare('UPDATE users SET user_email = :user_email WHERE user_id = :user_id');
@@ -576,9 +553,9 @@ function get_client_ip() {
 
                 if ($query_edit_user_email->rowCount()) {
                     $_SESSION['user_email'] = $user_email;
-                    $this->messages[] = 'MESSAGE_EMAIL_CHANGED_SUCCESSFULLY' . $user_email;
+                    $this->messages[] = MESSAGE_EMAIL_CHANGED_SUCCESSFULLY . $user_email;
                 } else {
-                    $this->errors[] = 'MESSAGE_EMAIL_CHANGE_FAILED';
+                    $this->errors[] = MESSAGE_EMAIL_CHANGE_FAILED;
                 }
             }
         }
@@ -590,13 +567,13 @@ function get_client_ip() {
     public function editUserPassword($user_password_old, $user_password_new, $user_password_repeat)
     {
         if (empty($user_password_new) || empty($user_password_repeat) || empty($user_password_old)) {
-            $this->errors[] = 'MESSAGE_PASSWORD_EMPTY';
+            $this->errors[] = MESSAGE_PASSWORD_EMPTY;
         // is the repeat password identical to password
         } elseif ($user_password_new !== $user_password_repeat) {
-            $this->errors[] = 'MESSAGE_PASSWORD_BAD_CONFIRM';
+            $this->errors[] = MESSAGE_PASSWORD_BAD_CONFIRM;
         // password need to have a minimum length of 6 characters
         } elseif (strlen($user_password_new) < 6) {
-            $this->errors[] = 'MESSAGE_PASSWORD_TOO_SHORT';
+            $this->errors[] = MESSAGE_PASSWORD_TOO_SHORT;
 
         // all the above tests are ok
         } else {
@@ -627,15 +604,15 @@ function get_client_ip() {
 
                     // check if exactly one row was successfully changed:
                     if ($query_update->rowCount()) {
-                        $this->messages[] = 'MESSAGE_PASSWORD_CHANGED_SUCCESSFULLY';
+                        $this->messages[] = MESSAGE_PASSWORD_CHANGED_SUCCESSFULLY;
                     } else {
-                        $this->errors[] = 'MESSAGE_PASSWORD_CHANGE_FAILED';
+                        $this->errors[] = MESSAGE_PASSWORD_CHANGE_FAILED;
                     }
                 } else {
-                    $this->errors[] = 'MESSAGE_OLD_PASSWORD_WRONG';
+                    $this->errors[] = MESSAGE_OLD_PASSWORD_WRONG;
                 }
             } else {
-                $this->errors[] = 'MESSAGE_USER_DOES_NOT_EXIST';
+                $this->errors[] = MESSAGE_USER_DOES_NOT_EXIST;
             }
         }
     }
@@ -649,7 +626,7 @@ function get_client_ip() {
         $user_name = trim($user_name);
 
         if (empty($user_name)) {
-            $this->errors[] = 'MESSAGE_USERNAME_EMPTY';
+            $this->errors[] = MESSAGE_USERNAME_EMPTY;
 
         } else {
             // generate timestamp (to see when exactly the user (or an attacker) requested the password reset mail)
@@ -678,10 +655,10 @@ function get_client_ip() {
                     $this->sendPasswordResetMail($user_name, $result_row->user_email, $user_password_reset_hash);
                     return true;
                 } else {
-                    $this->errors[] = 'MESSAGE_DATABASE_ERROR';
+                    $this->errors[] = MESSAGE_DATABASE_ERROR;
                 }
             } else {
-                $this->errors[] = 'MESSAGE_USER_DOES_NOT_EXIST';
+                $this->errors[] = MESSAGE_USER_DOES_NOT_EXIST;
             }
         }
         // return false (this method only returns true when the database entry has been set successfully)
@@ -733,10 +710,10 @@ function get_client_ip() {
         $mail->Body = EMAIL_PASSWORDRESET_CONTENT . ' ' . $link;
 
         if(!$mail->send()) {
-            $this->errors[] = 'MESSAGE_PASSWORD_RESET_MAIL_FAILED' . $mail->ErrorInfo;
+            $this->errors[] = MESSAGE_PASSWORD_RESET_MAIL_FAILED . $mail->ErrorInfo;
             return false;
         } else {
-            $this->messages[] = 'MESSAGE_PASSWORD_RESET_MAIL_SUCCESSFULLY_SENT';
+            $this->messages[] = MESSAGE_PASSWORD_RESET_MAIL_SUCCESSFULLY_SENT;
             return true;
         }
     }
@@ -749,7 +726,7 @@ function get_client_ip() {
         $user_name = trim($user_name);
 
         if (empty($user_name) || empty($verification_code)) {
-            $this->errors[] = 'MESSAGE_LINK_PARAMETER_EMPTY';
+            $this->errors[] = MESSAGE_LINK_PARAMETER_EMPTY;
         } else {
             // database query, getting all the info of the selected user
             $result_row = $this->getUserData($user_name);
@@ -763,10 +740,10 @@ function get_client_ip() {
                     // set the marker to true, making it possible to show the password reset edit form view
                     $this->password_reset_link_is_valid = true;
                 } else {
-                    $this->errors[] = 'MESSAGE_RESET_LINK_HAS_EXPIRED';
+                    $this->errors[] = MESSAGE_LINK_RESET_HAS_EXPIRED;
                 }
             } else {
-                $this->errors[] = 'MESSAGE_USER_DOES_NOT_EXIST';
+                $this->errors[] = MESSAGE_USER_DOES_NOT_EXIST;
             }
         }
     }
@@ -780,13 +757,13 @@ function get_client_ip() {
         $user_name = trim($user_name);
 
         if (empty($user_name) || empty($user_password_reset_hash) || empty($user_password_new) || empty($user_password_repeat)) {
-            $this->errors[] = 'MESSAGE_PASSWORD_EMPTY';
+            $this->errors[] = MESSAGE_PASSWORD_EMPTY;
         // is the repeat password identical to password
         } else if ($user_password_new !== $user_password_repeat) {
-            $this->errors[] = 'MESSAGE_PASSWORD_BAD_CONFIRM';
+            $this->errors[] = MESSAGE_PASSWORD_BAD_CONFIRM;
         // password need to have a minimum length of 6 characters
-        } else if (strlen($user_password_new) < 6) {
-            $this->errors[] = 'MESSAGE_PASSWORD_TOO_SHORT';
+        } else if (strlen($user_password_new) < MINIMUM_PASSWORD_LENGTH) {
+            $this->errors[] = MESSAGE_PASSWORD_TOO_SHORT;
         // if database connection opened
         } else if ($this->databaseConnection()) {
             // now it gets a little bit crazy: check if we have a constant HASH_COST_FACTOR defined (in config/hashing.php),
@@ -811,9 +788,9 @@ function get_client_ip() {
             // check if exactly one row was successfully changed:
             if ($query_update->rowCount() == 1) {
                 $this->password_reset_was_successful = true;
-                $this->messages[] = 'MESSAGE_PASSWORD_CHANGED_SUCCESSFULLY';
+                $this->messages[] = MESSAGE_PASSWORD_CHANGED_SUCCESSFULLY;
             } else {
-                $this->errors[] = 'MESSAGE_PASSWORD_CHANGE_FAILED';
+                $this->errors[] = MESSAGE_PASSWORD_CHANGE_FAILED;
             }
         }
     }
@@ -937,7 +914,7 @@ public function sendVerificationEmail($user_id, $user_email, $user_activation_ha
 
     if(!$mail->send()) 
     {
-      $this->errors[] = 'MESSAGE_VERIFICATION_MAIL_NOT_SENT' . $mail->ErrorInfo;
+      $this->errors[] = MESSAGE_VERIFICATION_MAIL_NOT_SENT . $mail->ErrorInfo;
       return false;
     } 
     else 
@@ -962,12 +939,12 @@ public function sendVerificationEmail($user_id, $user_email, $user_activation_ha
       if ($query_update_user->rowCount() > 0) 
       {
         $this->verification_successful = true;
-        $this->messages[] = 'MESSAGE_REGISTRATION_ACTIVATION_SUCCESSFUL';
+        $this->messages[] = MESSAGE_REGISTRATION_ACTIVATION_SUCCESSFUL;
         return true;
       } 
       else 
       {
-        $this->errors[] = 'MESSAGE_REGISTRATION_ACTIVATION_NOT_SUCCESSFUL';
+        $this->errors[] = MESSAGE_REGISTRATION_ACTIVATION_NOT_SUCCESSFUL;
         return false;
       }
     }

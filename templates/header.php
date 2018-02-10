@@ -22,6 +22,7 @@ $base_url = "http://$dir"."ElegantMVC/";
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="<?php echo $base_url;?>assets/js/customScrollEvents.js"></script>
+  <script src="<?php echo $base_url;?>assets/js/checkbox.js"></script>
 </head>
 <body>
 <nav id="navbar" class="container-fluid navbar navbar-toggleable-md navbar-light bg-faded">
