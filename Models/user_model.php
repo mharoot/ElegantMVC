@@ -351,18 +351,18 @@ function get_client_ip() {
                 $_SESSION['user_name'] = $result_row->user_name;
                 $_SESSION['user_email'] = $result_row->user_email;
                 $_SESSION['user_logged_in'] = 1;
-                $_SESSION['user_type'] = $result_row->user_type;//-michael harootoonyan
-                $_SESSION['first_name'] = $result_row->first_name;//-michael harootoonyan
-                $_SESSION['last_name'] = $result_row->last_name;//-michael harootoonyan
+                $_SESSION['user_type'] = $result_row->user_type;
+                $_SESSION['first_name'] = $result_row->first_name;
+                $_SESSION['last_name'] = $result_row->last_name;
 
                 // declare user id, set the login status to true
                 $this->user_id = $result_row->user_id;
                 $this->user_name = $result_row->user_name;
                 $this->user_email = $result_row->user_email;
                 $this->user_is_logged_in = true;
-                $this->user_type = $result_row->user_type;//-michael harootoonyan
-                $this->first_name = $result_row->first_name;//-michael harootoonyan
-                $this->last_name = $result_row->last_name;//-michael harootoonyan
+                $this->user_type = $result_row->user_type;
+                $this->first_name = $result_row->first_name;
+                $this->last_name = $result_row->last_name;
 
                 // reset the failed login counter for that user
                 $sth = $this->db_connection->prepare('UPDATE users '
