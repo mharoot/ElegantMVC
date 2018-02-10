@@ -8,6 +8,7 @@ include_once('Elegant/Model.php');
 include_once('Models/User_model.php');
 class UserTest extends TestCase
 {
+
   /*
   public function test_all() 
   {
@@ -16,7 +17,7 @@ class UserTest extends TestCase
     $we_have_all_Users = sizeof($Users) > 0;
     $this->assertTrue( $we_have_all_Users );
   }
-
+*/
   public function test_login()
   {
     $UserModel = new UserModel();
@@ -26,7 +27,7 @@ class UserTest extends TestCase
     $user_was_logged_in = $UserModel->loginWithPostData($user_name, $user_password, $user_rememberme);
     $this->assertTrue( $user_was_logged_in );
   }
-
+/*
   public function test_logout()
   {
     $UserModel = new UserModel();
@@ -49,7 +50,7 @@ class UserTest extends TestCase
   }
   */
 
-
+/*
   public function test_registration()
   {
     $UserModel = new UserModel();
@@ -65,6 +66,8 @@ class UserTest extends TestCase
     $user_name, $user_password, $user_password_repeat, $captcha);
     $this->assertTrue( $new_user_was_registered );
   }
+  */
+  
     
 
 }

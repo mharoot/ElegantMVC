@@ -209,16 +209,17 @@ function get_client_ip() {
     public function getUserData($user_name)
     {
         // if database connection opened
-        if ($this->databaseConnection()) {
+        //if ($this->databaseConnection()) {
             // database query, getting all the info of the selected user
-            $query_user = $this->db_connection->prepare('SELECT * FROM users WHERE user_name = :user_name');
-            $query_user->bindValue(':user_name', $user_name, PDO::PARAM_STR);
-            $query_user->execute();
+            //$query_user = $this->db_connection->prepare('SELECT * FROM users WHERE user_name = :user_name');
+            //$query_user->bindValue(':user_name', $user_name, PDO::PARAM_STR);
+            //$query_user->execute();
             // get result row (as an object)
-            return $query_user->fetchObject();
-        } else {
-            return false;
-        }
+            //return $query_user->fetchObject();
+        //}// else {
+            //return false;
+        //}
+        return $this->where('user_name', '=', $user_name)->get()[0]; // get result row (as an object)
     }
 
     /**
@@ -315,6 +316,7 @@ function get_client_ip() {
             if (!filter_var($user_name, FILTER_VALIDATE_EMAIL)) {
                 // database query, getting all the info of the selected user
                 $result_row = $this->getUserData(trim($user_name));
+                
 
             // if user has typed a valid email address, we try to identify him with his user_email
             } else if ($this->databaseConnection()) {
@@ -340,6 +342,7 @@ function get_client_ip() {
                         . 'SET user_failed_logins = user_failed_logins+1, user_last_failed_login = :user_last_failed_login '
                         . 'WHERE user_name = :user_name OR user_email = :user_name');
                 $sth->execute(array(':user_name' => $user_name, ':user_last_failed_login' => time()));
+                
 
                 $this->errors[] = MESSAGE_PASSWORD_WRONG;
             // has the user activated their account with the verification email
@@ -365,10 +368,13 @@ function get_client_ip() {
                 $this->last_name = $result_row->last_name;
 
                 // reset the failed login counter for that user
-                $sth = $this->db_connection->prepare('UPDATE users '
-                        . 'SET user_failed_logins = 0, user_last_failed_login = NULL '
-                        . 'WHERE user_id = :user_id AND user_failed_logins != 0');
-                $sth->execute(array(':user_id' => $result_row->user_id));
+                // $sth = $this->db_connection->prepare('UPDATE users '
+                //         . 'SET user_failed_logins = 0, user_last_failed_login = NULL '
+                //         . 'WHERE user_id = :user_id AND user_failed_logins != 0');
+                // $sth->execute(array(':user_id' => $result_row->user_id));
+                $this->user_failed_logins = 0;
+                $this->user_last_failed_login = NULL;
+                $this->where('user_id', '=', $this->user_id)->where('user_failed_logins', '!=', 0)->save();
 
                 // if user has check the "remember me" checkbox, then generate token and write cookie
                 if (isset($user_rememberme)) {
@@ -391,17 +397,18 @@ function get_client_ip() {
                         // calculate new hash with new cost factor
                         $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT, array('cost' => HASH_COST_FACTOR));
 
-                        // TODO: this should be put into another method !?
-                        $query_update = $this->db_connection->prepare('UPDATE users SET user_password_hash = :user_password_hash WHERE user_id = :user_id');
-                        $query_update->bindValue(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
-                        $query_update->bindValue(':user_id', $result_row->user_id, PDO::PARAM_INT);
-                        $query_update->execute();
+                        $this->user_password_hash = $user_password_hash;
+                        $this->where('user_id', '=', $user_id)->save();
+                        // $query_update = $this->db_connection->prepare('UPDATE users SET user_password_hash = :user_password_hash WHERE user_id = :user_id');
+                        // $query_update->bindValue(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
+                        // $query_update->bindValue(':user_id', $result_row->user_id, PDO::PARAM_INT);
+                        // $query_update->execute();
 
-                        if ($query_update->rowCount() == 0) {
-                            // writing new hash was successful. you should now output this to the user ;)
-                        } else {
-                            // writing new hash was NOT successful. you should now output this to the user ;)
-                        }
+                        // if ($query_update->rowCount() == 0) {
+                        //     // writing new hash was successful. you should now output this to the user ;)
+                        // } else {
+                        //     // writing new hash was NOT successful. you should now output this to the user ;)
+                        // }
                     }
                 }
                 return true;
