@@ -57,7 +57,8 @@ class UserView
   public function logout()
   {
       $this->controller->logout();
-      header('Location: http://localhost/github/ElegantMVC');
+      include "templates/header.php"; // just including this to use the $base_url var
+      header("Location: $base_url");
   }
 
   public function register()
