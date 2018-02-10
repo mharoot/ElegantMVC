@@ -43,7 +43,12 @@ class UserView
     $id = $param[0];
     $users = $this->controller->getUser($id);
     include "templates/header.php";  
-    include "pages/user/get.php";
+    if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 1)
+      include "pages/user/get.php";
+    else
+      echo "<p> You must be logged in as an Admin to view this page.</p>
+            <p> <a href='$base_url"."user/login'>Login</a></p>";
+            
     include "templates/footer.php";
   }
 
