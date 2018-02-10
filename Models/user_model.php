@@ -319,13 +319,15 @@ function get_client_ip() {
                 
 
             // if user has typed a valid email address, we try to identify him with his user_email
-            } else if ($this->databaseConnection()) {
+            } else {//if ($this->databaseConnection()) {
                 // database query, getting all the info of the selected user
-                $query_user = $this->db_connection->prepare('SELECT * FROM users WHERE user_email = :user_email');
-                $query_user->bindValue(':user_email', trim($user_name), PDO::PARAM_STR);
-                $query_user->execute();
+                // $query_user = $this->db_connection->prepare('SELECT * FROM users WHERE user_email = :user_email');
+                // $query_user->bindValue(':user_email', trim($user_name), PDO::PARAM_STR);
+                // $query_user->execute();
+                // // get result row (as an object)
+                // $result_row = $query_user->fetchObject();
                 // get result row (as an object)
-                $result_row = $query_user->fetchObject();
+                $result_row = $this->where('user_email', '=', trim($user_name))->get()[0];
             }
 
             // if this user not exists
@@ -338,10 +340,19 @@ function get_client_ip() {
             // using PHP 5.5's password_verify() function to check if the provided passwords fits to the hash of that user's password
             } else if (! password_verify($user_password, $result_row->user_password_hash)) {
                 // increment the failed login counter for that user
-                $sth = $this->db_connection->prepare('UPDATE users '
-                        . 'SET user_failed_logins = user_failed_logins+1, user_last_failed_login = :user_last_failed_login '
-                        . 'WHERE user_name = :user_name OR user_email = :user_name');
-                $sth->execute(array(':user_name' => $user_name, ':user_last_failed_login' => time()));
+                // $sth = $this->db_connection->prepare('UPDATE users '
+                //         . 'SET user_failed_logins = user_failed_logins+1, user_last_failed_login = :user_last_failed_login '
+                //         . 'WHERE user_name = :user_name OR user_email = :user_name');
+                // $sth->execute(array(':user_name' => $user_name, ':user_last_failed_login' => time()));
+
+                //$this->users_failed_logins = 'user_failed_logins+1'; //skeptical this will work, good time to write a store procedure..
+                //$this->user_last_failed_login = time();
+                //$this->where('user_name', '=', trim($user_name))->save();
+                $temp_user_model = $this->where('user_name', '=', trim($user_name))->get()[0];
+                $this->user_failed_logins = $temp_user_model->user_failed_logins+1;
+                $this->user_last_failed_login = time();
+                $this->where('user_name', '=', trim($user_name))->save();
+
                 
 
                 $this->errors[] = MESSAGE_PASSWORD_WRONG;
