@@ -383,9 +383,15 @@ function get_client_ip() {
                 //         . 'SET user_failed_logins = 0, user_last_failed_login = NULL '
                 //         . 'WHERE user_id = :user_id AND user_failed_logins != 0');
                 // $sth->execute(array(':user_id' => $result_row->user_id));
-                $this->user_failed_logins = 0;
-                $this->user_last_failed_login = NULL;
-                $this->where('user_id', '=', $this->user_id)->where('user_failed_logins', '!=', 0)->save();
+                $this->query('UPDATE users '
+                         . 'SET user_failed_logins = 0, user_last_failed_login = NULL '
+                         . 'WHERE user_id = :user_id AND user_failed_logins != 0');
+                $this->bind(':user_id', $result_row->user_id, PDO::PARAM_INT);
+                $this->execute();
+                //$this->user_failed_logins = 0;
+                //$this->user_last_failed_login = 'null';
+               // var_dump($this->user_last_failed_login);
+                //$this->where('user_id', '=', $this->user_id)->where('user_failed_logins', '!=', 0)->save();
 
                 // if user has check the "remember me" checkbox, then generate token and write cookie
                 if (isset($user_rememberme)) {
