@@ -23,10 +23,12 @@ class UserTest extends TestCase
     $UserModel = new UserModel();
     $user_name = 'MichaelHarootoonyan';
     $user_password = 'password';
-    $user_rememberme = null;
+    $user_rememberme = false; // note you can't use this with true in tests, however it works when ran from the browser.
     $user_was_logged_in = $UserModel->loginWithPostData($user_name, $user_password, $user_rememberme);
     $this->assertTrue( $user_was_logged_in );
   }
+
+  
 /*
   public function test_logout()
   {

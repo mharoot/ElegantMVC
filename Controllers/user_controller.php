@@ -45,7 +45,6 @@
         {
           // error checking: as of now you can't sign up for all three at the same time...
           $user_type = -1;
-          file_put_contents ( "test.txt" , "customer post isset?:");
           if(isset($_POST['customer']))
             $user_type = 2;
           else if (isset($_POST['employee']) && $user_type == -1)

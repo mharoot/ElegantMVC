@@ -26,6 +26,7 @@ else if (isset($_SESSION['user_name']))
                 <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120" alt="">
                 <p> Username: <?php echo $_SESSION['user_name'];?></p>
                 <a href="<?php echo $base_url;?>user/logout" class="pull-right need-help">Logout? </a>
+                </br>
             </div>
         </div>
     </div>

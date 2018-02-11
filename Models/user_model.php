@@ -7,7 +7,8 @@ require_once 'config/LoginRegistration.php';
 require_once 'libraries/PHPMailer.php';
 require_once 'libraries/class.smtp.php';
 
-
+error_reporting(E_ALL);
+ini_set("display_errors", '1');
 class UserModel extends Model 
 {
   /**
@@ -440,20 +441,25 @@ function get_client_ip() {
     public function newRememberMeCookie()
     {
         // if database connection opened
-        if ($this->databaseConnection()) {
+        //if ($this->databaseConnection()) {
             // generate 64 char random string and store it in current user data
             $random_token_string = hash('sha256', mt_rand().'');
-            $sth = $this->db_connection->prepare("UPDATE users SET user_rememberme_token = :user_rememberme_token WHERE user_id = :user_id");
-            $sth->execute(array(':user_rememberme_token' => $random_token_string, ':user_id' => $_SESSION['user_id']));
-
+            //$sth = $this->db_connection->prepare("UPDATE users SET user_rememberme_token = :user_rememberme_token WHERE user_id = :user_id");
+            //$sth->execute(array(':user_rememberme_token' => $random_token_string, ':user_id' => $_SESSION['user_id']));
+            $this->user_rememberme_token = $random_token_string;
+            $result = $this->where('user_id', '=', $_SESSION['user_id'])->save();
+            
             // generate cookie string that consists of userid, randomstring and combined hash of both
             $cookie_string_first_part = $_SESSION['user_id'] . ':' . $random_token_string;
             $cookie_string_hash = hash('sha256', $cookie_string_first_part . COOKIE_SECRET_KEY);
             $cookie_string = $cookie_string_first_part . ':' . $cookie_string_hash;
 
+            
+            
             // set cookie
             setcookie('rememberme', $cookie_string, time() + COOKIE_RUNTIME, "/", COOKIE_DOMAIN);
-        }
+            
+        //}
     }
 
     /**
@@ -461,17 +467,16 @@ function get_client_ip() {
      */
     public function deleteRememberMeCookie()
     {
-        // if database connection opened
-        if ($this->databaseConnection()) {
             // Reset rememberme token
-            $sth = $this->db_connection->prepare("UPDATE users SET user_rememberme_token = NULL WHERE user_id = :user_id");
-            $sth->execute(array(':user_id' => $_SESSION['user_id']));
-        }
+        $this->query("UPDATE users SET user_rememberme_token = NULL WHERE user_id = :user_id");
+        $this->bind(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $this->execute();
+
 
         // set the rememberme-cookie to ten years ago (3600sec * 365 days * 10).
         // that's obivously the best practice to kill a cookie via php
         // @see http://stackoverflow.com/a/686166/1114320
-        setcookie('rememberme', null, time() - (3600 * 3650), '/', COOKIE_DOMAIN);
+        setcookie('rememberme', '', time() - (3600 * 3650), '/', COOKIE_DOMAIN);
     }
 
     /**

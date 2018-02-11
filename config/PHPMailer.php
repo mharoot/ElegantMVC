@@ -1,8 +1,9 @@
 <?php
 //($_SERVER['SERVER_ADDR'] == '::1' ? 'localhost' : $_SERVER['SERVER_ADDR']) .':'.$_SERVER['SERVER_PORT']
-$host = $_SERVER['SERVER_NAME'];//$_SERVER['SERVER_ADDR'] == '::1' ? 'localhost' : $_SERVER['SERVER_ADDR'];
+$host = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_ADDR'] : 'localhost' ;//$_SERVER['SERVER_ADDR'] == '::1' ? 'localhost' : $_SERVER['SERVER_ADDR'];
+$domain = ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false;
 define("COOKIE_RUNTIME", 1209600);
-define("COOKIE_DOMAIN", ".$host/github/ElegantMVC/");
+define("COOKIE_DOMAIN", "$domain");
 define("COOKIE_SECRET_KEY", "1gp@TMPS{+$78sfpMJFe-92s");
 define("EMAIL_USE_SMTP", true);
 define("EMAIL_SMTP_HOST", "smtp.gmail.com");
