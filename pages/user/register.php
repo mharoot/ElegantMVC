@@ -31,7 +31,10 @@
       <?php
       if(isset($_SESSION["registration_error"])) 
       { 
-        echo '<p style="color:#DC143C;">'.$_SESSION["registration_error"][0] .'</p>';
+        foreach($_SESSION["registration_error"] as $error)
+        {
+          echo '<p style="color:#DC143C;">'.$error .'</p>';
+        }
         unset($_SESSION["registration_error"]);
       }
       ?>

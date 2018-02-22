@@ -75,15 +75,33 @@
         {
 
           
-            $result = $this->model->registerNewUser($email, $usertype, $first, $last, 
-             $username, $passnew, $passrepeat, $captcha);
-            if(count($this->model->errors) > 0)
-            {
+            $user_is_registered = $this->model->registerNewUser($email, $usertype, $first, $last, 
+            $username, $passnew, $passrepeat, $captcha);
+            if ($user_is_registered) {
+              $_SESSION["registration_success"] = $this->model->messages;
+              header('Location: ./login');
+            } else {
               $_SESSION["registration_error"] = $this->model->errors;
               header('Location: ./register');
-            }else{
-              header('Location: ./login');
             }
+        }
+
+        public function userEmailActivation($user_id, $verification_code)
+        {
+          // user/emailVerification route name
+          $user_has_been_verified = $this->model->verifyNewUser($user_id, $verification_code);
+          if ($user_has_been_verified)
+          {
+            $_SESSION["registration_success"] = $this->model->messages;
+            header('Location: ./login');
+          }
+          else
+          {
+            $_SESSION["registration_error"] = $this->model->errors;
+            header('Location: ./register');
+          }
+          
+          
         }
 
 

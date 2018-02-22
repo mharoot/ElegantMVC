@@ -21,6 +21,7 @@ require_once (__DIR__.'/Router.php');
 
 $url = isset($_SERVER['PATH_INFO']) ? explode('/', ltrim($_SERVER['PATH_INFO'],'/')) : '/';
 
+
 $_SESSION["authorization"] = 0;
 unset($_SESSION["content"]);
 $_SESSION["content"] = "";
@@ -41,6 +42,11 @@ $router->addRoute("logout","UserController","logout");
 $router->addRoute("dashboard","UserController","displayDashboard");
 $router->addRoute("register","UserController","displayRegistration");
 $router->addRoute("registered","UserController","registerUser");
+$route_name = "about-model";
+$controller = "AboutController";
+$controller_function = "aboutModel";
+$router->addRoute($route_name, $controller, $controller_function);
+$router->addRoute("user-email-verification", "UserController", "userEmailActivation");
 
 
 if(count($_GET) > 0)

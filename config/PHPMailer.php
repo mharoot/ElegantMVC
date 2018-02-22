@@ -13,13 +13,13 @@ define("EMAIL_SMTP_PASSWORD", "comp490elegant");
 define("EMAIL_SMTP_PORT", 587);
 define("EMAIL_SMTP_ENCRYPTION", "tls");
 
-define("EMAIL_PASSWORDRESET_URL", "http://$host/github/ElegantMVC/user/passwordReset");
+define("EMAIL_PASSWORDRESET_URL", "http://$host/github/ElegantMVC/user-password-reset");
 define("EMAIL_PASSWORDRESET_FROM", "ElegantORM@gmail.com");
 define("EMAIL_PASSWORDRESET_FROM_NAME", "ElegantMVC");
 define("EMAIL_PASSWORDRESET_SUBJECT", "Password reset for ElegantMVC");
 define("EMAIL_PASSWORDRESET_CONTENT", "Please click on this link to reset your password:");
 
-define("EMAIL_VERIFICATION_URL", "http://$host/github/ElegantMVC/user/emailVerification");
+define("EMAIL_VERIFICATION_URL", "http://$host/github/ElegantMVC/user-email-verification");
 define("EMAIL_VERIFICATION_FROM", "ElegantORM@gmail.com");
 define("EMAIL_VERIFICATION_FROM_NAME", "ElegantMVC");
 define("EMAIL_VERIFICATION_SUBJECT", "Account activation for ElegantMVC");

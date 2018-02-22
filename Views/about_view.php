@@ -11,9 +11,10 @@
 
         }
 
-        public function now()
+        public function model()
         {
-            
+            $_SESSION['content'] .= require_once 'pages/about/model.php';
+            require_once 'layout.html';
         }
 
 

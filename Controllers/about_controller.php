@@ -15,8 +15,8 @@
 
         }
 
-        public function about()
+        public function aboutModel()
         {
-            echo "Testing About";
+            $this->view->model();
         }
      }

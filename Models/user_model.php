@@ -124,27 +124,55 @@ function get_client_ip() {
 }
   public function registerNewUser($user_email, $user_type, $first_name, $last_name, $user_name, $user_password, $user_password_repeat, $captcha)
   {
+    $error_occured = false;
     // we just remove extra space on username and email
     $user_name  = trim($user_name);
 
     // check provided data validity
-    // TODO: check for "return true" case early, so put this first
     if (strtolower($captcha) != strtolower($_SESSION['captcha'])) {
       $this->errors[] = MESSAGE_CAPTCHA_WRONG;
-    } else if (empty($user_name)) {
-      $this->errors[] = MESSAGE_USERNAME_EMPTY;
-    } elseif (empty($user_password) || empty($user_password_repeat)) {
-      $this->errors[] = MESSAGE_PASSWORD_EMPTY;
-    } elseif ($user_password !== $user_password_repeat) {
-      $this->errors[] = MESSAGE_PASSWORD_BAD_CONFIRM;
-    } elseif (strlen($user_password) < 6) {
-      $this->errors[] = MESSAGE_PASSWORD_TOO_SHORT;
-    } elseif (strlen($user_name) > 64 || strlen($user_name) < 2) {
-      $this->errors[] = MESSAGE_USERNAME_BAD_LENGTH;
-    } elseif (!preg_match('/^[a-z\d]{2,64}$/i', $user_name)) {
-      $this->errors[] = MESSAGE_USERNAME_INVALID;
+      $error_occured = true;
     } 
-    else if ($this->databaseConnection()) {
+    if (empty($user_name)) {
+      $this->errors[] = MESSAGE_USERNAME_EMPTY;
+      $error_occured = true;
+    } 
+    if (empty($user_password) || empty($user_password_repeat)) {
+      $this->errors[] = MESSAGE_PASSWORD_EMPTY;
+      $error_occured = true;
+    } 
+    if ($user_password !== $user_password_repeat) {
+      $this->errors[] = MESSAGE_PASSWORD_BAD_CONFIRM;
+      $error_occured = true;
+    } 
+    if (strlen($user_password) < MINIMUM_PASSWORD_LENGTH) {
+      $this->errors[] = MESSAGE_PASSWORD_TOO_SHORT;
+      $error_occured = true;
+    } 
+    if (strlen($user_name) > 64 || strlen($user_name) < 5) {
+      $this->errors[] = MESSAGE_USERNAME_BAD_LENGTH;
+      $error_occured = true;
+    } 
+    if (!preg_match('/^[a-z\d]{5,64}$/i', $user_name)) {
+      $this->errors[] = MESSAGE_USERNAME_INVALID;
+      $error_occured = true;
+    } 
+    if (!isset($user_type)) {
+      $this->errors[] = "Please select the type of user you are registering as.";
+      $error_occured = true;
+    } 
+    if ($user_type < 2 || 4 < $user_type) {
+      $this->errors[] = "You will be banned for attempting html injection.  Your ip address has been flagged.";
+      $error_occured = true;
+    }
+
+    if ($error_occured) {
+        return false;
+    }
+    
+
+
+    if ($this->databaseConnection()) {
       // check if username or email already exists
       $query_check_user_name = $this->db_connection->prepare('SELECT user_name FROM users WHERE user_name=:user_name or user_email=:user_email');
       $query_check_user_name->bindValue(':user_name', $user_name, PDO::PARAM_STR);
@@ -187,15 +215,15 @@ function get_client_ip() {
         if ($query_new_user_insert) {
           $this->messages[] = MESSAGE_REGISTRATION_SUCCESSFUL;
           $this->sendVerificationEmail($user_id, $user_email, $user_activation_hash);
-          //return true;
+          return true;
         } 
         else {
           $this->errors[] = MESSAGE_REGISTRATION_FAILED;
-          //return false;
+          return false;
         }
       }
     }
-    return $this;
+
   }
 
 

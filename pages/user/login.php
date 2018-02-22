@@ -2,6 +2,16 @@
   <div class="brand-box">
     Elegant E-Commerce Store Login 
   </div>
+<?php
+if(isset($_SESSION["registration_success"])) 
+{ 
+  foreach($_SESSION["registration_success"] as $error)
+  {
+    echo '<p style="color:green;"><b>'.$error .'</b></p>';
+  }
+  unset($_SESSION["registration_success"]);
+}
+?>
   <div class="row">
     <div class="col">
       <form action="./loggingin" method="post">
