@@ -24,45 +24,14 @@ class CustomerModel extends Model {
 		$this->address = $address;
 		return $this->save();
 	}
-	/*
+
 	public function updateById($id,$name, $address)
 	{
 		$this->name = $name;
 		$this->address = $address;
 		return $this->where('id', '=', 5)->save();
 	}
-	*/
-	
-	public function updateById($field, $value)
-	{
-		
-		if ($field == 'CustomerName')
-		{
-			$this->CustomerName = $value;
-		}
-		if ($field == 'ContactName')
-		{
-			$this->ContactName = $value;
-		}
-		if ($field == 'Address')
-		{
-			$this->Address = $value;
-		}
-		if ($field == 'City')
-		{
-			$this->City = $value;
-		}
-		if ($field == 'PostalCode')
-		{
-			$this->PostalCode = $value;
-		}
-		if ($field == 'Country')
-		{
-			$this->Country = $value;
-		}
-		return $this->where('CustomerID', '=', 1)->save();
-	}
-	
+
 	public function deleteCustomer($customer_id)
 	{
 		return $this->where('CustomerID', '=', $customer_id)->delete();
@@ -91,11 +60,7 @@ class CustomerModel extends Model {
 	}
 	
 
-	public function reviewBillingInformation()
-		{
-			//$var = $_SESSION[''];
-			return $this->getCustomer('1');
-		}
+	
 
 
 	

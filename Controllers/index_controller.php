@@ -5,16 +5,17 @@
     */
     class IndexController
     {
-        private $model;
+        private $view;
 
-        function __construct($model)
+        function __construct()
         {
-            $this->model = $model;
+          
         }
 
-        public function sayWelcome()
+        public function index()
         {
-            return $this->model->welcomeMessage();
+            $content = null;
+            require_once 'layout.html';
         }
 
 

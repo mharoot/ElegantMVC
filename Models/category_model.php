@@ -1,28 +1,18 @@
-<?php
+<?php 
 declare(strict_types=1);
 
-    class CategoryModel extends Model 
+    class CategoryModel extends Model
     {
 
-        //private $message = 'Welcome to Home page.';
-
-        function __construct()
+        public function __construct()
         {
-			$this->table_name = 'categories';
-			parent::__construct($this);
+            $this->table_name = "categories";
+            parent::__construct($this);
         }
 
-        public function getCategories()
+        public function categories()
         {
-            return $this->all();
+        	return $this->get();
         }
-		
-		public function create($CategoryName , $Description)
-		{
-			$this->CategoryName = $CategoryName;
-			$this->Description = $Description;
-			$this->save();
-		}
 
     }
-?>

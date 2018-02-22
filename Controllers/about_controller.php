@@ -5,17 +5,18 @@
     */
     class AboutController
     {
-        private $modelObj;
+        private $model;
+        private $view;
 
-        function __construct( $model )
+        function __construct()
         {
-            $this->modelObj = $model;
+            $this->model = new AboutModel();
+            $this->view = new AboutView();
 
         }
 
-        public function current()
+        public function about()
         {
-            $this->modelObj->setMessage("About us today changed by aboutController.");
-            return $this->modelObj->getMessage();
+            echo "Testing About";
         }
      }

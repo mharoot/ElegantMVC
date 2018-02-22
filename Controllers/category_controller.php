@@ -1,25 +1,23 @@
-<?php
+<?php 
+declare(strict_types=1);
 
-    /**
-    * The Categories page controller
-    */
     class CategoryController
     {
-        private $modelObj;
 
-        function __construct( $model )
+        
+        private $view;
+        private $model;
+        public function __construct()
         {
-            $this->modelObj = $model;
-
+            $this->view = new CategoryView();
+            $this->model = new CategoryModel();
         }
 
-        /**
-         * Public methods
-         */
-		 
-		public function showCategories()
+        public function displayCategory()
         {
-            return $this->modelObj->getCategories();
+            $categories = $this->model->get();
+        	$this->view->categories($categories);
         }
 
-     }
+
+    }

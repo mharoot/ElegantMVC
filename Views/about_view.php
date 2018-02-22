@@ -6,42 +6,14 @@
     class AboutView
     {
 
-        private $modelObj;
-
-        private $controller;
-
-
-        function __construct($controller, $model)
+        function __construct()
         {
-            $this->controller = $controller;
 
-            $this->modelObj = $model;
-
-            //print "About - ";
         }
 
         public function now()
         {
-            return $this->modelObj->nowADays();
-        }
-
-        public function today()
-        {
-            return $this->controller->current();
-        }
-
-        public function model()
-        {
-            include "templates/header.php";  
-            include "pages/about/model.php";
-            include "templates/footer.php";
-        }
-
-        public function queryBuilder()
-        {
-            include "templates/header.php";
-            include "pages/about/queryBuilder.php";
-            include "templates/footer.php";
+            
         }
 
 

@@ -1,0 +1,132 @@
+
+
+.bg-company{
+  background-color: #316884 !important;
+}
+
+
+
+.collapse{
+  color: #FA5C63 !important;
+}
+ .btn-primary, .btn-primary:active, .btn-primary:visited {
+    background-color: #316884 !important;
+    border-color: #316884 !important;
+    border-radius: 0;
+
+}
+.btn-primary:hover{
+	background: #FFFFFF ! important;
+	color: #316884 ! important;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.row{
+	position: relative;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #316884;
+  border-color: #000000;
+  color: #FFFFFF !important;
+  font-color: #FFF !important;
+}
+
+.btn-outline-success, .btn-primary:active, .btn-primary:visited {
+	background-color: transparent; !important;
+    border-color: #FFFFFF !important;
+ 	color: #FFFFFF;
+    border-radius: 0;
+}
+
+.btn-outline-success:hover{
+	background: #FFFFFF ! important;
+	color: #316884 ! important;
+}
+.fc{
+	border-radius: 0px;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+
+    top: 0;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    background-color: #eee;
+}
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+body{
+	padding-top: 65px;
+	padding-bottom: 65px;
+}
+
+.sidenav {
+    height: 80%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 65px;
+    bottom:65px;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+.dp{
+	left:265px;
+}
+
+.brand-box {
+  background:  #316884 ! important;
+	color: #FFFFFF ! important;
+  height: 400px;
+  width: 100%;
+  background: #000;
+  font-size: 48px;
+  color: #FFF;
+  text-align: center;
+  padding: 20 20px;
+  margin: 0 auto 50px;
+  display: flex;
+  justify-content: center;
+  /* align horizontal */
+  align-items: center;
+  /* align vertical */
+
+}
+
+
+
+
+

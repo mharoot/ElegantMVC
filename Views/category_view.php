@@ -6,41 +6,19 @@
     class CategoryView
     {
 
-        private $modelObj;
 
-        private $controller;
-
-
-        function __construct($controller, $model)
+        function __construct()
         {
-            $this->controller = $controller;
 
-            $this->modelObj = $model;
-
-            //print "Categories - ";
-			//$this->categories();
         }
 
-        /**
-         * Action Methods
-         */
-		 
-		public function categories()
-        {
-            $categories = $this->controller->showCategories();
-            include "templates/header.php";  
-            include "pages/category/all.php";
-            include "templates/footer.php";
 
+		 
+		public function categories($categories)
+        {
+            $_SESSION['content'] .= require_once 'pages/category/categories.php';
+            require_once 'layout.html';
         }
 		
-		public function create()
-		{
-			$this->modelObj->create('New Category','test category');
-		}
-        
-		public function hello()
-		{
-			echo 'hello';
-		}
+
     }

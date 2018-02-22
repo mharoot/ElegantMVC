@@ -1,16 +1,18 @@
-<?php
+<?php 
 declare(strict_types=1);
-class SupplierModel extends Model 
+
+class SupplierModel extends Model
 {
-	public function __construct()  
-	{  
-			$this->table_name = 'suppliers';
-			parent::__construct($this);
-	}
-	
-	public function getAllSuppliers()
-	{
-        return $this->all();
-	}
+
+    public function __construct()
+    {
+        $this->table_name = "suppliers";
+        parent::__construct($this);
+    }
+
+    public function getSuppliers()
+    {
+        return $this->get();
+    }
+
 }
-?>
