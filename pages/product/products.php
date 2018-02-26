@@ -1,11 +1,19 @@
 <div class="container dp">
+
 	<?php
-        foreach ($products as $p) {
-        echo '<div class="row"><p>'.$p->ProductName."</p>
-        <p>".$p->SupplierID ."</p>
-        <p>".$p->CategoryID ."</p>
-        <p>".$p->Unit ."</p>
-        <p>".$p->Price ."</p></div>";
-    	}
-    ?>
+        foreach ($products as $p) 
+        {?>
+
+        <div class="row">
+            <ul style="list-style-type: none;"><li><b>Product: </b><?php echo $p->ProductName; ?></li>
+                <li><b>SupplierID: </b><?php echo $p->SupplierID; ?></li>
+                <li><b>CategoryID: </b><?php echo $p->CategoryID; ?></li>
+                <li><b>Unit: </b><?php echo $p->Unit; ?></li>
+                <li><b>Price: </b><?php echo $p->Price; ?></li>
+            </ul>
+        </div>
+
+    <?php
+        }?>
+        
 </div>
