@@ -1,25 +1,14 @@
 <?php
-
     /**
     * The Customer page view
     */
     class CustomerView
     {
-
-        private $modelObj;
-
-        private $controller;
-
-
-        function __construct($controller, $model)
+        
+        function __construct()
         {
-            $this->controller = $controller;
 
-            $this->modelObj = $model;
-
-            print "Customer - ";
         }
-
         public function orders()
         {
             print "Orders";
@@ -45,10 +34,25 @@
             echo '</ul>';
         }
 
+        public function reviewBillingInformation($info)
+        {
+
+            $_SESSION['content'] .= require_once 'pages/customer/reviewBillingInformation.php';
+            require_once 'layout.html';
+        }
+        
+        
+        public function editBillingInformation($info)
+        {
+          
+            $_SESSION['content'] .= require_once 'pages/customer/editBillingInformation.php';
+            require_once 'layout.html';
+        }
+        
+       
+        
         // public function today()
         // {
         //     return $this->controller->current();
         // }
-
-
     }

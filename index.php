@@ -21,8 +21,17 @@ require_once (__DIR__.'/Router.php');
 
 $url = isset($_SERVER['PATH_INFO']) ? explode('/', ltrim($_SERVER['PATH_INFO'],'/')) : '/';
 
+$_SESSION["page"] = $url[0];
 
-$_SESSION["authorization"] = 0;
+if(!isset($_SESSION["user_type"]))
+{
+	$_SESSION["authorization"] = 0;
+}
+else
+{
+	$_SESSION["authorization"] = $_SESSION["user_type"];
+}
+
 unset($_SESSION["content"]);
 $_SESSION["content"] = "";
 
@@ -47,6 +56,10 @@ $controller = "AboutController";
 $controller_function = "aboutModel";
 $router->addRoute($route_name, $controller, $controller_function);
 $router->addRoute("user-email-verification", "UserController", "userEmailActivation");
+
+$router->addRoute("review-billing-information", "CustomerController", "reviewBillingInformation",array(2));
+$router->addRoute("edit-billing-information", "CustomerController", "editBillingInformation",array(2));
+$router->addRoute("insert-new-billing-information", "CustomerController", "insertNewBillingInformation",array(2));
 
 
 if(count($_GET) > 0)
