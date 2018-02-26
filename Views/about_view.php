@@ -17,5 +17,11 @@
             require_once 'layout.html';
         }
 
+        public function queryBuilder()
+        {
+            $_SESSION['content'] .= require_once 'pages/about/query-builder.php';
+            require_once 'layout.html';
+        }
+
 
     }

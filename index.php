@@ -56,6 +56,7 @@ $controller = "AboutController";
 $controller_function = "aboutModel";
 $router->addRoute($route_name, $controller, $controller_function);
 $router->addRoute("user-email-verification", "UserController", "userEmailActivation");
+$router->addRoute("about-query-builder", "AboutController", "aboutQueryBuilder");
 
 $router->addRoute("review-billing-information", "CustomerController", "reviewBillingInformation",array(2));
 $router->addRoute("edit-billing-information", "CustomerController", "editBillingInformation",array(2));

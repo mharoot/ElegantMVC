@@ -19,4 +19,9 @@
         {
             $this->view->model();
         }
+
+        public function aboutQueryBuilder()
+        {
+            $this->view->queryBuilder();
+        }
      }
