@@ -315,7 +315,7 @@
 <!-- PAGINATE -->
 
 <p><a name="paginate"></a></p>
-<h4>Pagination </h4>
+<h2><a href="#paginate">Pagination</a></h2>
 <p> The paginate function will return an array of data indexed at page 1 to the last page which can be accessed
     through the key <code> 'last_page' </code>. It can be combined at the end of a clause.</p>
 
