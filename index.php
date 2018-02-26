@@ -62,6 +62,8 @@ $router->addRoute("review-billing-information", "CustomerController", "reviewBil
 $router->addRoute("edit-billing-information", "CustomerController", "editBillingInformation",array(2));
 $router->addRoute("insert-new-billing-information", "CustomerController", "insertNewBillingInformation",array(2));
 
+$router->addRoute("suppliers", "SupplierController", "displaySupplier");
+
 
 if(count($_GET) > 0)
 {
