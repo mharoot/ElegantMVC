@@ -5,27 +5,9 @@
 */
 class SupplierView
 {
-
-  private $modelObj;
-
-  private $controller;
-
-
-  function __construct($controller, $model)
+  public function suppliers($suppliers)
   {
-    $this->controller = $controller;
-    $this->modelObj = $model;
+    $_SESSION['content'] .= require_once 'pages/supplier/suppliers.php';
+    require_once 'layout.html';
   }
-
-  /**
-   * Action Methods
-   */
-  public function all()
-  {
-    $suppliers = $this->controller->getSuppliers();
-    include "templates/header.php";  
-    include "pages/supplier/all.php";
-    include "templates/footer.php";
-  }
-
 }
