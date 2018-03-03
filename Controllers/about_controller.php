@@ -24,4 +24,9 @@
         {
             $this->view->queryBuilder();
         }
+
+        public function dbUML()
+        {
+            $this->view->dbUML();
+        }
      }

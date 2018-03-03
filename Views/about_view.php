@@ -23,5 +23,10 @@
             require_once 'layout.html';
         }
 
+        public function dbUML()
+        {
+            require_once 'pages/emvc-db-uml.html';
+        }
+
 
     }

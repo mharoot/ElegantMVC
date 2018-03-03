@@ -55,6 +55,7 @@ $route_name = "about-model";
 $controller = "AboutController";
 $controller_function = "aboutModel";
 $router->addRoute($route_name, $controller, $controller_function);
+$router->addRoute("db-uml", "AboutController", "dbUML");
 $router->addRoute("user-email-verification", "UserController", "userEmailActivation");
 $router->addRoute("about-query-builder", "AboutController", "aboutQueryBuilder");
 
