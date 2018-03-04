@@ -54,8 +54,8 @@ class UserTest extends TestCase
   */
 
 
-  /* passed
-  public function test_registration()
+
+  /*public function test_registration()
   {
     $UserModel = new UserModel();
     $UserModel->user_email           = 'elegantorm@gmail.com';
@@ -68,9 +68,28 @@ class UserTest extends TestCase
     $UserModel->user_registration_ip = '127.0.0.1';
     $UserModel->user_registration_datetime = date('Y-m-d H:i:s');
     $new_user_inserted = $UserModel->save();
-    $UserModel->assertTrue( $new_user_inserted );
+    $this->assertTrue( $new_user_inserted );
   }
   */
+  
+  public function test_integration_registration()
+  {
+    $UserModel = new UserModel();  
+    $user_email           = 'elegantorm@gmail.com';
+    $user_type            = 2;
+    $first_name           = 'Elegant';
+    $last_name            = 'ORM';
+    $user_name            = 'ElegantORM';
+    $password             = 'password';
+    $captcha              = 'captcha';
+    $_SESSION['captcha']  = $captcha;
+
+
+    $result = $UserModel->registerNewUser($user_email, $user_type, $first_name, $last_name, $user_name, $password, $password, $captcha);
+
+    $this->assertTrue($result);
+
+  }
   
   
     

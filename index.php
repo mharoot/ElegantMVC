@@ -72,7 +72,6 @@ $router->addRoute("insert-new-billing-information", "CustomerController", "inser
 
 $router->addRoute("suppliers", "SupplierController", "displaySupplier");
 
-
 if(count($_GET) > 0)
 {
     $router->routePage($url[0],$_GET);

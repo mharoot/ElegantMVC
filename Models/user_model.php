@@ -185,6 +185,7 @@ class UserModel extends Model
         if ($error_occured) {
             return false;
         }
+
         
 
 
@@ -226,7 +227,7 @@ class UserModel extends Model
             // $query_new_user_insert->bindValue(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
             // $query_new_user_insert->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
 
-            $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "unkown";
+            $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "127.0.0.1";
 
             // $query_new_user_insert->bindValue(':user_registration_ip', $ip, PDO::PARAM_STR);
 
@@ -245,11 +246,10 @@ class UserModel extends Model
             $this->user_registration_ip = $ip;
             $this->user_registration_datetime = date('Y-m-d H:i:s');
             $new_user_inserted = $this->save();
-
             if ($new_user_inserted) 
             {
                 $this->messages[] = MESSAGE_REGISTRATION_SUCCESSFUL;
-                $this->sendVerificationEmail($user_id, $user_email, $user_activation_hash);
+                $this->sendVerificationEmail($this->lastInsertId(), $user_email, $user_activation_hash);
                 return true;
             } 
             else 
@@ -464,7 +464,6 @@ class UserModel extends Model
                 $this->execute();
                 //$this->user_failed_logins = 0;
                 //$this->user_last_failed_login = 'null';
-               // var_dump($this->user_last_failed_login);
                 //$this->where('user_id', '=', $this->user_id)->where('user_failed_logins', '!=', 0)->save();
 
                 // if user has check the "remember me" checkbox, then generate token and write cookie
