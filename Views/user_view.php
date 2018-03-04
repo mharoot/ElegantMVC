@@ -1,72 +1,35 @@
 <?php
 
-  /**
-  * The User page view
-  */
-  class UserView
+/**
+* The User page view
+*/
+class UserView
+{
+  public function dashboard()
   {
-
-
-
-    function __construct()
-    {
-
-
-    }
-
-
-
-
-
-    /*
-    public function emailVerification()
-    {
-      include "templates/header.php";  
-      $message = "FAILED TO ACTIVATE ACCOUNT!";
-      if (isset($_GET['id']) && isset($_GET['verification_code']))
-      {
-        if ($this->controller->verifyUser($_GET['id'], $_GET['verification_code']))
-        {
-          $message = "REGISTRATION ACTIVATION SUCCESSFUL!";
-        }
-      }
-      include "pages/user/email-verification.php";
-      include "templates/footer.php";
-    }
-
-    public function get($param)
-    {
-      $id = $param[0];
-      $users = $this->controller->getUser($id);
-      include "templates/header.php";  
-      if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 1)
-        include "pages/user/get.php";
-      else
-        echo "<p> You must be logged in as an Admin to view this page.</p>
-              <p> <a href='$base_url"."user/login'>Login</a></p>";
-              
-      include "templates/footer.php";
-    }
-  */
-    public function success()
-    {
-      echo "<h1> SUCCESSFUL </h1>";
-    }
-    public function login()
-    {
-      if(!isset($_SESSION['user_name']))
-      {
-        $_SESSION['content'] .= require_once 'pages/user/login.php';
-      }
-     require_once 'layout.html';
-   }
-
-   public function dashboard()
-   {
-
     $_SESSION['content'] .= require_once 'pages/user/dashboard.php';
     require_once 'layout.html';
+  }
 
+  public function editPasswordForm()
+  {
+    $_SESSION['content'] .= require_once 'pages/user/edit-password-form.php';
+    require_once 'layout.html';
+  }
+
+  public function forgotPasswordForm()
+  {
+    $_SESSION['content'] .= require_once 'pages/user/forgot-password-form.php';
+    require_once 'layout.html';
+  }
+
+  public function login()
+  {
+    if(!isset($_SESSION['user_name']))
+    {
+      $_SESSION['content'] .= require_once 'pages/user/login.php';
+    }
+    require_once 'layout.html';
   }
 
   public function registration()
@@ -74,50 +37,4 @@
     $_SESSION['content'] .= require_once 'pages/user/register.php';
     require_once 'layout.html';
   }
-  /*
-    public function logout()
-    {
-        $this->controller->logout();
-        include "templates/header.php"; // just including this to use the $base_url var
-        header("Location: $base_url");
-    }
-
-    public function register()
-    {
-      include "templates/header.php";  
-      
-
-      if(isset($_POST['register']))
-      {
-        $this->modelObj = $this->controller->registerUser();
-        if (isset($this->modelObj->messages[0]) ) // uses $_POST, no need to pass parameters
-        {
-          $html_output = "";
-          foreach($this->modelObj->messages as $message) {
-            $html_output.= "<li>$message</li>";
-          }
-          $html_output.="</ul></p>";
-          echo $html_output;
-        }
-        else if(isset($this->modelObj->errors[0]))
-        {
-          $html_output = "<p>Failed to register!</p><p>Reason(s):<ul>";
-          foreach($this->modelObj->errors as $error) {
-            $html_output.= "<li>$error</li>";
-          }
-          $html_output.="</ul></p>";
-          echo $html_output;
-        }
-      }
-      else
-      {
-        include "pages/user/register-form.php";
-      }
-      
-      include "templates/footer.php";
-      
-    }
-
-    */
-
-  }
+}

@@ -58,6 +58,13 @@ $router->addRoute($route_name, $controller, $controller_function);
 $router->addRoute("db-uml", "AboutController", "dbUML");
 $router->addRoute("user-email-verification", "UserController", "userEmailActivation");
 $router->addRoute("about-query-builder", "AboutController", "aboutQueryBuilder");
+$router->addRoute("forgot-password-form", "UserController", "displayForgotPasswordForm");
+$router->addRoute("forgot-password", "UserController", "userForgotPasswordEmailReset");
+
+$router->addRoute("user-password-reset", "UserController", "displayEditPasswordForm");
+$router->addRoute("edit-password-form", "UserController", "displayEditPasswordForm");
+$router->addRoute("edit-password", "UserController", "editPassword");
+
 
 $router->addRoute("review-billing-information", "CustomerController", "reviewBillingInformation",array(2));
 $router->addRoute("edit-billing-information", "CustomerController", "editBillingInformation",array(2));
