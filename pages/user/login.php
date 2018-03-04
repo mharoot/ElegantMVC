@@ -32,12 +32,18 @@ if(isset($_SESSION["registration_success"]))
         }
 
         ?>
-
-        <div class="checkbox">
-         <label>
-           <input name="remember_me" type="checkbox"> Remember me
-         </label>
-         <input  type="hidden" value="No" name="remember_me">
+        <div class="row">
+          <div class="col">
+            <div class="checkbox">
+              <label>
+                <input name="remember_me" type="checkbox"> Remember me
+              </label>
+              <input  type="hidden" value="No" name="remember_me">
+            </div>
+          </div>
+          <div class="col">
+            <a href="./forgot-password-form">Forgot Password?</a>
+          </div>
        </div>
        <button type="submit" class="btn btn-primary">Sign in</button>
      </form>
