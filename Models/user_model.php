@@ -11,224 +11,254 @@ error_reporting(E_ALL);
 ini_set("display_errors", '1');
 class UserModel extends Model 
 {
-  /**
-   * @var object $db_connection The database connection
-   */
-  private $db_connection = null;
-  /**
-   * @var int $user_id The user's id
-   */
-  public $user_id = null;
-  /**
-   * @var string $user_name The user's name
-   */
-  public $user_name = "";
-  /**
-   * @var string $user_email The user's mail
-   */
-  public $user_email = "";
-  /**
-   * @var boolean $user_is_logged_in The user's login status
-   */
-  public $user_is_logged_in = false;
-  /**
-   * @var string $user_gravatar_image_url The user's gravatar profile pic url (or a default one)
-   */
-  public $user_gravatar_image_url = "";
-  /**
-   * @var string $user_gravatar_image_tag The user's gravatar profile pic url with <img ... /> around
-   */
-  public $user_gravatar_image_tag = "";
-  /**
-   * @var boolean $password_reset_link_is_valid Marker for view handling
-   */
-  public $password_reset_link_is_valid  = false;
-  /**
-   * @var boolean $password_reset_was_successful Marker for view handling
-   */
-  public $password_reset_was_successful = false;
-  /**
-  * @var bool success state of registration
-  */
-  public  $registration_successful  = false;
-  /**
-  * @var bool success state of verification
-  */
-  public  $verification_successful  = false;
-  /**
-  * @var array collection of error messages
-  */
-  public  $errors                   = array();
-  /**
-  * @var array collection of success / neutral messages
-  */
-  public  $messages                 = array();
+    /**
+     * @var object $db_connection The database connection
+     */
+    private $db_connection = null;
+    /**
+     * @var int $user_id The user's id
+     */
+    public $user_id = null;
+    /**
+     * @var string $user_name The user's name
+     */
+    public $user_name = "";
+    /**
+     * @var string $user_email The user's mail
+     */
+    public $user_email = "";
+    /**
+     * @var boolean $user_is_logged_in The user's login status
+     */
+    public $user_is_logged_in = false;
+    /**
+     * @var string $user_gravatar_image_url The user's gravatar profile pic url (or a default one)
+     */
+    public $user_gravatar_image_url = "";
+    /**
+     * @var string $user_gravatar_image_tag The user's gravatar profile pic url with <img ... /> around
+     */
+    public $user_gravatar_image_tag = "";
+    /**
+     * @var boolean $password_reset_link_is_valid Marker for view handling
+     */
+    public $password_reset_link_is_valid  = false;
+    /**
+     * @var boolean $password_reset_was_successful Marker for view handling
+     */
+    public $password_reset_was_successful = false;
+    /**
+     * @var bool success state of registration
+    */
+    public  $registration_successful  = false;
+    /**
+     * @var bool success state of verification
+    */
+    public  $verification_successful  = false;
+    /**
+     * @var array collection of error messages
+    */
+    public  $errors                   = array();
+    /**
+     * @var array collection of success / neutral messages
+    */
+    public  $messages                 = array();
 
 
-  public function __construct()  
-  {  
-    $this->table_name = 'Users';
-    parent::__construct($this);
-  }
+    public function __construct()  
+    {  
+        $this->table_name = 'Users';
+        parent::__construct($this);
+    }
 
-  public function getAllUsers()
-  {
-      return $this->all();
-  }
+    // admin function
+    public function getAllUsers()
+    {
+        return $this->all();
+    }
 
-  public function getUserByID($id)
-  {
-      return $this->where('user_id', '=', $id)->get();
-  }
+    // admin function
+    public function getUserByID($id)
+    {
+        return $this->where('user_id', '=', $id)->get();
+    }
 
-  /**
-   * Checks if database connection is opened. If not, then this method tries to open it.
-   * @return bool Success status of the database connecting process
-   */
-  public function databaseConnection()
-  {
-    // if connection already exists
-    if ($this->db_connection != null) {
-        return true;
-    } else {
-        try {
-            include_once('Elegant/dbconfig.php');
-            $this->db_connection = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
+    /**
+     * Checks if database connection is opened. If not, then this method tries to open it.
+     * @return bool Success status of the database connecting process
+     */
+    public function databaseConnection()
+    {
+        // if connection already exists
+        if ($this->db_connection != null) {
             return true;
-        } catch (PDOException $e) {
-            $this->errors[] = MESSAGE_DATABASE_ERROR . $e->getMessage();
+        } else {
+            try {
+                include_once('Elegant/dbconfig.php');
+                $this->db_connection = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
+                return true;
+            } catch (PDOException $e) {
+                $this->errors[] = MESSAGE_DATABASE_ERROR . $e->getMessage();
+            }
         }
-    }
-    // default return
-    return false;
-  }
-
-// Function to get the client IP address
-function get_client_ip() {
-    $ipaddress = '';
-    if (isset($_SERVER['HTTP_CLIENT_IP']))
-        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-    else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    else if(isset($_SERVER['HTTP_X_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-    else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-    else if(isset($_SERVER['HTTP_FORWARDED']))
-        $ipaddress = $_SERVER['HTTP_FORWARDED'];
-    else if(isset($_SERVER['REMOTE_ADDR']))
-        $ipaddress = $_SERVER['REMOTE_ADDR'];
-    else
-        $ipaddress = 'UNKNOWN';
-    return $ipaddress;
-}
-  public function registerNewUser($user_email, $user_type, $first_name, $last_name, $user_name, $user_password, $user_password_repeat, $captcha)
-  {
-    $error_occured = false;
-    // we just remove extra space on username and email
-    $user_name  = trim($user_name);
-
-    // check provided data validity
-    if (strtolower($captcha) != strtolower($_SESSION['captcha'])) {
-      $this->errors[] = MESSAGE_CAPTCHA_WRONG;
-      $error_occured = true;
-    } 
-    if (empty($user_name)) {
-      $this->errors[] = MESSAGE_USERNAME_EMPTY;
-      $error_occured = true;
-    } 
-    if (empty($user_password) || empty($user_password_repeat)) {
-      $this->errors[] = MESSAGE_PASSWORD_EMPTY;
-      $error_occured = true;
-    } 
-    if ($user_password !== $user_password_repeat) {
-      $this->errors[] = MESSAGE_PASSWORD_BAD_CONFIRM;
-      $error_occured = true;
-    } 
-    if (strlen($user_password) < MINIMUM_PASSWORD_LENGTH) {
-      $this->errors[] = MESSAGE_PASSWORD_TOO_SHORT;
-      $error_occured = true;
-    } 
-    if (strlen($user_name) > 64 || strlen($user_name) < 5) {
-      $this->errors[] = MESSAGE_USERNAME_BAD_LENGTH;
-      $error_occured = true;
-    } 
-    if (!preg_match('/^[a-z\d]{5,64}$/i', $user_name)) {
-      $this->errors[] = MESSAGE_USERNAME_INVALID;
-      $error_occured = true;
-    } 
-    if (!isset($user_type)) {
-      $this->errors[] = "Please select the type of user you are registering as.";
-      $error_occured = true;
-    } 
-    if ($user_type < 2 || 4 < $user_type) {
-      $this->errors[] = "You will be banned for attempting html injection.  Your ip address has been flagged.";
-      $error_occured = true;
-    }
-
-    if ($error_occured) {
+        // default return
         return false;
     }
-    
 
 
-    if ($this->databaseConnection()) {
-      // check if username or email already exists
-    //   $query_check_user_name = $this->db_connection->prepare('SELECT user_name FROM users WHERE user_name=:user_name or user_email=:user_email');
-    //   $query_check_user_name->bindValue(':user_name', $user_name, PDO::PARAM_STR);
-    //   $query_check_user_name->bindValue(':user_email', $user_email, PDO::PARAM_STR);
-    //   $query_check_user_name->execute();
-    //   $result = $query_check_user_name->fetchAll();
 
-      $result = $this->where('user_name', '=', $user_name)
-                     ->orWhere('user_email', '=', $user_email)
-                     ->get();
-
-      // if username or/and email find in the database
-      // TODO: this is really awful!
-      if (count($result) > 0) {
-        for ($i = 0; $i < count($result); $i++) {
-        $this->errors[] = ($result[$i]->user_name== $user_name) ? MESSAGE_USERNAME_EXISTS : MESSAGE_EMAIL_ALREADY_EXISTS;
-        }
-      } 
-      else 
-      {
-        $hash_cost_factor = (defined('HASH_COST_FACTOR') ? HASH_COST_FACTOR : null);
-
-        $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT, array('cost' => $hash_cost_factor));
-        $user_activation_hash = sha1(uniqid(mt_rand().'', true));
-
-        // write new users data into database                                                                                                                                                                                                                                                                           
-        $query_new_user_insert = $this->db_connection->prepare('INSERT INTO users (user_email, user_type, first_name, last_name, user_name, user_password_hash, user_activation_hash, user_registration_ip, user_registration_datetime) VALUES(:user_email, :user_type, :first_name, :last_name, :user_name, :user_password_hash, :user_activation_hash, :user_registration_ip, now())'); 
-      
-        $query_new_user_insert->bindValue(':user_email', $user_email, PDO::PARAM_STR);
-        $query_new_user_insert->bindValue(':user_type', $user_type, PDO::PARAM_INT);
-        $query_new_user_insert->bindValue(':first_name', $first_name, PDO::PARAM_STR);
-        $query_new_user_insert->bindValue(':last_name', $last_name, PDO::PARAM_STR); 
-        $query_new_user_insert->bindValue(':user_name', $user_name, PDO::PARAM_STR);
-        $query_new_user_insert->bindValue(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
-        $query_new_user_insert->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
-        $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "unkown";
-        $query_new_user_insert->bindValue(':user_registration_ip', $ip, PDO::PARAM_STR);
-
-        $query_new_user_insert->execute();
-
-        // id of new user
-        $user_id = $this->db_connection->lastInsertId();
-
-        if ($query_new_user_insert) {
-          $this->messages[] = MESSAGE_REGISTRATION_SUCCESSFUL;
-          $this->sendVerificationEmail($user_id, $user_email, $user_activation_hash);
-          return true;
-        } 
-        else {
-          $this->errors[] = MESSAGE_REGISTRATION_FAILED;
-          return false;
-        }
-      }
+    // Function to get the client IP address
+    function get_client_ip() {
+        $ipaddress = '';
+        if (isset($_SERVER['HTTP_CLIENT_IP']))
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        else if(isset($_SERVER['REMOTE_ADDR']))
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
     }
 
-  }
+
+
+    public function registerNewUser($user_email, $user_type, $first_name, $last_name, $user_name, $user_password, $user_password_repeat, $captcha)
+    {
+        $error_occured = false;
+        
+        $user_name  = trim($user_name); // we just remove extra space on username and email
+
+        // check provided data validity
+        if (strtolower($captcha) != strtolower($_SESSION['captcha'])) 
+        {
+            $this->errors[] = MESSAGE_CAPTCHA_WRONG;
+            $error_occured = true;
+        } 
+        if (empty($user_name)) 
+        {
+            $this->errors[] = MESSAGE_USERNAME_EMPTY;
+            $error_occured = true;
+        } 
+        if (empty($user_password) || empty($user_password_repeat)) 
+        {
+            $this->errors[] = MESSAGE_PASSWORD_EMPTY;
+            $error_occured = true;
+        } 
+        if ($user_password !== $user_password_repeat) 
+        {
+            $this->errors[] = MESSAGE_PASSWORD_BAD_CONFIRM;
+            $error_occured = true;
+        } 
+        if (strlen($user_password) < MINIMUM_PASSWORD_LENGTH) 
+        {
+            $this->errors[] = MESSAGE_PASSWORD_TOO_SHORT;
+            $error_occured = true;
+        } 
+        if (strlen($user_name) > 64 || strlen($user_name) < 5) 
+        {
+            $this->errors[] = MESSAGE_USERNAME_BAD_LENGTH;
+            $error_occured = true;
+        } 
+        if (!preg_match('/^[a-z\d]{5,64}$/i', $user_name)) 
+        {
+            $this->errors[] = MESSAGE_USERNAME_INVALID;
+            $error_occured = true;
+        } 
+        if (!isset($user_type)) 
+        {
+            $this->errors[] = "Please select the type of user you are registering as.";
+            $error_occured = true;
+        } 
+        if ($user_type < 2 || 4 < $user_type) 
+        {
+            $this->errors[] = "You will be banned for attempting html injection.  Your ip address has been flagged.";
+            $error_occured = true;
+        }
+
+        if ($error_occured) {
+            return false;
+        }
+        
+
+
+        // check if username or email already exists
+        //   $query_check_user_name = $this->db_connection->prepare('SELECT user_name FROM users WHERE user_name=:user_name or user_email=:user_email');
+        //   $query_check_user_name->bindValue(':user_name', $user_name, PDO::PARAM_STR);
+        //   $query_check_user_name->bindValue(':user_email', $user_email, PDO::PARAM_STR);
+        //   $query_check_user_name->execute();
+        //   $result = $query_check_user_name->fetchAll();
+
+        $result = $this->where('user_name', '=', $user_name)
+                        ->orWhere('user_email', '=', $user_email)
+                        ->get();
+
+        // if username or/and email find in the database
+        // TODO: this is really awful!
+        if (count($result) > 0) 
+        {
+            for ($i = 0; $i < count($result); $i++) 
+            {
+                $this->errors[] = ($result[$i]->user_name== $user_name) ? MESSAGE_USERNAME_EXISTS : MESSAGE_EMAIL_ALREADY_EXISTS;
+            }
+        } 
+        else 
+        {
+            $hash_cost_factor = (defined('HASH_COST_FACTOR') ? HASH_COST_FACTOR : null);
+
+            $user_password_hash = password_hash($user_password, PASSWORD_DEFAULT, array('cost' => $hash_cost_factor));
+            $user_activation_hash = sha1(uniqid(mt_rand().'', true));
+
+            // write new users data into database                                                                                                                                                                                                                                                                           
+            // $query_new_user_insert = $this->db_connection->prepare('INSERT INTO users (user_email, user_type, first_name, last_name, user_name, user_password_hash, user_activation_hash, user_registration_ip, user_registration_datetime) VALUES(:user_email, :user_type, :first_name, :last_name, :user_name, :user_password_hash, :user_activation_hash, :user_registration_ip, now())'); 
+        
+            // $query_new_user_insert->bindValue(':user_email', $user_email, PDO::PARAM_STR);
+            // $query_new_user_insert->bindValue(':user_type', $user_type, PDO::PARAM_INT);
+            // $query_new_user_insert->bindValue(':first_name', $first_name, PDO::PARAM_STR);
+            // $query_new_user_insert->bindValue(':last_name', $last_name, PDO::PARAM_STR); 
+            // $query_new_user_insert->bindValue(':user_name', $user_name, PDO::PARAM_STR);
+            // $query_new_user_insert->bindValue(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
+            // $query_new_user_insert->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
+
+            $ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : "unkown";
+
+            // $query_new_user_insert->bindValue(':user_registration_ip', $ip, PDO::PARAM_STR);
+
+            //$query_new_user_insert->execute();
+
+            // id of new user
+            //$user_id = $this->db_connection->lastInsertId();
+
+            $this->user_email           = $user_email;
+            $this->user_type            = $user_type;
+            $this->first_name           = $first_name;
+            $this->last_name            = $last_name;
+            $this->user_name            = $user_name;
+            $this->user_password_hash   = $user_password_hash;
+            $this->user_activation_hash = $user_activation_hash;
+            $this->user_registration_ip = $ip;
+            $this->user_registration_datetime = date('Y-m-d H:i:s');
+            $new_user_inserted = $this->save();
+
+            if ($new_user_inserted) 
+            {
+                $this->messages[] = MESSAGE_REGISTRATION_SUCCESSFUL;
+                $this->sendVerificationEmail($user_id, $user_email, $user_activation_hash);
+                return true;
+            } 
+            else 
+            {
+                $this->errors[] = MESSAGE_REGISTRATION_FAILED;
+                return false;
+            }
+        }
+    }
 
 
 
@@ -510,7 +540,7 @@ function get_client_ip() {
      */
     public function deleteRememberMeCookie()
     {
-            // Reset rememberme token
+        // Reset rememberme token
         $this->query("UPDATE users SET user_rememberme_token = NULL WHERE user_id = :user_id");
         $this->bind(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
         $this->execute();
@@ -842,18 +872,22 @@ function get_client_ip() {
     public function editNewPassword($user_name, $user_password_reset_hash, $user_password_new, $user_password_repeat)
     {
         $error_occured = false;
-        // TODO: timestamp!
+
         $user_name = trim($user_name);
 
-        if (empty($user_name) || empty($user_password_reset_hash) || empty($user_password_new) || empty($user_password_repeat)) {
+        if (empty($user_name) || empty($user_password_reset_hash) || empty($user_password_new) || empty($user_password_repeat)) 
+        {
             $this->errors[] = MESSAGE_PASSWORD_EMPTY;
             $error_occured = true;
-        // is the repeat password identical to password
-        } else if ($user_password_new !== $user_password_repeat) {
+        } 
+        else if ($user_password_new !== $user_password_repeat) 
+        {
             $this->errors[] = MESSAGE_PASSWORD_BAD_CONFIRM;
             $error_occured = true;
         // password need to have a minimum length of 6 characters
-        } else if (strlen($user_password_new) < MINIMUM_PASSWORD_LENGTH) {
+        } 
+        else if (strlen($user_password_new) < MINIMUM_PASSWORD_LENGTH) 
+        {
             $this->errors[] = MESSAGE_PASSWORD_TOO_SHORT;
             $error_occured = true;
         }
@@ -862,20 +896,20 @@ function get_client_ip() {
         {
             return false;
         }
-        // now it gets a little bit crazy: check if we have a constant HASH_COST_FACTOR defined (in config/hashing.php),
-        // if so: put the value into $hash_cost_factor, if not, make $hash_cost_factor = null
+        // check if HASH_COST_FACTOR defined (in config/LoginRegistration.php),
         $hash_cost_factor = (defined('HASH_COST_FACTOR') ? HASH_COST_FACTOR : null);
 
         // crypt the user's password with the PHP 5.5's password_hash() function, results in a 60 character hash string
         // the PASSWORD_DEFAULT constant is defined by the PHP 5.5, or if you are using PHP 5.3/5.4, by the password hashing
-        // compatibility library. the third parameter looks a little bit shitty, but that's how those PHP 5.5 functions
+        // compatibility library. the third parameter looks a little crappy, but that's how those PHP 5.5 functions
         // want the parameter: as an array with, currently only used with 'cost' => XX.
         $user_password_hash = password_hash($user_password_new, PASSWORD_DEFAULT, array('cost' => $hash_cost_factor));
 
-        // write users new hash into database
+        // write users new hash into database were working with NULL value
         $this->query('UPDATE users SET user_password_hash = :user_password_hash,
-                                                        user_password_reset_hash = NULL, user_password_reset_timestamp = NULL
-                                                        WHERE user_name = :user_name AND user_password_reset_hash = :user_password_reset_hash');
+        user_password_reset_hash = NULL, user_password_reset_timestamp = NULL
+        WHERE user_name = :user_name AND user_password_reset_hash = :user_password_reset_hash');
+    
         $this->bind(':user_password_hash', $user_password_hash, PDO::PARAM_STR);
         $this->bind(':user_password_reset_hash', $user_password_reset_hash, PDO::PARAM_STR);
         $this->bind(':user_name', $user_name, PDO::PARAM_STR);

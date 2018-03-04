@@ -97,6 +97,7 @@ class Model extends Database
         $this->bindWhereConditions();
         $class_name = get_class($this->child_class);
         $results    = $this->resultsetObject($class_name);
+        $this->hasWhereClause = false;
 
         return $results;
     }
