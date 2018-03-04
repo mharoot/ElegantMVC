@@ -5,7 +5,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 
 include_once('Elegant/Model.php');
-include_once('Models/User_model.php');
+include_once('Models/user_model.php');
 class UserTest extends TestCase
 {
 
@@ -15,18 +15,19 @@ class UserTest extends TestCase
     $UserModel = new UserModel();
     $Users = $UserModel->all();
     $we_have_all_Users = sizeof($Users) > 0;
-    $this->assertTrue( $we_have_all_Users );
+    $UserModel->assertTrue( $we_have_all_Users );
   }
 */
-  public function test_login()
+  
+/*public function test_login()
   {
     $UserModel = new UserModel();
     $user_name = 'MichaelHarootoonyan';
     $user_password = 'password';
     $user_rememberme = false; // note you can't use this with true in tests, however it works when ran from the browser.
     $user_was_logged_in = $UserModel->loginWithPostData($user_name, $user_password, $user_rememberme);
-    $this->assertTrue( $user_was_logged_in );
-  }
+    $UserModel->assertTrue( $user_was_logged_in );
+  }*/
 
   
 /*
@@ -37,7 +38,7 @@ class UserTest extends TestCase
     $user_password = 'password';
     $user_rememberme = null;
     $UserModel->loginWithPostData($user_name, $user_password, $user_rememberme);
-    $this->assertTrue( $UserModel->doLogout() );
+    $UserModel->assertTrue( $UserModel->doLogout() );
   }
 */
   /* test passed
@@ -48,27 +49,29 @@ class UserTest extends TestCase
     $user_email = 'elegantorm@gmail.com';
     $user_activation_hash = '4mkdol31304ldsf94ldlooks_something_like_that';
     $email_has_been_sent = $UserModel->sendVerificationEmail($user_id, $user_email, $user_activation_hash);
-    $this->assertTrue( $email_has_been_sent );
+    $UserModel->assertTrue( $email_has_been_sent );
   }
   */
 
-/*
+
+  /* passed
   public function test_registration()
   {
     $UserModel = new UserModel();
-    $user_type = 2; // 2 = customer
-    $first_name = 'New';
-    $last_name  = 'Customer';
-    $user_email = "elegantorm@gmail.com";
-    $user_name  = 'NewCustomer';
-    $user_password = 'password';
-    $user_password_repeat = 'password';
-    $captcha = 'random_captcha';
-    $new_user_was_registered = $UserModel->registerNewUser($user_email, $user_type, $first_name, $last_name, 
-    $user_name, $user_password, $user_password_repeat, $captcha);
-    $this->assertTrue( $new_user_was_registered );
+    $UserModel->user_email           = 'elegantorm@gmail.com';
+    $UserModel->user_type            = 2;
+    $UserModel->first_name           = 'Elegant';
+    $UserModel->last_name            = 'ORM';
+    $UserModel->user_name            = 'ElegantORM';
+    $UserModel->user_password_hash   = '$2y$10$Qk7adUWnJEe6ZtsWNs7PaOK61ZaCQdyexedJrbAEI6eMz03U8swOi';
+    $UserModel->user_activation_hash = 'Qk7adUWnJEe6ZtsWNs7PaOK61ZaCQvdyex1edJrl';
+    $UserModel->user_registration_ip = '127.0.0.1';
+    $UserModel->user_registration_datetime = date('Y-m-d H:i:s');
+    $new_user_inserted = $UserModel->save();
+    $UserModel->assertTrue( $new_user_inserted );
   }
   */
+  
   
     
 
