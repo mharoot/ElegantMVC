@@ -1141,7 +1141,7 @@ CREATE TABLE `users` (
   `user_rememberme_token` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'user''s remember-me cookie token',
   `user_failed_logins` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'user''s failed login attemps',
   `user_last_failed_login` int(10) DEFAULT NULL COMMENT 'unix timestamp of last failed login attempt',
-  `user_registration_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `user_registration_datetime` varchar(20) NOT NULL DEFAULT '0000-00-00 00:00:00',
   `user_registration_ip` varchar(39) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0.0.0.0',
   `user_type` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';
