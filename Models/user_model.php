@@ -1070,8 +1070,8 @@ public function sendVerificationEmail($user_id, $user_email, $user_activation_ha
   */
   public function verifyNewUser($user_id, $user_activation_hash)
   {
-    if ($this->databaseConnection()) 
-    { // if database connection opened
+    //if ($this->databaseConnection()) 
+    //{ // if database connection opened
       // try to update user with specified information
       $this->query('UPDATE users SET user_active = 1, user_activation_hash = NULL WHERE user_id = :user_id AND user_activation_hash = :user_activation_hash');
       $this->bind(':user_id', intval(trim($user_id)), PDO::PARAM_INT);
@@ -1089,7 +1089,7 @@ public function sendVerificationEmail($user_id, $user_email, $user_activation_ha
         $this->errors[] = MESSAGE_REGISTRATION_ACTIVATION_NOT_SUCCESSFUL;
         return false;
       }
-    }
+    //}
   }
 }
 
