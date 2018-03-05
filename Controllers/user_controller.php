@@ -22,10 +22,15 @@ class UserController
       header('Location: ./dashboard');
     }
     else
-    {
-      $this->view->login(); 
+    {  // check if a cookie has been set even though the session is expired
+      if ($this->model->loginWithCookieData())
+      {
+         header('Location: ./dashboard');
+      } 
+      else $this->view->login(); 
     }
   }
+
 
   public function displayDashboard()
   {
@@ -45,6 +50,14 @@ class UserController
       header('Location: ./login');
     else
       $this->view->editPasswordForm();
+  }
+
+  public function displayEditUserPasswordForm()
+  {
+    if (isset($_SESSION['user_name']))
+      $this->view->editUserPasswordForm();
+    else
+      header('Location: ./login');
   }
   
   public function displayForgotPasswordForm()
@@ -81,6 +94,69 @@ class UserController
     }
 
   }
+
+
+  /**
+   * While user is logged in, they can edit their email.
+   * @return void
+   */
+  public function editUserEmail($user_email)
+  {
+    $email_edited = $this->model->editUserEmail($user_email);
+    if ($email_edited)
+    {
+      $_SESSION["registration_success"] = $this->model->messages;
+      header('Location: ./login');
+    }
+    else
+    {
+      $_SESSION["login_error"] = $this->model->errors;
+      header('Location: ./login');
+    }
+  }
+
+
+  /**
+   * While user is logged in, they can edit their username.
+   * @return void
+   */
+  public function editUserName($user_name)
+  {
+    $user_name_edited = $this->model->editUserName($user_name);
+    if ($user_name_edited)
+    {
+      $_SESSION["registration_success"] = $this->model->messages;
+      header('Location: ./login');
+    }
+    else
+    {
+      $_SESSION["login_error"] = $this->model->errors;
+      header('Location: ./login');
+    }
+  }
+
+
+  /**
+   * While user is logged in, they can edit the password.
+   * @return void
+   */
+  public function editUserPassword($user_password_old, $user_password_new, $user_password_repeat)
+  {
+    $password_edited = $this->model->editUserPassword($user_password_old, $user_password_new, $user_password_repeat);
+    if ($password_edited)
+    {
+      $_SESSION["success_message"] = $this->model->messages;
+      header('Location: ./edit-user-password-form');
+    }
+    else
+    {
+      $_SESSION["error_message"] = $this->model->errors;
+      header('Location: ./edit-user-password-form');
+    }
+  }
+
+
+
 
   public function login($username,$password,$rememberme)
   {

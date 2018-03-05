@@ -17,6 +17,25 @@ class UserView
     require_once 'layout.html';
   }
 
+  // while user logged in edit password form
+  public function editUserPasswordForm()
+  {
+    $_SESSION['content'] .= require_once 'pages/user/edit-user-password-form.php';
+    require_once 'layout.html';
+  }
+
+  public function editUserEmailForm()
+  {
+    $_SESSION['content'] .= require_once 'pages/user/edit-user-email-form.php';
+    require_once 'layout.html';
+  }
+
+  public function editUserNameForm()
+  {
+    $_SESSION['content'] .= require_once 'pages/user/edit-user-name-form.php';
+    require_once 'layout.html';
+  }
+
   public function forgotPasswordForm()
   {
     $_SESSION['content'] .= require_once 'pages/user/forgot-password-form.php';

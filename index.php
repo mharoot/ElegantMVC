@@ -64,8 +64,8 @@ $router->addRoute("forgot-password", "UserController", "userForgotPasswordEmailR
 $router->addRoute("user-password-reset", "UserController", "displayEditPasswordForm");
 $router->addRoute("edit-password-form", "UserController", "displayEditPasswordForm");
 $router->addRoute("edit-password", "UserController", "editPassword");
-
-
+$router->addRoute("edit-user-password-form", "UserController", "displayEditUserPasswordForm",array(1,2,3,4));
+$router->addRoute("edit-user-password", "UserController", "editUserPassword",array(1,2,3,4));
 $router->addRoute("review-billing-information", "CustomerController", "reviewBillingInformation",array(2));
 $router->addRoute("edit-billing-information", "CustomerController", "editBillingInformation",array(2));
 $router->addRoute("insert-new-billing-information", "CustomerController", "insertNewBillingInformation",array(2));
