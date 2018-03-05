@@ -1073,12 +1073,12 @@ public function sendVerificationEmail($user_id, $user_email, $user_activation_ha
     if ($this->databaseConnection()) 
     { // if database connection opened
       // try to update user with specified information
-      $query_update_user = $this->db_connection->prepare('UPDATE users SET user_active = 1, user_activation_hash = NULL WHERE user_id = :user_id AND user_activation_hash = :user_activation_hash');
-      $query_update_user->bindValue(':user_id', intval(trim($user_id)), PDO::PARAM_INT);
-      $query_update_user->bindValue(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
-      $query_update_user->execute();
+      $this->query('UPDATE users SET user_active = 1, user_activation_hash = NULL WHERE user_id = :user_id AND user_activation_hash = :user_activation_hash');
+      $this->bind(':user_id', intval(trim($user_id)), PDO::PARAM_INT);
+      $this->bind(':user_activation_hash', $user_activation_hash, PDO::PARAM_STR);
+      $new_user_verified = $this->execute();
 
-      if ($query_update_user->rowCount() > 0) 
+      if ($new_user_verified) 
       {
         $this->verification_successful = true;
         $this->messages[] = MESSAGE_REGISTRATION_ACTIVATION_SUCCESSFUL;
