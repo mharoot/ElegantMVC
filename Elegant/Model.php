@@ -10,6 +10,7 @@ class Model extends Database
     private $child_class_cols = [];
     private $whereColValBindStack = [];
     private $hasWhereClause; // model uses this for binding.
+    private $INIT_CHILD_CLASS_TO_NULL = '!E@L#E$G%A^N&T*O(R)M';
 
     function __construct($child_class = NULL) 
     {
@@ -31,7 +32,7 @@ class Model extends Database
         //dynamically creating child class properties in construct
         foreach ($table_cols as $col)
         {
-            $this->child_class->{$col} = NULL;
+            $this->child_class->{$col} = $this->INIT_CHILD_CLASS_TO_NULL;
             array_push($this->child_class_cols, $col);
         }
 
@@ -63,7 +64,7 @@ class Model extends Database
         
         foreach ($this->child_class_cols as $index => $property_name) 
         {            
-            if( $object_vars[$property_name] !== NULL )
+            if( $object_vars[$property_name] !== $this->INIT_CHILD_CLASS_TO_NULL )
                 $child_props[$property_name] = $object_vars[$property_name];
         }
 

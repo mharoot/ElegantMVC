@@ -72,6 +72,7 @@ class UserTest extends TestCase
   }
   */
   
+  /* passed
   public function test_integration_registration()
   {
     $UserModel = new UserModel();  
@@ -89,6 +90,16 @@ class UserTest extends TestCase
 
     $this->assertTrue($result);
 
+  }
+  */
+
+  public function test_reset_failed_login_counter()
+  {
+    $UserModel = new UserModel();
+    $UserModel->user_failed_logins = 0;
+    $UserModel->user_last_failed_login = NULL;
+    $reset_the_failed_login_counter = $UserModel->where('user_id', '=', 1)->save();
+    $this->assertTrue($reset_the_failed_login_counter);
   }
   
   
