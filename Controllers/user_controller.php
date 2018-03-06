@@ -51,6 +51,22 @@ class UserController
     else
       $this->view->editPasswordForm();
   }
+  
+  public function displayEditUserEmailForm()
+  {
+    if (isset($_SESSION['user_name']))
+      $this->view->editUserEmailForm();
+    else
+      header('Location: ./login');
+  }
+
+  public function displayEditUserNameForm()
+  {
+    if (isset($_SESSION['user_name']))
+      $this->view->editUserNameForm();
+    else
+      header('Location: ./login');
+  }
 
   public function displayEditUserPasswordForm()
   {
