@@ -83,28 +83,6 @@ class UserModel extends Model
         return $this->where('user_id', '=', $id)->get();
     }
 
-    /**
-     * Checks if database connection is opened. If not, then this method tries to open it.
-     * @return bool Success status of the database connecting process
-     */
-    public function databaseConnection()
-    {
-        // if connection already exists
-        if ($this->db_connection != null) {
-            return true;
-        } else {
-            try {
-                include_once('Elegant/dbconfig.php');
-                $this->db_connection = new PDO('mysql:host='. DB_HOST .';dbname='. DB_NAME . ';charset=utf8', DB_USER, DB_PASS);
-                return true;
-            } catch (PDOException $e) {
-                $this->errors[] = MESSAGE_DATABASE_ERROR . $e->getMessage();
-            }
-        }
-        // default return
-        return false;
-    }
-
 
 
     // Function to get the client IP address
