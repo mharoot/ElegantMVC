@@ -47,10 +47,11 @@ class Database {
 				break;
 				default:
 				$type = PDO::PARAM_STR;
+				$value = strip_tags($value);
 			}
 		}
 		
-		$this->stmt->bindValue($param, strip_tags($value), $type);
+		$this->stmt->bindValue($param, $value, $type);
 
 	}
 
