@@ -40,36 +40,65 @@ $router = new Router();
                 //name       //controller //method //authorization ids
 $router->addRoute("/","IndexController","index");
 $router->addRoute("index","IndexController","index");
+
+
+/**
+ *              Product Routes
+ */
 $router->addRoute("products","ProductController","displayProducts");
 $router->addRoute("products","CategoryController","displayCategory");
 $router->addRoute("productsPost","ProductController","paste");
 $router->addRoute("food","ProductController","food");
+
+/**
+ *              About Routes
+ */
+$router->addRoute("about-model", "AboutController", "aboutModel");
 $router->addRoute("about","AboutController","about");
+$router->addRoute("about-query-builder", "AboutController", "aboutQueryBuilder");
+$router->addRoute("db-uml", "AboutController", "dbUML");
+
+
+
+/**
+ *              User Routes
+ */
+$router->addRoute("dashboard","UserController","displayDashboard");
+
+$router->addRoute("edit-password", "UserController", "editPassword");
+$router->addRoute("edit-password-form", "UserController", "displayEditPasswordForm");
+
+$router->addRoute("edit-user-email", "UserController", "editUserEmail",array(1,2,3,4));
+$router->addRoute("edit-user-email-form", "UserController", "displayEditUserEmailForm",array(1,2,3,4));
+
+$router->addRoute("edit-user-name", "UserController", "EditUserName",array(1,2,3,4));
+$router->addRoute("edit-user-name-form", "UserController", "displayEditUserNameForm",array(1,2,3,4));
+
+$router->addRoute("edit-user-password", "UserController", "editUserPassword",array(1,2,3,4));
+$router->addRoute("edit-user-password-form", "UserController", "displayEditUserPasswordForm",array(1,2,3,4));
+
+$router->addRoute("forgot-password", "UserController", "userForgotPasswordEmailReset");
+$router->addRoute("forgot-password-form", "UserController", "displayForgotPasswordForm");
+
 $router->addRoute("login","UserController","displayLogin");
 $router->addRoute("loggingin","UserController","login");
 $router->addRoute("logout","UserController","logout");
-$router->addRoute("dashboard","UserController","displayDashboard");
+
 $router->addRoute("register","UserController","displayRegistration");
 $router->addRoute("registered","UserController","registerUser");
-$route_name = "about-model";
-$controller = "AboutController";
-$controller_function = "aboutModel";
-$router->addRoute($route_name, $controller, $controller_function);
-$router->addRoute("db-uml", "AboutController", "dbUML");
-$router->addRoute("user-email-verification", "UserController", "userEmailActivation");
-$router->addRoute("about-query-builder", "AboutController", "aboutQueryBuilder");
-$router->addRoute("forgot-password-form", "UserController", "displayForgotPasswordForm");
-$router->addRoute("forgot-password", "UserController", "userForgotPasswordEmailReset");
 
-$router->addRoute("user-password-reset", "UserController", "displayEditPasswordForm");
-$router->addRoute("edit-password-form", "UserController", "displayEditPasswordForm");
-$router->addRoute("edit-password", "UserController", "editPassword");
-$router->addRoute("edit-user-password-form", "UserController", "displayEditUserPasswordForm",array(1,2,3,4));
-$router->addRoute("edit-user-password", "UserController", "editUserPassword",array(1,2,3,4));
+/**
+ *              Customer Routes
+ */
+
 $router->addRoute("review-billing-information", "CustomerController", "reviewBillingInformation",array(2));
 $router->addRoute("edit-billing-information", "CustomerController", "editBillingInformation",array(2));
 $router->addRoute("insert-new-billing-information", "CustomerController", "insertNewBillingInformation",array(2));
 
+
+/**
+ *              Supplier Routes
+ */
 $router->addRoute("suppliers", "SupplierController", "displaySupplier");
 
 if(count($_GET) > 0)
