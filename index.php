@@ -86,6 +86,7 @@ $router->addRoute("logout","UserController","logout");
 
 $router->addRoute("register","UserController","displayRegistration");
 $router->addRoute("registered","UserController","registerUser");
+$router->addRoute("user-email-verification", "UserController", "userEmailActivation");
 
 /**
  *              Customer Routes
