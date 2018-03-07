@@ -27,8 +27,8 @@ class SupplierModel extends Model
 
     /**
      * Searches the suppliers table using foreign key = $_SESSION['user_id']
-     * 
-     * @return true if sucessfully inserted or updated Buisness Information
+     * Update if supplier exists or insert if supplier does not exist
+     * @return true if successfully inserted or updated Buisness Information
      */
     public function editBuisnessInformation()
     {
@@ -36,7 +36,7 @@ class SupplierModel extends Model
         if (isset($supplier))
         {
             // get ready to update
-            
+
         }
         else
         {
@@ -44,5 +44,15 @@ class SupplierModel extends Model
 
         }
     }
+
+
+
+
+
+
+
+
+
+    
 
 }
