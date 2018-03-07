@@ -29,19 +29,43 @@ class CustomerModel extends Model {
      * Update if customer exists or insert if customer does not exist
      * @return true if successfully inserted or updated Billing Information
      */
-    public function editBillingInformation()
+    public function editBillingInformation($UserID, $CustomerName, $Address, $City, $PostalCode, $Country)
     {
         $customer = $this->getCustomer();
         if (isset($customer))
         {
             // get ready to update
-            
+            			$this->UserID;
+			$this->CustomerName;
+			$this->Address;
+			$this->City;
+			$this->PostalCode;
+			$this->Country;
+			$this->where('UserID', '=', $_SESSION['user_id'])->save();
         }
         else
         {
             // get ready to insert
-
+			
+			$this->UserID;
+			$this->CustomerName;
+			$this->Address;
+			$this->City;
+			$this->PostalCode;
+			$this->Country;
+			$inserted_customer = $this->save();
+			
+			if ($inserted_customer)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
         }
+		
+		
     }
 
 
