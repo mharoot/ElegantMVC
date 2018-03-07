@@ -14,30 +14,50 @@ class EmployeeModel extends Model
      * Searches the employees table using foreign key = $_SESSION['user_id']
      * @return EmployeeModel with all columns of that user_id or FALSE
      */
-	private function getEmployee()
-	{
-		return $this->where('UserID', '=', $_SESSION['user_id'])
-					->single();
-	}
+    private function getEmployee()
+    {
+        return $this->where('UserID', '=', $_SESSION['user_id'])
+                    ->single();
+    }
 
 
- 	/**
+    /**
      * Searches the employees table using foreign key = $_SESSION['user_id']
      * Update if employee exists or insert if employee does not exist
      * @return true if successfully inserted or updated Employee Information
      */
     public function editEmployeeInformation()
     {
-        $employee = $this->getEmployee();
+        $employee = $this->getEmployee($LastName, $FirstName, $BrithDate, $Photo, $Notes);
         if (isset($employee))
         {
             // get ready to update
+            $this->LastName = $LastName;
+            $this->FirstName = $FirstName;
+            $this->BirthDate = $BirthDate;
+            $this->Photo = $Photo;
+            $this->Notes = $Notes;
+            $this->where('UserID', '=', $_SESSION['user_id'])->save();
             
         }
         else
         {
             // get ready to insert
+            $this->LastName = $LastName;
+            $this->FirstName = $FirstName;
+            $this->BirthDate = $BirthDate;
+            $this->Photo = $Photo;
+            $this->Notes = $Notes;
+            $inserted_employee =$this->save();
 
+            if($inserted_employee)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
