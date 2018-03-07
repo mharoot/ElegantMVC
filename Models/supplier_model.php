@@ -25,22 +25,61 @@ class SupplierModel extends Model
              ->single();
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Searches the suppliers table using foreign key = $_SESSION['user_id']
      * Update if supplier exists or insert if supplier does not exist
      * @return true if successfully inserted or updated Buisness Information
      */
-    public function editBuisnessInformation()
+    public function editBuisnessInformation($SupplierName, $ContactName, $Address, $City, $PostalCode, $Country, $Phone)
     {
         $supplier = $this->getSupplier();
         if (isset($supplier))
         {
             // get ready to update
+            $this->SupplierName = $SupplierName;
+            $this->ContactName  = $ContactName;
+            $this->Address      = $Address;
+            $this->City         = $City;
+            $this->PostalCode   = $PostalCode;
+            $this->Country      = $Country;
+            $this->Phone        = $Phone;
+            $this->where('UserID', '=', $_SESSION['user_id'])->save();
 
         }
         else
         {
             // get ready to insert
+           $this->SupplierName = $SupplierName;
+           $this->ContactName  = $ContactName;
+           $this->Address      = $Address;
+           $this->City         = $City;
+           $this->PostalCode   = $PostalCode;
+           $this->Country      = $Country;
+           $this->Phone        = $Phone;
+           $inserted_supplier  = $this->save();
+
+           if ($inserted_supplier)
+           {
+               return true;
+           }
+           else
+           {
+               return false;
+           }
+
 
         }
     }
