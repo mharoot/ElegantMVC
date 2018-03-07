@@ -10,10 +10,10 @@ class SupplierModel extends Model
         parent::__construct($this);
     }
 
-    public function getSuppliers()
-    {
-        return $this->get();
-    }
+
+
+
+
 
     /**
      * Searches the suppliers table using foreign key = $_SESSION['user_id']
@@ -43,6 +43,23 @@ class SupplierModel extends Model
             // get ready to insert
 
         }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function getSuppliers()
+    {
+        return $this->get();
     }
 
 

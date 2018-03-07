@@ -66,14 +66,4 @@ class EmployeeModel extends Model
     }
 
 
-
-
-
-
-
-    public function getEmployees()
-    {
-        return $this->get();
-    }
-
 }
