@@ -106,7 +106,11 @@ class Model extends Database
 
     public function single($cols = NULL) 
     {
-        return $this->get($cols)[0];
+        $result = $this->get($cols);
+        if (count($result) > 0)
+            return $this->get($cols)[0];
+        else
+            return false;
     }
 
 
