@@ -104,6 +104,11 @@ class Model extends Database
     }
 
 
+    public function single($cols = NULL) 
+    {
+        return $this->get($cols)[0];
+    }
+
 
     public function delete()
     {
