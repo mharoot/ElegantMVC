@@ -26,39 +26,33 @@ class EmployeeModel extends Model
      * Update if employee exists or insert if employee does not exist
      * @return true if successfully inserted or updated Employee Information
      */
-    public function editEmployeeInformation()
+    public function editEmployeeInformation($LastName, $FirstName, $BirthDate, $Photo, $Notes)
     {
-        $employee = $this->getEmployee($LastName, $FirstName, $BrithDate, $Photo, $Notes);
+        $employee_info_edited = false;
+
+        $this->LastName  = $LastName;
+        $this->FirstName = $FirstName;
+        $this->BirthDate = $BirthDate;
+        $this->Photo     = $Photo;
+        $this->Notes     = $Notes;
+
+        $employee = $this->getEmployee();
+
         if (isset($employee))
         {
-            // get ready to update
-            $this->LastName = $LastName;
-            $this->FirstName = $FirstName;
-            $this->BirthDate = $BirthDate;
-            $this->Photo = $Photo;
-            $this->Notes = $Notes;
-            $this->where('UserID', '=', $_SESSION['user_id'])->save();
+            // update
+            $employee_info_edited = $this->where('UserID', '=', $_SESSION['user_id'])
+                                         ->save();
             
         }
         else
         {
-            // get ready to insert
-            $this->LastName = $LastName;
-            $this->FirstName = $FirstName;
-            $this->BirthDate = $BirthDate;
-            $this->Photo = $Photo;
-            $this->Notes = $Notes;
-            $inserted_employee =$this->save();
-
-            if($inserted_employee)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            // insert
+            $this->UserID = $_SESSION['user_id'];
+            $employee_info_edited = $this->save();
         }
+
+        return $employee_info_edited;
     }
 
 

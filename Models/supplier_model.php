@@ -43,45 +43,34 @@ class SupplierModel extends Model
      * Update if supplier exists or insert if supplier does not exist
      * @return true if successfully inserted or updated Buisness Information
      */
-    public function editBuisnessInformation($SupplierName, $ContactName, $Address, $City, $PostalCode, $Country, $Phone)
+    public function editBusinessInformation($SupplierName, $ContactName, $Address, $City, $PostalCode, $Country, $Phone)
     {
+        $business_info_edited = false;
+
+        $this->SupplierName = $SupplierName;
+        $this->ContactName  = $ContactName;
+        $this->Address      = $Address;
+        $this->City         = $City;
+        $this->PostalCode   = $PostalCode;
+        $this->Country      = $Country;
+        $this->Phone        = $Phone;
+
         $supplier = $this->getSupplier();
+
         if (isset($supplier))
         {
-            // get ready to update
-            $this->SupplierName = $SupplierName;
-            $this->ContactName  = $ContactName;
-            $this->Address      = $Address;
-            $this->City         = $City;
-            $this->PostalCode   = $PostalCode;
-            $this->Country      = $Country;
-            $this->Phone        = $Phone;
-            $this->where('UserID', '=', $_SESSION['user_id'])->save();
-
+            // update
+            $business_info_edited = $this->where('UserID', '=', $_SESSION['user_id'])
+                                         ->save();
         }
         else
         {
-            // get ready to insert
-           $this->SupplierName = $SupplierName;
-           $this->ContactName  = $ContactName;
-           $this->Address      = $Address;
-           $this->City         = $City;
-           $this->PostalCode   = $PostalCode;
-           $this->Country      = $Country;
-           $this->Phone        = $Phone;
-           $inserted_supplier  = $this->save();
-
-           if ($inserted_supplier)
-           {
-               return true;
-           }
-           else
-           {
-               return false;
-           }
-
-
+            // insert
+           $this->UserID = $_SESSION['user_id'];
+           $business_info_edited = $this->save();
         }
+
+        return $business_info_edited;
     }
 
 
