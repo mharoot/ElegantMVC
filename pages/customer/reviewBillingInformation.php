@@ -3,6 +3,9 @@
     Review Billing Information
 </div>
 <?php
+/*
+$customer_info        = data
+$customer_info_edited = boolean
 echo
 '<table>
 	<tr><td>CustomerID</td><td>'.$info->CustomerID.'</td></tr>
@@ -17,6 +20,10 @@ echo
 	<button class="btn btn-primary" type="submit" > Edit info </button>
 	</form>
 	'
+	*/
+
+
+
 ?>
 
 </div>

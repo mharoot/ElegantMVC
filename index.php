@@ -102,6 +102,10 @@ $router->addRoute("insert-new-billing-information", "CustomerController", "inser
  *              Supplier Routes
  */
 $router->addRoute("suppliers", "SupplierController", "displaySupplier");
+$router->addRoute("review-business-information", "SupplierController", "displayReviewBuisnessInformation",array(4));
+
+
+
 
 if(count($_GET) > 0)
 {
