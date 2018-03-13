@@ -10,6 +10,84 @@ include_once('Models/user_model.php');
 
 class SupplierTest extends TestCase
 {
+
+
+
+  public function test_non_existant_supplier_but_existant_user_get_supplier()
+  {
+    $SupplierModel       = new SupplierModel();
+    $_SESSION['user_id'] = 141;
+    $supplier            = $SupplierModel->getSupplier();
+    $this->assertFalse( $supplier );
+
+  }
+
+
+  public function test_non_existant_supplier_but_existant_user_edit_business_information()
+  {
+    $SupplierModel = new SupplierModel();
+
+    $SupplierName = "Elegant ORM";
+    $ContactName  = "Michael Harootoonyan";
+    $Address      = "9904 CSUN Ave";
+    $City         = "Northridge";
+    $PostalCode   = "96078";
+    $Country      = "USA";
+    $Phone        = "(818) 555-5555";
+
+    $_SESSION['user_id'] = 141;
+
+    $business_info_edited = $SupplierModel->editBusinessInformation($SupplierName, $ContactName, $Address, $City, $PostalCode, $Country, $Phone);
+
+    $supplier             = $SupplierModel->getSupplier();
+
+    $this->assertTrue( $supplier->SupplierName === $SupplierName );
+  }
+
+/*
+  public function test_get_supplier()
+  {
+    $SupplierModel = new SupplierModel();
+    $_SESSION['user_id'] = 97; //CharloteeCooper92
+    $supplier      = $SupplierModel->getSupplier();
+    $this->assertTrue( isset($supplier) );
+
+  }
+
+
+  public function test_edit_business_information()
+  {
+    $SupplierModel = new SupplierModel();
+    $_SESSION['user_id'] = 97; //CharloteeCooper92
+    $supplier      = $SupplierModel->getSupplier();
+
+    $SupplierName = "Exotic Liquid"; // changed from Exotic Liquid
+    $ContactName  = $SupplierModel->ContactName;
+    $Address      = $SupplierModel->Address;
+    $City         = $SupplierModel->City;
+    $PostalCode   = $SupplierModel->PostalCode;
+    $Country      = $SupplierModel->Country;
+    $Phone        = $SupplierModel->Phone;
+
+    $business_info_edited = $SupplierModel->editBusinessInformation($SupplierName, $ContactName, $Address, $City, $PostalCode, $Country, $Phone);
+
+    $supplier      = $SupplierModel->getSupplier();
+
+    $this->assertTrue( $supplier->SupplierName === $SupplierName );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
   public function test_all() 
   {
     $SupplierModel = new SupplierModel();
@@ -17,7 +95,7 @@ class SupplierTest extends TestCase
     $we_have_all_suppliers = sizeof($suppliers) > 0;
     $this->assertTrue( $we_have_all_suppliers );
   }
-/*
+
   public function test_migrate_supplier_data_to_users_table()
   {
     $UserModel = new UserModel();
@@ -61,8 +139,9 @@ class SupplierTest extends TestCase
     }
 
     $this->assertTrue( true );
-    */
+    
 
 
   }
+  */
 }

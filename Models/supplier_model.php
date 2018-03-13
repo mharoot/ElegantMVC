@@ -41,7 +41,7 @@ class SupplierModel extends Model
     /**
      * Searches the suppliers table using foreign key = $_SESSION['user_id']
      * Update if supplier exists or insert if supplier does not exist
-     * @return true if successfully inserted or updated Buisness Information
+     * @return true if successfully inserted or updated Business Information
      */
     public function editBusinessInformation($SupplierName, $ContactName, $Address, $City, $PostalCode, $Country, $Phone)
     {
@@ -57,7 +57,7 @@ class SupplierModel extends Model
 
         $supplier = $this->getSupplier();
 
-        if (isset($supplier))
+        if ($supplier !== false)
         {
             // update
             $business_info_edited = $this->where('UserID', '=', $_SESSION['user_id'])

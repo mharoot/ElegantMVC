@@ -101,8 +101,9 @@ $router->addRoute("insert-new-billing-information", "CustomerController", "inser
 /**
  *              Supplier Routes
  */
-$router->addRoute("suppliers", "SupplierController", "displaySupplier");
-$router->addRoute("review-business-information", "SupplierController", "displayReviewBuisnessInformation",array(4));
+$router->addRoute("suppliers", "SupplierController", "displayAllSuppliers", array(1));
+$router->addRoute("review-business-information", "SupplierController", "displayReviewBusinessInformation", array(4));
+$router->addRoute("edit-business-information", "SupplierController", "editBusinessInformation", array(4));
 
 
 
