@@ -41,7 +41,7 @@ class CustomerModel extends Model {
 
 		$customer = $this->getCustomer();
 		
-        if (isset($customer))
+        if ( $customer !== false)
         {
             // update
 			$billing_info_edited = $this->where('UserID', '=', $_SESSION['user_id'])

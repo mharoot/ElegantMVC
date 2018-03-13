@@ -38,7 +38,7 @@ class EmployeeModel extends Model
 
         $employee = $this->getEmployee();
 
-        if (isset($employee))
+        if ($employee !== false)
         {
             // update
             $employee_info_edited = $this->where('UserID', '=', $_SESSION['user_id'])
