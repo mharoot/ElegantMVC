@@ -108,7 +108,9 @@ class Model extends Database
     {
         $result = $this->get($cols);
         if (count($result) > 0)
-            return $this->get($cols)[0];
+        {
+            return $result[0];
+        }
         else
             return false;
     }
