@@ -260,8 +260,8 @@ require_once 'layout.html' this will add to content to the layout
 ```php
 public function categories($categories)
 {
-$_SESSION['content'] .= require_once 'pages/category/categories.php';
-require_once 'layout.html';
+require_once 'pages/templates/header.php';    require_once 'pages/category/categories.php';
+require_once 'pages/templates/footer.php';
 }
 
 ```
@@ -272,8 +272,8 @@ another example passing a parameter from the view class to the html page
 public function products($products)
 {
 
-$_SESSION['content'] .= require_once 'pages/product/products.php';
-require_once 'layout.html';
+require_once 'pages/templates/header.php';    require_once 'pages/product/products.php';
+require_once 'pages/templates/footer.php';
 }
 ```
 The function parameter $products is pass into the html page  'pages/product/products.php';

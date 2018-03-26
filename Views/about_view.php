@@ -13,14 +13,14 @@
 
         public function model()
         {
-            $_SESSION['content'] .= require_once 'pages/about/model.php';
-            require_once 'layout.html';
+            require_once 'pages/templates/header.php';    require_once 'pages/about/model.php';
+            require_once 'pages/templates/footer.php';
         }
 
         public function queryBuilder()
         {
-            $_SESSION['content'] .= require_once 'pages/about/query-builder.php';
-            require_once 'layout.html';
+            require_once 'pages/templates/header.php';    require_once 'pages/about/query-builder.php';
+            require_once 'pages/templates/footer.php';
         }
 
         public function dbUML()

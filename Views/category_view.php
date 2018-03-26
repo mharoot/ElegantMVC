@@ -16,8 +16,8 @@
 		 
 		public function categories($categories)
         {
-            $_SESSION['content'] .= require_once 'pages/category/categories.php';
-            require_once 'layout.html';
+            require_once 'pages/category/categories.php';
+            require_once 'pages/templates/footer.php';
         }
 		
 

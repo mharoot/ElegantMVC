@@ -9,7 +9,7 @@ define("EMAIL_USE_SMTP", true);
 define("EMAIL_SMTP_HOST", "smtp.gmail.com");
 define("EMAIL_SMTP_AUTH", true);
 define("EMAIL_SMTP_USERNAME", "ElegantORM@gmail.com");
-define("EMAIL_SMTP_PASSWORD", "comp490elegant");
+define("EMAIL_SMTP_PASSWORD", "donotposttogithub");
 define("EMAIL_SMTP_PORT", 587);
 define("EMAIL_SMTP_ENCRYPTION", "tls");
 

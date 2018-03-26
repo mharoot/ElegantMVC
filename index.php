@@ -32,8 +32,6 @@ else
 	$_SESSION["authorization"] = $_SESSION["user_type"];
 }
 
-unset($_SESSION["content"]);
-$_SESSION["content"] = "";
 
 
 $router = new Router();
@@ -47,6 +45,7 @@ $router->addRoute("index","IndexController","index");
  */
 $router->addRoute("products","ProductController","displayProducts");
 $router->addRoute("products","CategoryController","displayCategory");
+$router->addRoute("search","ProductController","searchProducts");
 $router->addRoute("productsPost","ProductController","paste");
 $router->addRoute("food","ProductController","food");
 

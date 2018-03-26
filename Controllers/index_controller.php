@@ -14,8 +14,7 @@
 
         public function index()
         {
-            $content = null;
-            require_once 'layout.html';
+
         }
 
 
