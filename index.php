@@ -36,6 +36,13 @@ else
 
 $router = new Router();
 
+/**
+ * Home Routes
+ */
+$router->addRoute("/","UserController","displayDashboard");
+$router->addRoute("index","UserController","displayDashboard");
+$router->addRoute("home","UserController","displayDashboard");
+
  /**
  *              About Routes
  */
