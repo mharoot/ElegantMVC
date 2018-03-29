@@ -35,21 +35,8 @@ else
 
 
 $router = new Router();
-                //name       //controller //method //authorization ids
-$router->addRoute("/","IndexController","index");
-$router->addRoute("index","IndexController","index");
 
-
-/**
- *              Product Routes
- */
-$router->addRoute("products","ProductController","displayProducts");
-$router->addRoute("products","CategoryController","displayCategory");
-$router->addRoute("search","ProductController","searchProducts");
-$router->addRoute("productsPost","ProductController","paste");
-$router->addRoute("food","ProductController","food");
-
-/**
+ /**
  *              About Routes
  */
 $router->addRoute("about-model", "AboutController", "aboutModel");
@@ -58,6 +45,35 @@ $router->addRoute("about-query-builder", "AboutController", "aboutQueryBuilder")
 $router->addRoute("db-uml", "AboutController", "dbUML");
 
 
+/**
+ *              Customer Routes
+ */
+
+$router->addRoute("review-billing-information", "CustomerController", "reviewBillingInformation",array(2));
+$router->addRoute("edit-billing-information", "CustomerController", "editBillingInformation",array(2));
+$router->addRoute("insert-new-billing-information", "CustomerController", "insertNewBillingInformation",array(2));
+
+/**
+ *              Employee Routes
+ */
+$router->addRoute("employees", "EmployeeController", "displayEmployee",array(3));
+$router->addRoute("review-employee-information", "EmployeeController", "displayEmployeeInformation",array(3));
+$router->addRoute("edit-employee-information", "EmployeeController", "editEmployeeInformation", array(3));
+
+/**
+ *              Product Routes
+ */
+$router->addRoute("products","ProductController","displayProducts");
+$router->addRoute("products","CategoryController","displayCategory"); // category route 
+$router->addRoute("productsPost","ProductController","paste");
+$router->addRoute("food","ProductController","food");
+
+/**
+ *              Supplier Routes
+ */
+$router->addRoute("suppliers", "SupplierController", "displayAllSuppliers", array(1));
+$router->addRoute("review-business-information", "SupplierController", "displayReviewBusinessInformation", array(4));
+$router->addRoute("edit-business-information", "SupplierController", "editBusinessInformation", array(4));
 
 /**
  *              User Routes
@@ -87,22 +103,6 @@ $router->addRoute("register","UserController","displayRegistration");
 $router->addRoute("registered","UserController","registerUser");
 $router->addRoute("user-email-verification", "UserController", "userEmailActivation");
 $router->addRoute("user-password-reset", "UserController", "displayEditPasswordForm");
-
-/**
- *              Customer Routes
- */
-
-$router->addRoute("review-billing-information", "CustomerController", "reviewBillingInformation",array(2));
-$router->addRoute("edit-billing-information", "CustomerController", "editBillingInformation",array(2));
-$router->addRoute("insert-new-billing-information", "CustomerController", "insertNewBillingInformation",array(2));
-
-
-/**
- *              Supplier Routes
- */
-$router->addRoute("suppliers", "SupplierController", "displayAllSuppliers", array(1));
-$router->addRoute("review-business-information", "SupplierController", "displayReviewBusinessInformation", array(4));
-$router->addRoute("edit-business-information", "SupplierController", "editBusinessInformation", array(4));
 
 
 
