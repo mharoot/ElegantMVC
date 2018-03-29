@@ -12,6 +12,14 @@ class SupplierTest extends TestCase
 {
 
 
+  public function test_get_supplier_id()
+  {
+    $SupplierModel = new SupplierModel();
+    $this->assertTrue(
+      $SupplierModel->where('UserID', '=', 97) //CharlotteCooper92
+             ->single(['SupplierID'])->SupplierID == 1 );
+  }
+
   public function test_get_all_supplier_products()
   {
     $SupplierModel = new SupplierModel();
@@ -24,12 +32,9 @@ class SupplierTest extends TestCase
      */
     $supplier_products = $SupplierModel->oneToMany($foreign_table, $primary_key, $foreign_key)
                               ->where($avoid_ambiguity_in_where_clause, '=', 1)
-                              ->single();
+                              ->get();
     var_dump($supplier_products);
     $this->assertTrue($supplier_products != null);
-    
-
-
   }
 
 /*
