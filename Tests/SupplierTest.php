@@ -12,7 +12,27 @@ class SupplierTest extends TestCase
 {
 
 
+  public function test_get_all_supplier_products()
+  {
+    $SupplierModel = new SupplierModel();
+    $foreign_table = 'products';
+    $primary_key   = 'SupplierID';
+    $foreign_key   = 'SupplierID';
+    $avoid_ambiguity_in_where_clause = $foreign_table.'.'.$primary_key;
+    /**
+     *  Get the products associated with the supplier.
+     */
+    $supplier_products = $SupplierModel->oneToMany($foreign_table, $primary_key, $foreign_key)
+                              ->where($avoid_ambiguity_in_where_clause, '=', 1)
+                              ->single();
+    var_dump($supplier_products);
+    $this->assertTrue($supplier_products != null);
+    
 
+
+  }
+
+/*
   public function test_non_existant_supplier_but_existant_user_get_supplier()
   {
     $SupplierModel       = new SupplierModel();
@@ -44,7 +64,7 @@ class SupplierTest extends TestCase
     $this->assertTrue( $supplier->SupplierName === $SupplierName );
   }
 
-/*
+
   public function test_get_supplier()
   {
     $SupplierModel = new SupplierModel();
