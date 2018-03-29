@@ -23,9 +23,11 @@ declare(strict_types=1);
 
 
 
-        public function displayProductForm($ProductID)
+        public function displayProductForm($ProductID = NULL)
         {
-            $supplier_product = $this->model->getSupplierProduct($ProductID);
+            $supplier_product = false;
+            if (isset($ProductID))
+                $supplier_product = $this->model->getSupplierProduct($ProductID);
             $this->view->updateProductForm($supplier_product);
         }
 

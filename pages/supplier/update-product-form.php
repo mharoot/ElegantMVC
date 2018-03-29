@@ -83,7 +83,7 @@ else
         </tr>
 
     </table>
-    <button class='btn btn-primary' type='submit' value='Submit'> Update Product Information </input>
+    <button class='btn btn-primary' type='submit' value='Submit'> Insert Product Information </input>
 </form>
 <?php
 }
