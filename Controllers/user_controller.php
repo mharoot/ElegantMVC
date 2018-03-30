@@ -34,6 +34,29 @@ class UserController
 
   public function displayDashboard()
   {
+
+    $user_info;
+    switch($_SESSION['user_type'])
+    {
+        case 1: $_SESSION['DashboardContent'] = "Admin links go here for viewing all data in the database...";
+        break;
+        case 2: $_SESSION['DashboardContent'] = '<p><a href="./review-billing-information">View Billing Information</a></p>';
+        break;
+        case 3: $_SESSION['DashboardContent'] = '<p><a href="./review-employee-information">View Employee Information</a></p>';
+        break;
+        case 4: 
+          $_SESSION['DashboardContent'] = '<p><a href="./review-business-information">View Business Information</a></p>';
+          $user_info = $this->model->oneToOne('suppliers', 'user_id', 'SupplierID')
+                    ->where('suppliers.UserID', '=', $_SESSION['user_id'])
+                    ->single();
+          if ($user_info == null) {
+            $_SESSION['DashboardContent'] .= '<b style="color:red"> (Fill out to begin adding products to our site!)</b>';
+          } else {
+            $_SESSION['DashboardContent'] .= '<p><a href="./view-all-supplier-products">View All My Products</a></p>';
+          }
+    }
+
+
     if(isset($_SESSION['user_name']))
     {
       $this->view->dashboard();

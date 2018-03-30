@@ -18,6 +18,13 @@
                 <p> <b>Username:</b> <?php echo $_SESSION["user_name"]; ?> <a href="./edit-user-name-form">Edit</a></p>
                 <p> <b>Email:</b>    <?php echo $_SESSION["user_email"]; ?> <a href="./edit-user-email-form">Edit</a></p>
                 <p><a href="./edit-user-password-form">Change Password</a></p>
+
+
+<?php 
+                echo $_SESSION['DashboardContent'];
+?>
+
+                
                 <a href="./logout" class="pull-right need-help">Logout? </a>
             </br>
         </div>
