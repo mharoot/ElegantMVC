@@ -15,15 +15,15 @@ else if ( isset($_SESSION['error_message']) )
 ?>
 
   </div>
-
+  </br>
   <div class="row">
 <?php     
 if ( isset($supplier_products) && $supplier_products != false)
 {
 ?>
-</br>
+    
         <table>
-            <th>ProductName</th><th>CategoryID</th><th>Unit</th><th>Price</th><th>Quantity</th><th>Update</th>
+            <th>ProductName</th><th>CategoryID</th><th>Unit</th><th>Price</th><th>Quantity</th><th>Modify</th>
 <?php foreach ($supplier_products as $supplier_product) {?>
             <tr>
                 <td><?php echo $supplier_product->ProductName;?> </td>
@@ -31,13 +31,16 @@ if ( isset($supplier_products) && $supplier_products != false)
                 <td><?php echo $supplier_product->Unit;?> </td>
                 <td><?php echo $supplier_product->Price;?> </td>
                 <td><?php echo $supplier_product->Quantity;?> </td>
-                <td><a href="./update-product-form?productId=<?php echo $supplier_product->ProductID; ?>">Edit</a></td>
+                <td><a class="btn btn-primary" href="./update-product-form?productId=<?php echo $supplier_product->ProductID; ?>">Edit</a> | <a class="btn btn-danger" href="./delete-product?productId=<?php echo $supplier_product->ProductID; ?>">Delete</a></td>
             </tr>
             
 <?php } ?>
         </table>
-  </div>
 
 <?php
 } 
 ?>
+
+    </br>
+    <a class="btn btn-success" href="./update-product-form">Insert a New Product</a>
+  </div>

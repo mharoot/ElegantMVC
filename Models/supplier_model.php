@@ -54,6 +54,7 @@ class SupplierModel extends Model
         $product_info_edited = false;
         
         $product = $this->getSupplierProduct($_SESSION['ProductID']); 
+        $SupplierID = $this->getSupplierID();
 
         $product_model = new ProductModel();
 
@@ -68,12 +69,13 @@ class SupplierModel extends Model
             // update
             $product_info_edited = $product_model
                                         ->where('ProductID', '=', $_SESSION['ProductID'])
+                                        ->where('SupplierID', '=', $SupplierID) // for security purposes, this prevents a supplier from updating another supplier's products through html injection
                                         ->save();
         }
         else
         {
             // insert
-           $product_model->SupplierID = $this->getSupplierID();
+           $product_model->SupplierID = $SupplierID;
            $product_info_edited = $product_model->save();
         }
 

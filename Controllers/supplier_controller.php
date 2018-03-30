@@ -14,6 +14,33 @@ declare(strict_types=1);
         }
 
 
+        public function deleteProduct($ProductID)
+        {
+           $SupplierID =  $this->model->getSupplierID();
+           var_dump($SupplierID);
+
+            // delete
+            $product_model = new ProductModel();
+            $product_deleted = $product_model
+            ->where('ProductID', '=', $ProductID)
+            ->where('SupplierID', '=', $SupplierID) // for security purposes, this prevents a supplier from deleting another supplier's products through html injection
+            ->delete();
+
+
+            if ( $product_deleted )
+            {
+                $_SESSION['success_message'] = "Product Deleted Successfully!";
+            }
+            else
+            {
+                $_SESSION['error_message'] = "Failed to Delete Product!";
+            }   
+
+            header('Location: ./view-all-supplier-products');
+
+
+
+        }
 
         public function displayAllSuppliers()
         {

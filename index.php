@@ -87,6 +87,9 @@ $router->addRoute("view-all-supplier-products", "SupplierController", "displaySu
 $router->addRoute("update-product-form", "SupplierController", "displayProductForm", array(4));
 $router->addRoute("edit-product-information", "SupplierController", "editProductInformation", array(4));
 
+$router->addRoute("delete-product", "SupplierController", "deleteProduct", array(4));
+
+
 
 /**
  *              User Routes
