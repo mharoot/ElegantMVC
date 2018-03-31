@@ -77,8 +77,10 @@ class Database {
 
 	public function resultsetObject($className, $constructorArguments = NULL)
 	{
+		
 		$this->execute();
-		$this->stmt->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $className, $constructorArguments);
+		// $this->stmt->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, $className, $constructorArguments);
+		$this->stmt->setFetchMode(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Data', $constructorArguments);
 		return $this->stmt->fetchAll();
 
 	}
@@ -116,4 +118,6 @@ class Database {
 	}
 
 }
+
+class Data {};
 ?>
