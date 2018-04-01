@@ -46,13 +46,19 @@ class OrderTest extends TestCase
                             ->single(['CategoryName', 'ProductName', 'SupplierID', 'Unit', 'Price']);
    
         $od->CategoryName = $pd->CategoryName;
-        $od->ProductName = $pd->ProductName;
-        $od->SupplierName = $supplier_model->where('SupplierID', '=', $pd->SupplierID)->single()->SupplierName;
+        $od->ProductName  = $pd->ProductName;
+        $od->Unit         = $pd->Unit;
+        $od->Price        = $pd->Price;
+        $od->SupplierName = $supplier_model->where('SupplierID', '=', $pd->SupplierID)
+                                           ->single()
+                                           ->SupplierName;
       }
 
       foreach($orderDetails as $od) {
         $this->assertTrue(  $od->CategoryName != null  );
         $this->assertTrue(  $od->ProductName  != null  );
+        $this->assertTrue(  $od->Unit         != null  );
+        $this->assertTrue(  $od->Price        != null  );
         $this->assertTrue(  $od->SupplierName != null  );
       }
 
