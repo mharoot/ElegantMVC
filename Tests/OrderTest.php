@@ -31,7 +31,6 @@ class OrderTest extends TestCase
 
   public function test_Adding_Additional_Properties_To_Data_Collection() 
   {
-      $arr = [];
       $order_model = new OrderModel();
       $orderDetails = $order_model->oneToMany('orderdetails', 'OrderID', 'OrderID')
                                   ->where('orderdetails.OrderID', '=', 10248)
@@ -62,7 +61,15 @@ class OrderTest extends TestCase
         $this->assertTrue(  $od->SupplierName != null  );
       }
 
-      var_dump($orderDetails);
+  }
+
+  public function test_order_model_getOrderyById()
+  {
+    $OrderModel = new OrderModel();
+    $orderDetails = $OrderModel->getOrderById(10248);
+    
+    var_dump($orderDetails);
+    $this->assertTrue ($orderDetails != null);
 
   }
 
