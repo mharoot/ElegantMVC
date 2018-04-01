@@ -6,8 +6,8 @@
 
         <div class="row">
             <ul style="list-style-type: none;"><li><b>Product: </b><?php echo $p->ProductName; ?></li>
-                <li><b>SupplierID: </b><?php echo $p->SupplierID; ?></li>
-                <li><b>CategoryID: </b><?php echo $p->CategoryID; ?></li>
+                <li><b>Supplier Name: </b><?php echo $p->SupplierName; ?></li>
+                <li><b>Category Name: </b><?php echo $p->CategoryName; ?></li>
                 <li><b>Unit: </b><?php echo $p->Unit; ?></li>
                 <li><b>Price: </b><?php echo $p->Price; ?></li>
             </ul>

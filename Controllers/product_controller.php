@@ -17,20 +17,20 @@ declare(strict_types=1);
         {
             if($id == null)
             {
-                $products = $this->model->get();
+                $products = $this->model->getProducts();
         	   $this->view->products($products);
             }
             else
             {
-                $products = $this->model->where('CategoryID', '=', $id)->get();
+                $products = $this->model->getProductsByCategoryID($id);
                 $this->view->products($products);
             }
         }
 
-        public function searchProducts($query)
+    public function searchProducts($query)
     {
 
-        $products = $this->model->get();
+        $products = $this->model->getProducts();
 
         $a = [];
 
