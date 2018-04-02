@@ -12,7 +12,16 @@ declare(strict_types=1);
 
         public function getProducts()
         {
-        	return $this->oneToOne('categories', 'CategoryID', 'CategoryID')->get();
+            $Products = $this->oneToOne('categories', 'CategoryID', 'CategoryID')
+                        ->get();
+
+            foreach ($Products as $Product) {
+                $Product->SupplierName = $this->oneToOne('suppliers', 'SupplierID', 'SupplierID')
+                        ->where('suppliers.SupplierID', '=', $Product->SupplierID)
+                        ->single()->SupplierName;
+            }
+
+            return $Products;
         }
 
         public function getProductsByCategoryID($id)
