@@ -15,22 +15,31 @@ declare(strict_types=1);
 
         public function displayProducts($id=null)
         {
+            $Cat = new CategoryModel();
+            $category = $Cat->get();
             if($id == null)
             {
-                $products = $this->model->getProducts();
-        	   $this->view->products($products);
+
+                $products = $this->model->get();
+               $this->view->products($products,$category);
             }
             else
             {
-                $products = $this->model->getProductsByCategoryID($id);
-                $this->view->products($products);
+                $products = $this->model->where('CategoryID', '=', $id)->get();
+                $this->view->products($products,$category);
             }
         }
 
-    public function searchProducts($query)
-    {
+        public function selectProduct($title)
+        {
+            $product = $this->model->where('ProductName', '=', $title)->get();
+            $this->view->selectProduct($product);
+        }
 
-        $products = $this->model->getProducts();
+        public function searchProducts($query)
+        {
+
+        $products = $this->model->get();
 
         $a = [];
 
@@ -50,9 +59,9 @@ declare(strict_types=1);
             foreach($a as $name) {
                 if (stristr($q, substr($name, 0, $len))) {
                     if ($hint === "") {
-                        $hint = $name;
+                        $hint = '<a id ="firstElement" class="dropdown-item" href = "./select?q='.$name.'">'.$name.'</a>';
                     } else {
-                        $hint .= ", $name";
+                        $hint .= '<a class="dropdown-item" href = "./select?q='.$name.'">'.$name.'</a>';
                     }
                 }
             }

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,9 +10,13 @@
     <link rel="stylesheet" href="./assets/css/layout.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/css/prism.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+
   </head>
-  <body>
-  <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top navbar-dark bg-company">
+<body>
+<header style=" width:100%;padding:10px 0;">
+  <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse navbar-dark bg-company">
+
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -48,15 +53,68 @@
           <a class="dropdown-item" href="./about-query-builder">Query Builder</a>
         </div>
       </li>
-</div>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2 fc" onkeyup="searchProducts(this.value)" type="text" placeholder="Product Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        <p style="color: #FFFFFF ! important">Suggestions: <span id="txtHint"></span></p>
-      </form>
-  </div>
-</nav>
+     
+     
+      </ul>
 
-    <div class="container">
-    <div class="row">
+
+
+      <ul class="navbar-nav pull-right">
+
+      <li class="nav-item">
+        <form action="./select" method="GET" id="searchForm" class="form-inline">
+         
+        <div class="form-group mydropdown-content" style="right: 32%">
+          <input type="text" class="form-control " placeholder="Search.." id="myInput" onkeyup="searchProducts(this.value)" autocomplete="off" placeholder="Search...">
+
+          </input>
+          
+          <div id="txtHint">
+          
+          </div>
+          <input id="formInput" type="hidden" name="q"> 
+
+          </input>
+
+         </div>
+
+          
+        </form>
+          
+
+      </li>
+
+
+
+      <li class="nav-item">
+        <button style="background: #fff; color: #316884; border: 1px solid;">
+        <a href="./cart">
+        <i class="fas fa-shopping-cart fa-2x"> </i>
+        Cart
+        </a>
+        </button>
+      </li>
+       <li class="nav-item">
+        <button style="background: #fff ;color: #316884; border: 1px solid;">
+        <i class="fas fa-heart fa-2x"> </i>
+        Wishlist
+        </button>
+      </li>
+       <li class="nav-item">
+        <form action="./login">
+        <button style="background: #fff ;color: #316884; border: 1px solid;">
+        <i class="fas fa-cog fa-2x"> </i>
+        Account
+        </button>
+        </form>
+      </li>
+    </ul>
+</div>
+  
+   
+  
+</nav>
+</header>
+
+    <div class="container" style="padding: 5%; padding-top: 10%">
+    <div class="row" id="products">

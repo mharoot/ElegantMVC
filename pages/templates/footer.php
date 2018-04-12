@@ -1,16 +1,24 @@
 
             </div>
         </div>
-    </body>
-    <footer class="footer">
+        <footer style="left: 0px; width: 100%;margin:0; padding:0;bottom:0;" class="footer">
         Example application of the Elegant framework. Click the icon for more info.
-        <a href="https://github.com/mharoot/ElegantMVC"><img border="0" src="GitHub-Mark-Light-120px-plus.png" width="64" height="64"></a>
-    </footer>
+        
+        <a href="https://github.com/mharoot/ElegantMVC">
+        <img border="0" src="GitHub-Mark-Light-120px-plus.png" width="64" height="64">
+        </a>
+       
+      </footer>
+    </body>
+
+
+     
+   
   <!-- jQuery first, then Tether, then Bootstrap JS. -->
 
   <script>
   function searchProducts(str) {
-
+ 
     if (str.length == 0) { 
       document.getElementById("txtHint").innerHTML = "";
       return;
@@ -18,13 +26,33 @@
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
+          var query = null;
           document.getElementById("txtHint").innerHTML = this.responseText;
+          query = document.getElementById('firstElement').firstChild.data;
+          if(query!=null)
+          {
+            document.getElementById('formInput').value = query;
+          }
         }
       };
       xmlhttp.open("GET", "search?q=" + str, true);
       xmlhttp.send();
+
+
     }
+
+     
+
+      
+
+    
   }
+
+
+
+
+
+
 
 /*
   function openNav() {

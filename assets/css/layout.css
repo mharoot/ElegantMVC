@@ -1,10 +1,23 @@
-
-
 .bg-company{
   background-color: #316884 !important;
 }
 
+html{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
 
+body{
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+}
+#products{
+    max-width: 100%;
+    overflow-x: hidden;
+}
 
 .collapse{
   color: #FA5C63 !important;
@@ -16,101 +29,80 @@
 
 }
 .btn-primary:hover{
-	background: #FFFFFF ! important;
-	color: #316884 ! important;
+  background: #FFFFFF ! important;
+  color: #316884 ! important;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
+  position: relative;
   min-height: 100%;
 }
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
-.row{
-	position: relative;
-}
 .footer {
   position: fixed;
   bottom: 0px;
   width: 100%;
-  left: 0px;
   /* Set the fixed height of the footer here */
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
-  background-color: #316884;
-  border-color: #000000;
-  color: #FFFFFF !important;
-  font-color: #FFF !important;
+  background-color: #f5f5f5;
+  color: #FFFFFF;
 }
 
+
+
 .btn-outline-success, .btn-primary:active, .btn-primary:visited {
-	background-color: transparent; !important;
+  background-color: transparent; !important;
     border-color: #FFFFFF !important;
- 	color: #FFFFFF;
+  color: #FFFFFF;
     border-radius: 0;
 }
 
 .btn-outline-success:hover{
-	background: #FFFFFF ! important;
-	color: #316884 ! important;
+  background: #FFFFFF ! important;
+  color: #316884 ! important;
 }
 .fc{
-	border-radius: 0px;
+  border-radius: 0px;
 }
 
-/* Create a custom checkbox */
-.checkmark {
+.navbar-comp {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
 
-    top: 0;
+
+
+
+
+.lay {
+    position: fixed; /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 10%; /* Full width (cover the whole page) */
+    height: 20%; /* Full height (cover the whole page) */
+    top: 0; 
     left: 0;
-    height: 30px;
-    width: 30px;
-    background-color: #eee;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
 }
 
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
-
-body{
-	padding-top: 65px;
-	padding-bottom: 65px;
-}
-
-.sidenav {
-    height: 80%;
-    width: 200px;
-    position: fixed;
-    z-index: 1;
-    top: 65px;
-    bottom:65px;
-    left: 0;
-    background-color: #111;
-    overflow-x: hidden;
-    padding-top: 20px;
-}
-
-.sidenav a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-}
-
-.sidenav a:hover {
-    color: #f1f1f1;
-}
 .dp{
-	left:265px;
+  left:265px;
 }
 
 .brand-box {
   background:  #316884 ! important;
-	color: #FFFFFF ! important;
+  color: #FFFFFF ! important;
   height: 400px;
   width: 100%;
   background: #000;
@@ -126,6 +118,34 @@ body{
   /* align vertical */
 
 }
+
+
+
+
+
+.mydropdown {
+    
+}
+
+.mydropdown-content {
+    display: none;
+    position: fixed;
+    background-color: #f6f6f6;
+    
+    border: 1px solid #ddd;
+}
+
+.mydropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+  
+}
+
+.mydropdown a:hover {background-color: #FFFFFF; color: }
+
+
+/*.show {display:block;}
 
 
 
