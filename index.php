@@ -54,22 +54,38 @@ if(!isset($_COOKIE["guest_cart"])) {
 } 
 
 
-
-
 $router = new Router();
-/**
- * Home Routes
- */
-$router->addRoute("/","UserController","displayDashboard");
-$router->addRoute("index","UserController","displayDashboard");
-$router->addRoute("home","UserController","displayDashboard");
 
-/**s
+/**
+ *              About Routes
+ */
+$router->addRoute("about-model", "AboutController", "aboutModel");
+$router->addRoute("about","AboutController","about");
+$router->addRoute("about-query-builder", "AboutController", "aboutQueryBuilder");
+$router->addRoute("db-uml", "AboutController", "dbUML");
+
+/**
  *              Cart Routes
  */
 $router->addRoute("addCart","CartController","addCart");
 $router->addRoute("cart","CartController","displayCart");
 $router->addRoute("updateCart", "CartController", "updateCart");
+
+/**
+ *            Employee Routes
+ */
+
+$router->addRoute("review-employee-information","EmployeeController","displayEmployeeInformation");       
+$router->addRoute("edit-employee-information","EmployeeController","editEmployeeInformation");  
+
+/**
+ *              Home Routes
+ */
+$router->addRoute("/","UserController","displayDashboard");
+$router->addRoute("index","UserController","displayDashboard");
+$router->addRoute("home","UserController","displayDashboard");
+
+
 
 /**
  *              Product Routes
@@ -80,15 +96,6 @@ $router->addRoute("search","ProductController","searchProducts");
 $router->addRoute("productsPost","ProductController","paste");
 $router->addRoute("food","ProductController","food");
 $router->addRoute("select","ProductController","selectProduct");
-
-/**
- *              About Routes
- */
-$router->addRoute("about-model", "AboutController", "aboutModel");
-$router->addRoute("about","AboutController","about");
-$router->addRoute("about-query-builder", "AboutController", "aboutQueryBuilder");
-$router->addRoute("db-uml", "AboutController", "dbUML");
-
 
 
 /**
