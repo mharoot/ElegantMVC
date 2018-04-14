@@ -25,27 +25,27 @@ if ( isset($employee_info) && $employee_info != false)
         <table>
         <tr>
             <td>Last Name</td>
-            <td><input type='text' name='Lastname' value="<?php echo $employee_info->LastName; ?>"</td>
+            <td><input type='text' name='Lastname' value="<?php echo $employee_info->LastName; ?>"></td>
         </tr>
             
         <tr>
             <td>First Name</td> 
-            <td><input type='text' name='FirstName' value="<?php echo $employee_info->FirstName; ?>"</td>
+            <td><input type='text' name='FirstName' value="<?php echo $employee_info->FirstName; ?>"></td>
         </tr>
         
         <tr>
             <td>Birth Date</td> 
-            <td><input type='text' name='BirthDate' value="<?php echo $employee_info->BirthDate; ?>"</td>
+            <td><input type='text' name='BirthDate' value="<?php echo $employee_info->BirthDate; ?>"></td>
         </tr>
         
         <tr>
             <td>Photo</td> 
-            <td><input type='text' name='Photo' value="<?php echo $employee_info->Photo; ?>"</td>
+            <td><input type='text' name='Photo' value="<?php echo $employee_info->Photo; ?>"></td>
         </tr>
         
         <tr>
             <td>Notes</td> 
-            <td><input type='text' name='Notes' value="<?php echo $employee_info->Notes; ?>"</td>
+            <td><input type='text' name='Notes' value="<?php echo $employee_info->Notes; ?>"></td>
         </tr>
         </table>
         <button class='btn btn-primary' type='submit' value='Submit'> Update Employee Information </input>
@@ -60,30 +60,30 @@ else
     <table>
     <tr>
             <td>Last Name</td>
-            <td><input type='text' name='Lastname' value="<?php echo $employee_info->LastName; ?>"</td>
+            <td><input type='text' name='Lastname' value=""></td>
         </tr>
             
         <tr>
             <td>First Name</td> 
-            <td><input type='text' name='FirstName' value="<?php echo $employee_info->FirstName; ?>"</td>
+            <td><input type='text' name='FirstName' value=""></td>
         </tr>
         
         <tr>
             <td>Birth Date</td> 
-            <td><input type='text' name='BirthDate' value="<?php echo $employee_info->BirthDate; ?>"</td>
+            <td><input type='text' name='BirthDate' value=""></td>
         </tr>
         
         <tr>
             <td>Photo</td> 
-            <td><input type='text' name='Photo' value="<?php echo $employee_info->Photo; ?>"</td>
+            <td><input type='text' name='Photo' value=""></td>
         </tr>
         
         <tr>
             <td>Notes</td> 
-            <td><input type='text' name='Notes' value="<?php echo $employee_info->Notes; ?>"</td>
+            <td><input type='text' name='Notes' value=""></td>
         </tr>
     </table>
-    <button class='btn btn-primary' type='submit' value='Submit'> Update Employee Information </input>
+    <button class='btn btn-primary' type='submit' value='Submit'> Update Employee Information </button>
 </form>
 <?php
 }
