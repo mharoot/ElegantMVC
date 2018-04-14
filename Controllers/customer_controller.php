@@ -1,46 +1,39 @@
 <?php
-    /**
-    * The Customer page controller
-    */
-    class CustomerController
+/**
+* The Customer page controller
+*/
+class CustomerController
+{
+  private $model;
+  private $view;
+  
+  function __construct()
+  {
+    $this->model = new CustomerModel();
+    $this->view = new CustomerView();
+  }
+  
+  public function displayReviewBillingInformation()
+  {
+    $customer_info = $this->model->reviewBillingInformation();	
+    $this->view->reviewBillingInformation($customer_info);
+  }
+  
+  
+  public function editBillingInformation($CustomerName, $ContactName, $Address, $City, $Country, $PostalCode)
+  {
+    $billing_info_edited = $this->model->editBillingInformation($CustomerName, $ContactName, $Address, $City, $PostalCode, $Country);
+    if ( $billing_info_edited )
     {
-        private $model;
-        private $view;
-        function __construct()
-        {
-            $this->model = new CustomerModel();
-            $this->view = new CustomerView();
-        }
-        public function orders()
-        {
-            return $this->model->getCustomerOrders();
-        }
-		
-		public function reviewBillingInformation()
-		{
-			$info = $this->model->reviewBillingInformation();			
-			$this->view->reviewBillingInformation($info);
-		}
-		
-		
-		public function editBillingInformation()
-		{
-			$info = $this->model->reviewBillingInformation();
-			$this->view->editBillingInformation($info);
-		}
-		
-		public function insertNewBillingInformation($name, $contact, $address, $city, $zip, $country)
-		{
-			
-			$this->model->CustomerName = $name;
-			$this->model->ContactName = $contact;
-			$this->model->Address = $address;
-			$this->model->City = $city;
-			$this->model->PostalCode = $zip;
-			$this->model->Country = $country;
-			$this->model->where('CustomerID', '=', $_SESSION['user_id'])->save();
-			header('Location: ./review-billing-information');
-			
-		}
-		
-     }
+        $_SESSION['success_message'] = "Billing info edited!";
+    }
+    else
+    {
+        $_SESSION['error_message'] = "Failed to edit billing info!";
+    }            
+
+    $this->displayReviewBillingInformation();
+  }
+    
+    
+}

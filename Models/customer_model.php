@@ -8,11 +8,6 @@ class CustomerModel extends Model {
 	}
 
 
-
-
-
-
-
     /**
      * Searches the customers table using foreign key = $_SESSION['user_id']
      * @return CustomerModel with all columns of that user_id or FALSE
@@ -29,11 +24,12 @@ class CustomerModel extends Model {
      * Update if customer exists or insert if customer does not exist
      * @return true if successfully inserted or updated Billing Information
      */
-    public function editBillingInformation( $CustomerName, $Address, $City, $PostalCode, $Country)
+    public function editBillingInformation( $CustomerName, $ContactName, $Address, $City, $PostalCode, $Country)
     {
 		$billing_info_edited = false;
 
 		$this->CustomerName = $CustomerName;
+		$this->ContactName  = $ContactName;
 		$this->Address      = $Address;
 		$this->City         = $City;
 		$this->PostalCode   = $PostalCode;
@@ -56,90 +52,11 @@ class CustomerModel extends Model {
 		
 		return $billing_info_edited;	
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public function create ($name, $address)
-	{ 
-		$this->name = $name;
-		$this->address = $address;
-		return $this->save();
-	}
-	
-	public function updateById($field, $value)
-	{
-		
-		if ($field == 'CustomerName')
-		{
-			$this->CustomerName = $value;
-		}
-		if ($field == 'ContactName')
-		{
-			$this->ContactName = $value;
-		}
-		if ($field == 'Address')
-		{
-			$this->Address = $value;
-		}
-		if ($field == 'City')
-		{
-			$this->City = $value;
-		}
-		if ($field == 'PostalCode')
-		{
-			$this->PostalCode = $value;
-		}
-		if ($field == 'Country')
-		{
-			$this->Country = $value;
-		}
-		return $this->where('CustomerID', '=', $_SESSION['user_id'])->save();
-	}
-	
-	public function deleteCustomer($customer_id)
-	{
-		return $this->where('CustomerID', '=', $customer_id)->delete();
-	}
-
-
-	public function getCustomerOrder($customer_id)
-	{
-	
-        $primary_key = 'CustomerID';
-        $foreign_key = 'CustomerID';
-        return $this->oneToMany('orders', $primary_key, $foreign_key)->where($this->table_name.'.'.$primary_key, '=', $customer_id)->get();
-	}
-	
-	
-	public function getCustomerOrders()
-	{
-	
-        $primary_key = 'CustomerID';
-        $foreign_key = 'CustomerID';
-        return $this->oneToMany('orders', $primary_key, $foreign_key)->get();
-	}
 	
 	public function reviewBillingInformation()
 	{
 			//$var = $_SESSION[''];
-			return $this->getCustomer($_SESSION['user_id']);
+			return $this->getCustomer();
 	}
 	
 }

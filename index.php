@@ -64,6 +64,7 @@ $router->addRoute("about","AboutController","about");
 $router->addRoute("about-query-builder", "AboutController", "aboutQueryBuilder");
 $router->addRoute("db-uml", "AboutController", "dbUML");
 
+
 /**
  *              Cart Routes
  */
@@ -71,12 +72,21 @@ $router->addRoute("addCart","CartController","addCart");
 $router->addRoute("cart","CartController","displayCart");
 $router->addRoute("updateCart", "CartController", "updateCart");
 
+
+/**
+ *              Customer Routes
+ */
+$router->addRoute("review-billing-information", "CustomerController", "displayReviewBillingInformation",array(2));
+$router->addRoute("edit-billing-information", "CustomerController", "editBillingInformation",array(2));
+
+
 /**
  *            Employee Routes
  */
 
 $router->addRoute("review-employee-information","EmployeeController","displayEmployeeInformation");       
 $router->addRoute("edit-employee-information","EmployeeController","editEmployeeInformation");  
+
 
 /**
  *              Home Routes
@@ -126,14 +136,6 @@ $router->addRoute("register","UserController","displayRegistration");
 $router->addRoute("registered","UserController","registerUser");
 $router->addRoute("user-email-verification", "UserController", "userEmailActivation");
 $router->addRoute("user-password-reset", "UserController", "displayEditPasswordForm");
-
-/**
- *              Customer Routes
- */
-
-$router->addRoute("review-billing-information", "CustomerController", "reviewBillingInformation",array(2));
-$router->addRoute("edit-billing-information", "CustomerController", "editBillingInformation",array(2));
-$router->addRoute("insert-new-billing-information", "CustomerController", "insertNewBillingInformation",array(2));
 
 
 /**
