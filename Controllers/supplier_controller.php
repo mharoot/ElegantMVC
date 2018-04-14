@@ -90,8 +90,7 @@ declare(strict_types=1);
                 $_SESSION['error_message'] = "Failed to edit business info!";
             }            
 
-            $supplier_info = $this->model->getSupplier();
-            $this->view->reviewBusinessInformation($supplier_info);
+            $this->displayReviewBusinessInformation();
         }
 
 
