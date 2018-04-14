@@ -75,6 +75,7 @@
 }
 
 
+
 .grey-b{
     padding:0;
     margin:0;
@@ -254,7 +255,10 @@ p {
 		background: #333; 
 		color: white; 
 		font-weight: bold; 
-	}
+    }
+    tr td:first-child{
+        font-weight:bold;
+    }
 	td, th { 
 		padding: 6px; 
 		border: 1px solid #ccc; 
