@@ -48,7 +48,7 @@ if ( isset($employee_info) && $employee_info != false)
             <td><input type='text' name='Notes' value="<?php echo $employee_info->Notes; ?>"></td>
         </tr>
         </table>
-        <button class='btn btn-primary' type='submit' value='Submit'> Update Employee Information </input>
+        <button class='btn btn-primary' type='submit' value='Submit'> Update Employee Information </button>
     </form>
   </div>
 <?php
