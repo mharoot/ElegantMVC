@@ -18,6 +18,23 @@ class EmployeeTest extends TestCase
     $we_have_all_Employees = sizeof($Employees) > 0;
     $this->assertTrue( $we_have_all_Employees );
   }
+
+  public function test_get_customer_orders()
+  {
+    $EmployeeModel = new EmployeeModel();
+    //$EmployeeID = 1; in production $EmployeeModel->getEmployee()->CustomerID;
+    $foreign_table = 'orders';
+    $primary_key   = 'orders.EmployeeID';
+    $foreign_key   = 'EmployeeID';
+
+    $customer_orders = $EmployeeModel->oneToMany($foreign_table, $foreign_key, $foreign_key)
+                              ->where($primary_key, "=", 5)
+                              ->get();
+
+    $orders = sizeof($customer_orders) > 0;
+    $this->assertTrue($orders);
+                    
+  }
 /*
   public function test_migrate_employee_data_to_users_table()
   {
