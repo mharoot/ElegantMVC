@@ -9,6 +9,22 @@ include_once('Models/customer_model.php');
 include_once('Models/user_model.php');
 class CustomerTest extends TestCase
 {
+
+  public function test_get_customer_orders()
+{
+	$CustomerModel = new CustomerModel();
+  //$CustomerID = $CustomerModel->getCustomer()->CustomerID;
+  $CustomerID = 2;
+  $customer_orders = $CustomerModel->oneToMany('orders', 'CustomerID', 'CustomerID')
+  //->where('orderdetails.OrderID', '=', 10248)
+  ->where('orders.CustomerID', '=', $CustomerID)->get();
+
+  $we_have_all_orders = sizeof($customer_orders) > 0;
+  $this->assertTrue( $we_have_all_orders );
+}
+
+//onetomany where get
+
   /*
   public function test_all() 
   {
