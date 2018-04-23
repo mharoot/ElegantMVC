@@ -59,7 +59,14 @@ class UserController
 
     if(isset($_SESSION['user_name']))
     {
-      $this->view->dashboard();
+        $orders = null;
+        if($_SESSION['user_type'] = 2)
+        {
+          $orderModel = new OrderModel();
+          $orders = $orderModel->getOrderByID();
+        }
+        
+        $this->view->dashboard($orders);
     }
     else
     {

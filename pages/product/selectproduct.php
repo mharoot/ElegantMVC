@@ -19,6 +19,9 @@
                                 <li>
                                     <b>Price: </b><?php echo $p->Price; ?>
                                 </li>
+                                <li style="color: green;">
+                                    <b> In Stock: </b> <?php echo $p->Quantity ?>
+                                </li>
                                 <li>
                                     <a href="./addCart?i=<?php echo $p->ProductID; ?>" style="color: #316884; border: 1px solid;" class="btn btn-light btn-lg">
                                         <i class="fas fa-shopping-cart"></i>  Cart

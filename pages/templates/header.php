@@ -87,22 +87,24 @@
 
 
       <li class="nav-item">
-        <button style="background: #fff; color: #316884; border: 1px solid;">
-        <a href="./cart">
+      <form action ="./cart">
+        <button style="background: #316884 ;color: white; border: 1px solid;">
         <i class="fas fa-shopping-cart fa-2x"> </i>
         Cart
-        </a>
         </button>
+      </form>
       </li>
        <li class="nav-item">
-        <button style="background: #fff ;color: #316884; border: 1px solid;">
+       <form action='./wishlist'>
+        <button style="background: #316884 ;color: white; border: 1px solid;">
         <i class="fas fa-heart fa-2x"> </i>
         Wishlist
         </button>
+      </form>
       </li>
        <li class="nav-item">
         <form action="./login">
-        <button style="background: #fff ;color: #316884; border: 1px solid;">
+        <button style="background: #316884 ;color: white; border: 1px solid;">
         <i class="fas fa-cog fa-2x"> </i>
         Account
         </button>

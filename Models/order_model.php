@@ -13,10 +13,10 @@ class OrderModel extends Model
    * Gets the customer order by the customer's order id
    * @return Data collection from orders, orderdetails, categories, and suppliers table.
    */
-  public function getOrderById($id) 
+  public function getOrderById() 
   {
     $orderDetails = $this->oneToMany('orderdetails', 'OrderID', 'OrderID')
-                          ->where('orderdetails.OrderID', '=', $id)
+                          ->where('orders.CustomerID', '=', $_SESSION['user_id'])
                           ->get();
 
     // Adding Additional Properties To $orderDetails data collection

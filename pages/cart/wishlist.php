@@ -69,35 +69,19 @@
 
 </style>
 
-<div class= "col-2" style="position: relative;">
-<div class="col-2" style="position: fixed;">
- <div  class="list-group">
-    <h3 align="center" style="color:  rgba(49, 104, 132, 1);">  Categories </h3>
 
-        <?php
-        foreach ($category as $c) 
-        {
-            echo '<a href=./products?id='.$c->CategoryID.'><div style="border-radius: 0px"class="list-group-item"><center>'
-            .$c->CategoryName."</center></div></a>";
-        }
-
-        ?>
-</div>
-</div>
+<div class="brand-box">
+    Wishlist
 </div>
 
-
-<div class="col-8" style="left: 10%">
+<div class="col">
  <div  class="list-group">
         
         <?php
         foreach($products as $p)
             {?>
 
-
-                        
                         <button  type="submit" class="list-group-item list-group-item-action">
-                            <a style="text-decoration: none;" href=<?php echo '"./select?q='.$p->ProductName.'"'; ?>>
                             <div style="text-align: center;">
                                 <i style="color: #316884" class="fas fa-image fa-10x"></i>
                             </div>
@@ -116,16 +100,16 @@
                                 </li>
                                 <li>
                                     <a href="./addCart?i=<?php echo $p->ProductID; ?>" style="color: #316884; border: 1px solid;" class="btn btn-light btn-lg">
-                                        <i class="fas fa-shopping-cart"></i>  Cart
+                                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                                    </a>
+
+                                    <a href="./removeWish?i=<?php echo $p->ProductID; ?>" style="color: #316884; border: 1px solid;" class="btn btn-light btn-lg">
+                                        <i class="fa fa-trash" aria-hidden="true"></i> Remove Wish
                                     </a>
                            
-                                    <a href="./addWish?i=<?php echo $p->ProductID; ?>" style="color: #316884; border: 1px solid;" class="btn btn-light btn-lg">
-                                        <i class="fas fa-heart"></i> Wishlist
-                                    </a>
                                 </li>
                             </ul>
                             
-                            </a>
                         </button>
                         </br>
                                     
@@ -135,9 +119,3 @@
 </div>
 
 </div>
-
-
-
-
-
-

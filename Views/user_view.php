@@ -5,7 +5,7 @@
 */
 class UserView
 {
-  public function dashboard()
+  public function dashboard($orders)
   {
     require_once 'pages/templates/header.php';    
     require_once 'pages/user/dashboard.php';

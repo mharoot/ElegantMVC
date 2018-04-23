@@ -100,6 +100,9 @@
                             <li>
                                 <b>Price: </b><?php echo $p->Price; ?>
                             </li>
+                            <li style="color: green">
+                                <b> In Stock: </b> <?php echo $p->Quantity ?>
+                            </li>
                         <li>
                             Quantity:
                             <input class="form-control" name="cartUpdate[]" type="number" min="0" step="1" value=<?php echo '"'.$q.'"';?> >
@@ -125,13 +128,13 @@
 
 
 
-<button type="submit" style="color: #316884; border: 1px solid;" class="btn btn-light btn-lg">
+<button style="background-color: white;color: #316884; border: 1px solid;" class="btn btn-light btn-lg">
                                         Update Cart
 </button>
 
 
 
-<a href="#" style="color: #316884; border: 1px solid;" class="btn btn-light btn-lg">
+<a href="./checkout" style="color: #316884; border: 1px solid;" class="btn btn-light btn-lg">
                                         Checkout
 </a>
 </div>

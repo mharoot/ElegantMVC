@@ -35,23 +35,6 @@ else
 
 
 
-if(!isset($_COOKIE["guest_cart"])) {
-
-   
-    $product = new ProductModel();
-    $products= $product->get();
-    $items = [];
-    foreach($products as $p) { 
- 		 $items[$p->ProductID] = 0;
-    }
-
-    setcookie('guest_cart', json_encode($items) , time() + (86400 * 30), "/");
-	
-    
-} else {
-                
-
-} 
 
 
 $router = new Router();
@@ -71,6 +54,11 @@ $router->addRoute("db-uml", "AboutController", "dbUML");
 $router->addRoute("addCart","CartController","addCart");
 $router->addRoute("cart","CartController","displayCart");
 $router->addRoute("updateCart", "CartController", "updateCart");
+$router->addRoute("checkout", "CartController", "displayCheckout");
+$router->addRoute("confirmcheckout", "CartController", "confirmCheckout");
+$router->addRoute("wishlist","CartController","displayWishlist");
+$router->addRoute("addWish","CartController","addWish");
+$router->addRoute("removeWish","CartController","removeWish");
 
 
 /**
