@@ -62,7 +62,7 @@ class UserController
     if(isset($_SESSION['user_name']))
     {
         $orders = null;
-        if($_SESSION['user_type'] = 2)
+        if($_SESSION['user_type'] == 2)
         {
           $orderModel = new OrderModel();
           $orders = $orderModel->getOrderByID();
@@ -225,8 +225,9 @@ class UserController
 
   public function logout()
   {
-    header('Location: ./login');
     $this->model->doLogout();
+    header('Location: ./login');
+    
   }
 
   public function registerUser($email,$first,$last,$username,$passnew,$passrepeat,$usertype,$captcha)
