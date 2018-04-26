@@ -42,7 +42,9 @@ class UserController
         break;
         case 2: $_SESSION['DashboardContent'] = '<p><a href="./review-billing-information">View Billing Information</a></p>';
         break;
-        case 3: $_SESSION['DashboardContent'] = '<p><a href="./review-employee-information">View Employee Information</a></p>';
+        case 3: 
+          $_SESSION['DashboardContent'] = '<p><a href="./review-employee-information">View Employee Information</a></p>';
+          $_SESSION['DashboardContent'] .='<p><a href="./customer-orders">View | Ship Orders</a></p>';
         break;
         case 4: 
           $_SESSION['DashboardContent'] = '<p><a href="./review-business-information">View Business Information</a></p>';
