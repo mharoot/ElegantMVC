@@ -17,7 +17,7 @@ class EmployeeTest extends TestCase
     $employee = new EmployeeModel();
     $_SESSION['user_id'] = 126; // Nancy Davolios employee 1
     $res = $employee->getCustomerOrders();
-    // var_dump($res);
+    //var_dump($res);
     $GotIt = sizeof($res) > 0;
     $this->assertTrue($GotIt);
       
@@ -29,7 +29,7 @@ class EmployeeTest extends TestCase
     $_SESSION['user_id'] = 126; // Nancy Davolios employee 1
     $unshipped = 0;
     $res = $employee->getCustomerOrdersByStatus($unshipped);
-    var_dump($res);
+    //var_dump($res);
     $GotIt = sizeof($res) > 0;
     $this->assertTrue($GotIt);
       
