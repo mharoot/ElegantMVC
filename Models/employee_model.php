@@ -55,9 +55,6 @@ class EmployeeModel extends Model
                     ->where('employees.EmployeeID', '=', $employee->EmployeeID)
                     ->orWhere('orders.OrderStatus', '=',  0)
                     ->get(["orders.*"]);
-            
-             
-        
     }
 
     

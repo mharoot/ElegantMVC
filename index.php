@@ -72,8 +72,13 @@ $router->addRoute("edit-billing-information", "CustomerController", "editBilling
  *            Employee Routes
  */
 
-$router->addRoute("review-employee-information","EmployeeController","displayEmployeeInformation");       
-$router->addRoute("edit-employee-information","EmployeeController","editEmployeeInformation");  
+$router->addRoute("customer-orders","EmployeeController","displayCustomerOrders", array(3)); 
+$router->addRoute("edit-employee-information","EmployeeController","editEmployeeInformation", array(3));  
+$router->addRoute("review-employee-information","EmployeeController","displayEmployeeInformation", array(3));       
+
+
+
+
 
 
 /**
