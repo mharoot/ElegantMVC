@@ -44,6 +44,13 @@ class EmployeeModel extends Model
         return $employee_info_edited;
     }
 
+    
+    
+    public function getAllShippers()
+    {
+        $shippers = new ShipperModel();
+        return $shippers->get();
+    }
     /**
      * As an Employee I want to be able to view customer orders that I had the responsibility of full-filling.
      * Im interested in the status for javascript filter, picking a shipping company, and thats it. 
@@ -51,10 +58,17 @@ class EmployeeModel extends Model
     public function getCustomerOrders()
     {
         $employee = $this->getEmployee(); // get logged in employee
-        return $this->oneToMany('orders', 'EmployeeID', 'EmployeeID')
-                    ->where('employees.EmployeeID', '=', $employee->EmployeeID)
-                    ->orWhere('orders.OrderStatus', '=',  0)
-                    ->get(["orders.*"]);
+        $OrderModel = new OrderModel();
+        // return $this->oneToMany('orders', 'EmployeeID', 'EmployeeID')
+        //             ->where('employees.EmployeeID', '=', $employee->EmployeeID)
+        //             ->orWhere('orders.OrderStatus', '=',  0)
+        //             ->or
+        //             ->get(["orders.*"]);
+        $pendingOrders = $OrderModel->where('EmployeeID', '=', 0)->get();
+        $filledOrders  = $OrderModel->where('EmployeeID', '=', $employee->EmployeeID)->get();
+        $allOrders = array_merge($pendingOrders , $filledOrders );
+        return $allOrders;
+                            
     }
 
     
@@ -79,5 +93,18 @@ class EmployeeModel extends Model
         return $SupplierModel->get();
     }
 
+    public function shipOrder($OrderID, $ShipperID)
+    {
+        $EmployeeID = $this->getEmployee()->EmployeeID; 
+        
+        $OrderModel = new OrderModel();
+        $OrderModel->ShipperID = $ShipperID;
+        $OrderModel->EmployeeID = $EmployeeID;
+        $OrderModel->OrderStatus = 1; //shipped 
+       
+       return $OrderModel->where('OrderID', '=', $OrderID)
+                         ->save();
+        
+    }
 
 }

@@ -60,7 +60,7 @@
                     <td>'.$o->ProductName.'</td>
                     <td>'.$o->Quantity.'</td>
                     <td>'.$o->OrderDate.'</td>'.$status.
-                    '</tr';
+                    '</tr>';
             }
         }
     ?>

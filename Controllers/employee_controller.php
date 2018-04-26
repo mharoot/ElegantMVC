@@ -27,6 +27,11 @@ class EmployeeController
     $this->view->reviewEmployeeInformation($employee_info);
   }
 
+  public function displayShipOrderForm($OrderID) 
+  {
+    $shippers = $this->model->getAllShippers();
+    $this->view->shipOrderForm($shippers, $OrderID);
+  }
   
 
   public function editEmployeeInformation($LastName, $FirstName, $BirthDate, $Photo, $Notes)
@@ -45,6 +50,22 @@ class EmployeeController
 
     $employee_info = $this->model->getEmployee();
     $this->view->reviewEmployeeInformation($employee_info);
+
+  }
+
+  public function shipOrder($OrderID, $ShipperID)
+  {
+    $orderShipped = $this->model->shipOrder($OrderID, $ShipperID);
+    if ($orderShipped)
+    {
+      $_SESSION['success_message'] = "Shipped Order!";
+    }
+    else
+    {
+      $_SESSION['error_message'] = "Failed to Ship Order";
+    }           
+
+    header('Location: ./customer-orders');
 
   }
 
