@@ -11,13 +11,23 @@ include_once('Models/user_model.php');
 
 class EmployeeTest extends TestCase
 {
-  public function test_all() 
+
+  public function test_getCustomerOrders()
   {
-    $EmployeeModel = new EmployeeModel();
-    $Employees = $EmployeeModel->all();
-    $we_have_all_Employees = sizeof($Employees) > 0;
-    $this->assertTrue( $we_have_all_Employees );
+    $employee = new EmployeeModel();
+    $_SESSION['user_id'] = 126; // Nancy Davolios employee 1
+    $res = $employee->getCustomerOrders();
+    $GotIt = sizeof($res) > 0;
+    $this->assertTrue($GotIt);
+      
   }
+  // public function test_all() 
+  // {
+  //   $EmployeeModel = new EmployeeModel();
+  //   $Employees = $EmployeeModel->all();
+  //   $we_have_all_Employees = sizeof($Employees) > 0;
+  //   $this->assertTrue( $we_have_all_Employees );
+  // }
 /*
   public function test_migrate_employee_data_to_users_table()
   {
