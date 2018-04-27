@@ -31,9 +31,13 @@ class CartController
             $cart = $this->getUserCart();
             $guest = $this->getGuestCart();
 
-            for ($i=0; $i < count($guest); $i++) { 
-                $cart[$i+1] += $guest[$i+1];
-                $guest[$i+1] = 0;
+            $prodMod = new ProductModel();
+            $prod = $prodMod->get();
+            $length = count($prod);
+            
+            foreach ($prod as $p) { 
+                $cart[$p->ProductID] += $guest[$p->ProductID];
+                $guest[$p->ProductID] = 0;
             }
             
             $callCookie = true;
@@ -217,10 +221,12 @@ $items = json_decode($items,true);
 else
 {
     $prodMod = new ProductModel();
-    $length = count($prodMod->get());
-    for ($i=0; $i < $length; $i++) { 
-        
-        $items[$i+1] = 0;
+    $prod = $prodMod->get();
+    $length = count($prod);
+    
+    foreach($prod as $p)
+    {
+        $items[$p->ProductID] = 0;
     }
 
     setcookie('guest_cart', json_encode($items) , time() + (86400 * 30), "/");
