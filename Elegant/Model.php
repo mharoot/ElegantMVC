@@ -90,6 +90,8 @@ class Model extends Database
             $col_val = array_pop($this->whereColValBindStack);
             $this->bind(':'.$col_val[0], $col_val[1]);
         }
+        $this->dup_col_names  = [];
+        $this->whereColValBindStack = [];
     }
 
     public function get($cols = NULL)
