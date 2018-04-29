@@ -52,7 +52,7 @@ class Database {
 		}
 		
 		$this->stmt->bindValue($param, $value, $type);
-		var_dump($this->stmt);
+		// var_dump($this->stmt);
 	}
 
     /* if your using CUD operationgs: only creating, updating, or deleting you just call execute */
