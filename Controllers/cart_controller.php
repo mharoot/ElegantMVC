@@ -145,7 +145,15 @@ private function createUserCartIfNotExists()
 
 public function displayCheckout()
 {
-
+    $userModel = new UserModel();
+    $user_info = $userModel->oneToOne('customers', 'user_id', 'CustomerID')
+    ->where('customers.UserID', '=', $_SESSION['user_id'])
+    ->single();
+    if ($user_info == null) {
+        $_SESSION['DashboardContent'] .= '<b style="color:red"> (Fill out to begin adding products to our site!)</b>';
+        header('Location: ./dashboard');
+        return;
+    } 
     if(!isset($_SESSION['user_id'])) { header('Location: ./login'); }
     $product = new ProductModel();
     $products = $product->get();

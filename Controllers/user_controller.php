@@ -41,10 +41,25 @@ class UserController
         case 1: $_SESSION['DashboardContent'] = "Admin links go here for viewing all data in the database...";
         break;
         case 2: $_SESSION['DashboardContent'] = '<p><a href="./review-billing-information">View Billing Information</a></p>';
+            $user_info = $this->model->oneToOne('customers', 'user_id', 'CustomerID')
+            ->where('customers.UserID', '=', $_SESSION['user_id'])
+            ->single();
+          if ($user_info == null) {
+            $_SESSION['DashboardContent'] .= '<b style="color:red"> (Fill out to begin adding products to our site!)</b>';
+          } 
         break;
         case 3: 
           $_SESSION['DashboardContent'] = '<p><a href="./review-employee-information">View Employee Information</a></p>';
-          $_SESSION['DashboardContent'] .='<p><a href="./customer-orders">View | Ship Orders</a></p>';
+          $_SESSION['DashboardContent'] = '<p><a href="./review-business-information">View Business Information</a></p>';
+          $user_info = $this->model->oneToOne('employees', 'user_id', 'EmployeeID')
+                    ->where('employees.UserID', '=', $_SESSION['user_id'])
+                    ->single();
+          if ($user_info == null) {
+            $_SESSION['DashboardContent'] .= '<b style="color:red"> (Fill out to begin fulling orders on our site!)</b>';
+          } else {
+            $_SESSION['DashboardContent'] .='<p><a href="./customer-orders">View | Ship Orders</a></p>';
+          }
+          
         break;
         case 4: 
           $_SESSION['DashboardContent'] = '<p><a href="./review-business-information">View Business Information</a></p>';
