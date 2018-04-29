@@ -138,6 +138,14 @@ $router->addRoute("user-password-reset", "UserController", "displayEditPasswordF
 $router->addRoute("suppliers", "SupplierController", "displayAllSuppliers", array(1));
 $router->addRoute("review-business-information", "SupplierController", "displayReviewBusinessInformation", array(4));
 $router->addRoute("edit-business-information", "SupplierController", "editBusinessInformation", array(4));
+$router->addRoute("view-all-supplier-products", "SupplierController", "displaySupplierProducts", array(4));
+$router->addRoute("update-product-form", "SupplierController", "displayProductForm", array(4));
+$router->addRoute("edit-product-information", "SupplierController", "editProductInformation", array(4));
+$router->addRoute("delete-product", "SupplierController", "deleteProduct", array(4));
+
+
+
+
 
 
 
