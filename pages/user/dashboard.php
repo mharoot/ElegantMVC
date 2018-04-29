@@ -41,6 +41,7 @@
         <tr>
             <th style="background-color: white;color: #316884;" scope="col">Order ID</th>
             <th style="background-color: white;color: #316884;" scope="col">Product Name </th>
+            <th style="background-color: white;color: #316884;" scope="col">Supplier Name </th>
             <th style="background-color: white;color: #316884;" scope="col">Quantity </th>
             <th style="background-color: white;color: #316884;"scope="col"> Date </th>
             <th style="background-color: white;color: #316884;" scope="col"> Status </th>
@@ -58,6 +59,7 @@
               echo '<tr>
                     <td>'.$o->OrderID.'</td>
                     <td>'.$o->ProductName.'</td>
+                    <td>'.$o->SupplierName.'</td>
                     <td>'.$o->Quantity.'</td>
                     <td>'.$o->OrderDate.'</td>'.$status.
                     '</tr>';
