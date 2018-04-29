@@ -49,6 +49,8 @@ class Model extends Database
         else 
         {
             $result = $this->update($this->getChildProps());
+            $this->dup_col_names  = [];
+            $this->whereColValBindStack = [];
         }
         return $result;
     }
@@ -90,8 +92,6 @@ class Model extends Database
             $col_val = array_pop($this->whereColValBindStack);
             $this->bind(':'.$col_val[0], $col_val[1]);
         }
-        $this->dup_col_names  = [];
-        $this->whereColValBindStack = [];
     }
 
     public function get($cols = NULL)
@@ -102,6 +102,8 @@ class Model extends Database
         $class_name = get_class($this->child_class);
         $results    = $this->resultsetObject($class_name);
         $this->hasWhereClause = false;
+        $this->dup_col_names  = [];
+        $this->whereColValBindStack = [];
 
         return $results;
     }
@@ -129,6 +131,8 @@ class Model extends Database
         }
         $this->query($q);
         $this->bindWhereConditions();
+        $this->dup_col_names  = [];
+        $this->whereColValBindStack = [];
         return $this->execute();
     }
 
