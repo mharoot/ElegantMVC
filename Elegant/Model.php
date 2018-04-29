@@ -11,6 +11,7 @@ class Model extends Database
     private $whereColValBindStack = [];
     private $hasWhereClause; // model uses this for binding.
     private $INIT_CHILD_CLASS_TO_NULL = '!E@L#E$G%A^N&T*O(R)M';
+    private $dup_col_names = [];
 
     function __construct($child_class = NULL) 
     {
@@ -182,7 +183,7 @@ class Model extends Database
     {
         
         $this->queryBuilder->where($col_name, $arg2);
-        $col_name = $this->filterTableName($col_name);
+        $col_name = $this->dup_col_name_checker($col_name);  
         
         
         // lets build a stack of where col arg val statements so we can pop and bind clean sanitized input
@@ -247,12 +248,33 @@ private function filterTableName($table_col_name)
     public function orWhere ($col_name, $arg2, $arg3 ) 
     {
         $this->queryBuilder->orWhere($col_name, $arg2);
-        $col_name = $this->filterTableName($col_name);        
+        $col_name = $this->dup_col_name_checker($col_name);        
         array_push($this->whereColValBindStack, [$col_name, $arg3]);
         $this->hasWhereClause = TRUE;
         return $this;
     }
+    private function dup_col_name_checker($col_name) {
+        $col_name = $this->filterTableName($col_name);
 
+        // duplicate bind name checker.
+        if (isset($this->dup_col_names[$col_name]))
+        {
+            for ($i = 1; $i < 100; $i++)
+            {
+                if ( isset($this->dup_col_names[$col_name]) )
+                {
+                    $this->dup_col_names[$col_name] = true;
+                    $col_name = $col_name."_$i";
+                    return $col_name;
+                }
+            }
+
+        }
+        else {
+        $this->dup_col_names[$col_name] = true;
+        }
+        return $col_name;
+    }
 
 
 

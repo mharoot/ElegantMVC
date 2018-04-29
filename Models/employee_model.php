@@ -58,16 +58,15 @@ class EmployeeModel extends Model
     public function getCustomerOrders()
     {
         $employee = $this->getEmployee(); // get logged in employee
-        $OrderModel = new OrderModel();
-        // return $this->oneToMany('orders', 'EmployeeID', 'EmployeeID')
-        //             ->where('employees.EmployeeID', '=', $employee->EmployeeID)
-        //             ->orWhere('orders.OrderStatus', '=',  0)
-        //             ->or
-        //             ->get(["orders.*"]);
-        $pendingOrders = $OrderModel->where('EmployeeID', '=', 0)->get();
-        $filledOrders  = $OrderModel->where('EmployeeID', '=', $employee->EmployeeID)->get();
-        $allOrders = array_merge($pendingOrders , $filledOrders );
-        return $allOrders;
+        // $OrderModel = new OrderModel();
+        return $this->oneToMany('orders', 'EmployeeID', 'EmployeeID')
+                    ->where('orders.EmployeeID', '=', $employee->EmployeeID)
+                    ->orWhere('orders.EmployeeID', '=',  0)
+                    ->get(["orders.*"]);
+        // $pendingOrders = $OrderModel->where('EmployeeID', '=', 0)->get();
+        // $filledOrders  = $OrderModel->where('EmployeeID', '=', $employee->EmployeeID)->get();
+        // $allOrders = array_merge($pendingOrders , $filledOrders );
+        // return $allOrders;
                             
     }
 

@@ -18,6 +18,7 @@ class QueryBuilder
     private $query;
     private $table_name;
     private $tableNames = [];
+    private $dup_col_names = [];
 
 
 
@@ -387,7 +388,29 @@ set_columns_cluase
 
     
 
-        
+
+    private function dup_col_name_checker($col_name) {
+        $col_name = $this->filterTableName($col_name);
+
+        // duplicate bind name checker.
+        if (isset($this->dup_col_names[$col_name]))
+        {
+            for ($i = 1; $i < 100; $i++)
+            {
+                if ( isset($this->dup_col_names[$col_name]) )
+                {
+                    $this->dup_col_names[$col_name] = true;
+                    $col_name = $col_name."_$i";
+                    return $col_name;
+                }
+            }
+
+        }
+        else {
+        $this->dup_col_names[$col_name] = true;
+        }
+        return $col_name;
+    }
    /**
     * 
     *  About Where:
@@ -405,7 +428,9 @@ set_columns_cluase
     {
         // Developers may pass for example tableName.id
         $col_table_name = $col_name;
-        $col_name = $this->filterTableName($col_name);
+        $col_name = $this->dup_col_name_checker($col_name);
+
+
         
         if ( ! $this->hasWhereClause ) // where has not been called already
         {   // then add WHERE
@@ -443,7 +468,8 @@ set_columns_cluase
     public function orWhere ( $col_name, $arg2)
     {
         $col_table_name = $col_name;
-        $col_name = $this->filterTableName($col_name);
+        $col_name = $this->dup_col_name_checker($col_name);
+        
         if ( ! $this->hasWhereClause ) 
         {
             if ($this->query == '')
@@ -525,7 +551,7 @@ set_columns_cluase
         // rather than returning null if that customer has not placed any orders.
         // Using a LEFT JOIN is more optimal since you only need to make 1 query rather than 2.  It will save users of elegant
         // the headache of writing additional code.
-        $this->query = " ".$this->table_name." LEFT JOIN ".$table_name." ON ".$this->table_name.".".$primary_key."=".$table_name.".".$foreign_key." ";
+        $this->query = " ".$this->table_name." RIGHT JOIN ".$table_name." ON ".$this->table_name.".".$primary_key."=".$table_name.".".$foreign_key." ";
         return $this;
         
     }
@@ -685,6 +711,7 @@ set_columns_cluase
         $this->isManyToMany   = FALSE;
         $this->isOneToOne     = FALSE;
         $this->isOneToMany    = FALSE;
+        $this->dup_col_names  = [];
         $this->query          = '';
     }
 
