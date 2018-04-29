@@ -339,6 +339,7 @@ public function confirmCheckout()
 
     $orderMod->CustomerID = $_SESSION['user_id'];
     $orderMod->EmployeeID = 0;
+    $orderMod->ShipperID = 0;
     $orderMod->OrderDate = date('y-m-d');
     $orderMod->OrderStatus = 0;
     $orderMod->save();
